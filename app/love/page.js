@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import { Scroll } from "components/Scroll";
 import { PutText } from "components/PutText";
-import { Footer } from "/components/Footer";
+import { Footer } from "components/Footer";
 
 
 

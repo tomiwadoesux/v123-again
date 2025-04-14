@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import LocomotiveScroll from 'locomotive-scroll';
 import 'locomotive-scroll/dist/locomotive-scroll.css';
 
-import MastHead from '/components/MastHead';
-import ParticlesComponent from '/components/particle';
-import Section1 from '../components/sections/Section1';
-import Section2 from '../components/sections/Section2';
-import Section4 from '../components/sections/Section4';
-import Section5 from '../components/sections/Section5';
+import MastHead from "components/MastHead";
+import ParticlesComponent from "components/particle";
+import Section1 from "components/sections/Section1";
+import Section2 from "components/sections/Section2";
+import Section4 from "components/sections/Section4";
+import Section5 from "components/sections/Section5";
 
 export default function Home() {
   const scrollRef = useRef(null);

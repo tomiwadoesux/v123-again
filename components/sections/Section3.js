@@ -1,16 +1,16 @@
 "use client";
-import { NormalText } from "/components/NormalText";
-import { HeaderText } from "/components/HeaderText";
+import { NormalText } from "components/NormalText";
+import { HeaderText } from "components/HeaderText";
 import gsap from "gsap";
-import { Author } from "/components/Author";
+import { Author } from "components/Author";
 import { useLayoutEffect, useRef, useEffect } from "react";
 import Image from "next/image";
 import { TextPlugin } from "gsap/TextPlugin";
-import { Button } from "/components/Button";
+import { Button } from "components/Button";
 import Link from "next/link";
-import Muah from "/components/Muah";
-import { Scroll } from "/components/Scroll";
-import LazyImageTrail from "/components/LazyImageTrail";
+import Muah from "components/Muah";
+import { Scroll } from "components/Scroll";
+import LazyImageTrail from "components/LazyImageTrail";
 // import ThreeSection from "components/ThreeSection";
 
 gsap.registerPlugin(TextPlugin);

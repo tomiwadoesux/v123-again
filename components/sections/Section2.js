@@ -1,12 +1,10 @@
 "use client";
-import { NormalText } from "../NormalText";
-import { HeaderText } from "../HeaderText";
-import { Author } from "../Author";
+import { NormalText } from "components/NormalText"
+import { Author } from "components/Author";
 import Image from "next/image";
-import { PutText } from "../PutText";
 import { useRef, useState } from "react";
-import { Scroll } from "../Scroll";
-import LazyImageTrail from "../LazyImageTrail";
+import { Scroll } from "components/Scroll";
+import LazyImageTrail from "components/LazyImageTrail";
 
 export default function Section2() {
   const videoRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];

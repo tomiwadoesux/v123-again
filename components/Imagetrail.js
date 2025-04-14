@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
-const ImageTrail = ({ imageSrc }) => {
+const Imagetrail = ({ imageSrc }) => {
   const containerRef = useRef(null);
   const trailRefs = useRef([]); // Store active trail images
   const lastSpawnTime = useRef(0);
@@ -131,4 +131,4 @@ const ImageTrail = ({ imageSrc }) => {
   );
 };
 
-export default ImageTrail;
+export default Imagetrail;

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import LazyImageTrail from "/components/LazyImageTrail";
+import LazyImageTrail from "components/LazyImageTrail";
 import Tyre from "components/Tyre";
 
 gsap.registerPlugin(ScrollTrigger);
