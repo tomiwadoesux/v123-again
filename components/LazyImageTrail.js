@@ -32,4 +32,4 @@ function LazyImageTrail({ imageSrc }) {
   );
 }
 
-export default LazyImageTrail;``
+export default LazyImageTrail;
