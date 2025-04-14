@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #F4F2EC;;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #F4F2EC;
+  }
+}
+
+
+
+/* Global Base Styles for Body */
+body, h4, h5, h6 {
+  font-family: Arial, sans-serif; /* Arial for body text */
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings: Use Merriweather for all heading levels */
+h1, h2, h3 {
+  font-family: 'Merriweather', serif;
+  margin: 0;
+  padding: 0.5em 0;
+  /* You can adjust the default heading size here if needed */
+}
+
+
+/* Examples for Italic and Bold text */
+
+/* For body text that needs to be italicized */
+.italic {
+  font-style: italic;
+}
+
+/* For body text that needs to be bold */
+.bold {
+  font-weight: bold;
+}
+
+/* For headings, Merriweather will automatically apply bold if you use h1-h6 variants,
+   but you can also create specific utility classes if needed: */
+.heading-italic {
+  font-style: italic;
+}
+.heading-bold {
+  font-weight: bold;
+}
+
+/* globals.css */
+.dropcap::first-letter {
+  font-family: 'Merriweather', serif;  /* Use Merriweather for the drop cap */
+  font-size: 2rem;                     /* Adjust size as needed */
+  float: left;                         /* Let text wrap around it */
+  line-height: 0.5;
+  padding-right: 0rem;               /* Space between the drop cap and text */
+  margin-right: 0.rem;
+}
+canvas {
+  display: block;
+  vertical-align: bottom;
+}
+#__next {
+  height: 100%; /* Ensures Next.js root div takes full height */
+}

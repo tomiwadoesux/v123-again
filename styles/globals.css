@@ -1,0 +1,75 @@
+/* app/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Remove Tailwind import since you're not using it */
+:root {
+  --background: #F4F2EC;
+  --foreground: #171717;
+}
+
+/* Remove @theme since you're not using Tailwind */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #F4F2EC;
+  }
+}
+
+/* Global Base Styles for Body */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background: #000; /* Match the particle background */
+  
+  
+}
+
+/* Headings: Use Merriweather for all heading levels */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Merriweather', serif;
+  margin: 0;
+  padding: 0.5em 0;
+}
+
+/* Examples for Italic and Bold text */
+.italic {
+  font-style: italic;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.heading-italic {
+  font-style: italic;
+}
+
+.heading-bold {
+  font-weight: bold;
+}
+
+/* Dropcap styling */
+.dropcap::first-letter {
+  font-family: 'Merriweather', serif;
+  font-size: 2rem;
+  float: left;
+  line-height: 0.5;
+  padding-right: 0rem;
+  margin-right: 0rem;
+}
+
+
+
+
+
+
+#particles canvas{
+  z-index: -5;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
