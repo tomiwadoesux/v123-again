@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import { Scroll } from "components/Scroll";
 import { PutText } from "components/PutText";
-import { Footer } from "components/Footer";
+import { Footer } from "/components/Footer";
 
 
 
@@ -43,7 +43,6 @@ const scrollRef = useRef(null);
       <div className="relative z-10">
         <LoveMastHead />
         <Section3   />
-        <PutText/>
         <Footer/>
       </div>
     </section>

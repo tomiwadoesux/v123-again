@@ -5,7 +5,7 @@ import { useState, Suspense, lazy } from "react";
 import { useInView } from "react-intersection-observer";
 
 
-const ImageTrail = lazy(() => import("./components/ImageTrail"));
+const ImageTrail = lazy(() => import("./ImageTrail"));
 
 const LazyImageTrail = ({ imageSrc }) => {
   const { ref, inView } = useInView({

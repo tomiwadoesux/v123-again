@@ -1,6 +1,6 @@
 "use client"
 import { useRef } from "react";
-import ImageTrail from "./ImageTrail";
+import ImageTrail from "./Imagetrail";
 
 export function NormalText({ content, color = "#333", variant = "base", className = "" }) {
   const textRef = useRef(null);
