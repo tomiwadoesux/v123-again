@@ -26,7 +26,7 @@ const NavigationNext = () => {
   return (
     <div
     onClick={handleClick}
-    className="cursor-pointer fixed bottom-14 right`-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg transition duration-200"
+    className="cursor-pointer fixed bottom-14 right-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg transition duration-200"
     aria-label="Open chat"
   >
       <svg
