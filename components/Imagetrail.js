@@ -3,45 +3,48 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
+const trailImages = [
+  "/images/hovers/12.jpeg",
+  "/images/hovers/13.jpeg",
+  "/images/hovers/14.jpeg",
+  "/images/hovers/15.jpeg",
+  "/images/hovers/16.jpeg",
+  "/images/hovers/17.jpeg",
+  "/images/hovers/18.jpeg",
+  "/images/hovers/19.jpeg",
+  "/images/hovers/20.jpeg",
+  "/images/hovers/21.jpeg",
+  "/images/hovers/22.jpeg",
+  "/images/hovers/23.jpeg",
+  "/images/hovers/24.jpeg",
+  "/images/hovers/25.jpeg",
+  "/images/hovers/26.jpeg",
+  "/images/hovers/27.jpeg",
+  "/images/hovers/28.jpeg",
+  "/images/hovers/29.jpeg",
+  "/images/hovers/30.jpeg",
+  "/images/hovers/31.jpeg",
+  "/images/hovers/32.jpeg",
+  "/images/hovers/33.jpeg",
+  "/images/hovers/34.jpeg",
+  "/images/hovers/35.jpeg",
+  "/images/hovers/36.jpeg",
+  "/images/hovers/37.jpeg",
+  "/images/hovers/38.jpeg",
+  "/images/hovers/39.jpeg",
+  "/images/hovers/40.jpeg",
+];
+
 const Imagetrail = ({ imageSrc }) => {
   const containerRef = useRef(null);
   const trailRefs = useRef([]); // Store active trail images
   const lastSpawnTime = useRef(0);
-  const [isHovering, setIsHovering] = useState(false); // Track hover state
-
-  // Define trail images
-  const trailImages = [
-    "/images/hovers/12.jpeg",
-    "/images/hovers/13.jpeg",
-    "/images/hovers/14.jpeg",
-    "/images/hovers/15.jpeg",
-    "/images/hovers/16.jpeg",
-    "/images/hovers/17.jpeg",
-    "/images/hovers/18.jpeg",
-    "/images/hovers/19.jpeg",
-    "/images/hovers/20.jpeg",
-    "/images/hovers/21.jpeg",
-    "/images/hovers/22.jpeg",
-    "/images/hovers/23.jpeg",
-    "/images/hovers/24.jpeg",
-    "/images/hovers/25.jpeg",
-    "/images/hovers/26.jpeg",
-    "/images/hovers/27.jpeg",
-    "/images/hovers/28.jpeg",
-    "/images/hovers/29.jpeg",
-    "/images/hovers/30.jpeg",
-    "/images/hovers/31.jpeg",
-    "/images/hovers/32.jpeg",
-    "/images/hovers/33.jpeg",
-    "/images/hovers/34.jpeg",
-    "/images/hovers/35.jpeg",
-    "/images/hovers/36.jpeg",
-    "/images/hovers/37.jpeg",
-    "/images/hovers/38.jpeg",
-    "/images/hovers/39.jpeg",
-    "/images/hovers/40.jpeg",
-  ];
-
+  const [isHovering, setIsHovering] = useState(false); 
+  useEffect(() => {
+    trailImages.forEach((src) => {
+      new Image().src = src; // Preload each image
+    });
+  }, []);
 
 
 
