@@ -1,28 +1,33 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
-import React from "react";
-
 
 const NavigationPrevious = () => {
-useEffect(() => {
+  const router = useRouter();
 
+  useEffect(() => {
     gsap.to("#text", {
-        rotation: -360, // Negative for left rotation
-        transformOrigin: "center", // Rotate around center point
-        duration: 13, // Adjust speed as needed
-        repeat: -1, // Infinite repeat
-        ease: "none" // Linear rotation
-      });
+      rotation: -360,
+      transformOrigin: "center",
+      duration: 13,
+      repeat: -1,
+      ease: "none",
+    });
+  }, []);
 
-}, []);
+  const handleClick = () => {
+    router.push("/"); // Change this to your desired route
+  };
+
 
   return (
     <div
-      className="fixed bottom-14 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg  transition duration-200"
-      aria-label="Open chat"
-    >
+    onClick={handleClick}
+    className="cursor-pointer fixed bottom-14 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg transition duration-200"
+    aria-label="Open chat"
+  >
       <svg
         width="158"
         height="158"

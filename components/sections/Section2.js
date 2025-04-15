@@ -48,23 +48,7 @@ export default function Section2() {
                 />
               </div>
 
-              <div>
-                <div className=" grid w-full pb-2 grid-cols-2 ">
-                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
-                    From
-                  </p>
-                  <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                    <a
-                      href="https://en.wikipedia.org/wiki/Twice_Born"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" hover:text-red-600"
-                    >
-                      Twice Born
-                    </a>
-                  </p>
-                </div>
-              </div>
+            
             </div>
 
             <NormalText
@@ -81,7 +65,7 @@ export default function Section2() {
           </div>
           <div className="hidden lg:block flex flex-1 h-[95%] flex-col">
             <div className=" grid w-full pb-2 grid-cols-2 ">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+            <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                 From
               </p>
               <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
@@ -94,7 +78,7 @@ export default function Section2() {
                   Meet Joe Black
                 </a>
               </p>
-            </div>
+            </div>q
 
             {/* First Video - Plays on hover */}
             <div
