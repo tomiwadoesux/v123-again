@@ -11,6 +11,7 @@ import Section1 from "components/sections/Section1";
 import Section2 from "components/sections/Section2";
 import Section4 from "components/sections/Section4";
 import Section5 from "components/sections/Section5";
+import { Footer } from 'components/Footer';
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -25,25 +26,6 @@ export default function Home() {
       lerp: 0.07,
     });
 
-    const handleScroll = (args) => {
-      const { scroll: scrollData, limit } = args;
-
-      if (
-        scrollData.y >= limit.y - 5 &&
-        !hasRedirected.current
-      ) {
-        hasRedirected.current = true;
-        router.push('/love');
-      }
-    };
-
-    // Wait for scroll to be fully initialized
-    requestAnimationFrame(() => {
-      if (scroll && scroll.on) {
-        scroll.on('scroll', handleScroll);
-      }
-    });
-
     return () => {
       scroll.destroy();
     };
@@ -53,7 +35,7 @@ export default function Home() {
     <section
       data-scroll-container
       ref={scrollRef}
-      className="relative w-full bg-[#F4F2EC] overflow-hidden"
+      className="relative w-full bg-[#FFFq] overflow-hidden"
     >
       <div className="absolute inset-0 z-0 pointer-events-none">
         <ParticlesComponent id="particles" />
@@ -64,7 +46,8 @@ export default function Home() {
         <Section1 />
         <Section5 />
         <Section2 />
-        <Section4 onHalfway={() => router.push('/love')} />
+        <Footer/>
+
 
       </div>
     </section>

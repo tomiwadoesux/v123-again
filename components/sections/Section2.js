@@ -1,5 +1,5 @@
 "use client";
-import { NormalText } from "components/NormalText"
+import { NormalText } from "components/NormalText";
 import { Author } from "components/Author";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -41,26 +41,29 @@ export default function Section2() {
             </div>
 
             <div className=" w-[70%] h-[full] md:w-full ">
-              <LazyImageTrail
-                className=" object-fit "
-                imageSrc="./images/002.png"
-              />
+              <div className="bg-black">
+                <LazyImageTrail
+                  className=" object-fit "
+                  imageSrc="./images/002.png"
+                />
+              </div>
+
               <div>
-              <div className=" grid w-full pb-2 grid-cols-2 ">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
-                From
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Twice_Born"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className=" hover:text-red-600"
-                >
-                  Twice Born
-                </a>
-              </p>
-            </div>
+                <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    From
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
+                    <a
+                      href="https://en.wikipedia.org/wiki/Twice_Born"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" hover:text-red-600"
+                    >
+                      Twice Born
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -190,11 +193,12 @@ export default function Section2() {
                     </a>
                   </p>
                 </div>
-                <LazyImageTrail
-                  className=" object-fit "
-                  imageSrc="./images/002.png"
-                />
-                
+                <div className="bg-black">
+                  <LazyImageTrail
+                    className=" object-fit "
+                    imageSrc="./images/002.png"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -202,11 +206,12 @@ export default function Section2() {
       </div>
       <div className="block px-[2.5rem] md:hidden">
         <div className=" w-[100%] h-[auto] flex-row gap-9 md:w-full md:h-[full]">
-          <LazyImageTrail
-            className=" object-fit flex-1"
-            imageSrc="./images/002.png"
-          />
-
+          <div className="bg-black">
+            <LazyImageTrail
+              className=" object-fit flex-1"
+              imageSrc="./images/002.png"
+            />
+          </div>
           <div className="flex gap-5 pt-4 pb-4 flex-row">
             <div className="flex-1 flex">
               <div>
@@ -236,10 +241,12 @@ export default function Section2() {
               </div>
             </div>
           </div>
-          <LazyImageTrail
-            className=" object-fit flex-1"
-            imageSrc="./images/002.png"
-          />
+          <div className="bg-black">
+            <LazyImageTrail
+              className=" object-fit flex-1"
+              imageSrc="./images/002.png"
+            />
+          </div>
         </div>
       </div>
     </section>

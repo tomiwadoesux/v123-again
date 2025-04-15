@@ -107,34 +107,32 @@ export function PutText({
   }, []);
 
   return (
-    <div className=" px-[2.5rem] pt-[0.7rem] md:px-[4.15rem] flex flex-col md:flex-row gap-16">
-
-      <div className="hidden lg:block flex-1 italic text-sm " style={{ color }}>
-        <h4>
-          Choose an article topic. <br />
-          Summarized with AI. <br />
+    <div className="px-[2.5rem] pt-[0.7rem] md:px-[4.15rem] flex flex-col md:flex-row gap-16">
+    <div className="hidden md:block flex-1 italic text-sm" style={{ color }}>
+      <h4 className="text-nowrap">
+        <div>Choose an article topic.</div>
+        <div>Summarized with AI.</div>
+        <div>
           Sent to your mail <Button text="Subscribe Here" color="black" />
-        </h4>
-      </div>
-
-
-      <div className=" flex-3 w-full">
-        <div
-          ref={containerRef}
-          className=" w-full h-20 relative overflow-hidden md:overflow-hidden  md:px-[4.15rem]  px-[2.5rem]  "
-        >
-          <div ref={textRef} className="absolute">
-            <h1 className="text-xs md:text-base text-justify italic font-sans dropcap">
-              The rest of this website is going to showcase {" "}
-              <span className="text-red-600 text-bold">
-                Quotes from Books I’ve read
-              </span>{" "}
-              and some <span className="text-red-600"> Poems</span>, maybe{" "}
-              <span className="text-red-600"> Movies</span> too.
-            </h1>
-          </div>
+        </div>
+      </h4>
+    </div>
+  
+    <div className="flex-2 w-full">
+      <div
+        ref={containerRef}
+        className="w-full h-20 relative overflow-hidden md:overflow-hidden md:px-[4.15rem] px-[2.5rem]"
+      >
+        <div ref={textRef} className="absolute">
+          <h1 className="text-xs md:text-base text-justify italic font-sans dropcap">
+            The rest of this website is going to showcase{" "}
+            <span className="text-red-600 text-bold">Quotes from Books I’ve read</span>{" "}
+            and some <span className="text-red-600">Poems</span>, maybe{" "}
+            <span className="text-red-600">Movies</span> too.
+          </h1>
         </div>
       </div>
     </div>
+  </div>
   );
 }

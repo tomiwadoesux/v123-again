@@ -1,12 +1,9 @@
-"use client"
-import { useEffect, useRef } from 'react';
+import React from "react";
 
-export default function Section4() {
-
+const Navigation = () => {
   return (
-    <section  className="relative">
     <div
-      className="fixed bottom-6 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg  transition duration-200"
+      className="fixed bottom-8 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg  transition duration-200"
       aria-label="Open chat"
     >
       <svg
@@ -444,6 +441,8 @@ export default function Section4() {
         </g>
       </svg>
     </div>
-    </section>
   );
-}
+};
+
+export default Navigation;
+``

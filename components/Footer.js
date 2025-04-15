@@ -1,7 +1,7 @@
 export function Footer() {
   return (
     <div className=" flex pt-5 pb-6 flex-col">
-      <div className=" pt-16 pb-3 px-[2.5rem] pt-[0.7rem] md:px-[4.15rem] flex flex-col md:flex-row gap-3">
+      <div className=" pt-16 pb-3 px-[2.5rem]  md:px-[4.15rem] flex flex-col md:flex-row gap-3">
         <div className=" self-center flex-1 italic text-sm">
           <div className="flex  gap-3 ">
             <svg
@@ -74,8 +74,8 @@ export function Footer() {
           </svg>
         </div>
 
-        <div className=" flex-1 self-center sm:block hidden italic text-sm">
-          <h4 className="text-right italic text-xs md:text-xs lg:text-sm">
+        <div className="  self-center italic text-sm">
+          <h4 className="text-nowrap text-right italic text-xs md:text-xs lg:text-sm">
             A Portfolio Project
           </h4>
         </div>

@@ -3,7 +3,6 @@ import ParticlesComponent from "components/particle2";
 import Section1 from "components/sections/Section1";
 import Section2 from "components/sections/Section2";
 import Section3 from "components/sections/Section3";
-import Section4 from "components/sections/Section4";
 import Section5 from "components/sections/Section5";
 import LoveMastHead from "components/LoveMastHead";
 import { useEffect, useRef } from "react";
@@ -11,6 +10,7 @@ import LocomotiveScroll from "locomotive-scroll";
 import { Scroll } from "components/Scroll";
 import { PutText } from "components/PutText";
 import { Footer } from "components/Footer";
+import Navigation from "components/Navigation";
 
 
 
@@ -43,7 +43,9 @@ const scrollRef = useRef(null);
       <div className="relative z-10">
         <LoveMastHead />
         <Section3   />
+
         <Footer/>
+        <Navigation/>
       </div>
     </section>
   );
