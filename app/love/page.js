@@ -10,42 +10,39 @@ import LocomotiveScroll from "locomotive-scroll";
 import { Scroll } from "components/Scroll";
 import { PutText } from "components/PutText";
 import { Footer } from "components/Footer";
-import Navigation from "components/Navigation";
-
-
-
-
+import NavigationPrevious from "components/NavigationPrevious";
 
 export default function Home() {
-const scrollRef = useRef(null);
+  const scrollRef = useRef(null);
 
-    useEffect(() => {
-        const scroll =   new LocomotiveScroll({
-            el: scrollRef.current,
-            smooth: true,
-            smoothMobile: true,
-            lerp: 0.05, // default is ~0.1 — reduce for smoother
-          });
-    
-      
-        return () => {
-          scroll.destroy();
-        };
+  useEffect(() => {
+    const scroll = new LocomotiveScroll({
+      el: scrollRef.current,
+      smooth: true,
+      smoothMobile: true,
+      lerp: 0.05, // default is ~0.1 — reduce for smoother
+    });
 
+    return () => {
+      scroll.destroy();
+    };
+  }, []);
 
-      }, []);
-    
   return (
-    <section  data-scroll-container ref={scrollRef} className="relative w-full bg-[#F4F2EC] overflow-hidden">
+    <section
+      data-scroll-container
+      ref={scrollRef}
+      className="relative w-full bg-[#F4F2EC] overflow-hidden"
+    >
       <div className="absolute inset-0 z-0 pointer-events-none">
         <ParticlesComponent id="particles" />
       </div>
       <div className="relative z-10">
         <LoveMastHead />
-        <Section3   />
+        <Section3 />
 
-        <Footer/>
-        <Navigation/>
+        <Footer />
+        <NavigationPrevious />
       </div>
     </section>
   );

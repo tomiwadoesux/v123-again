@@ -1,9 +1,26 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import React from "react";
 
-const Navigation = () => {
+
+const NavigationPrevious = () => {
+useEffect(() => {
+
+    gsap.to("#text", {
+        rotation: -360, // Negative for left rotation
+        transformOrigin: "center", // Rotate around center point
+        duration: 13, // Adjust speed as needed
+        repeat: -1, // Infinite repeat
+        ease: "none" // Linear rotation
+      });
+
+}, []);
+
   return (
     <div
-      className="fixed bottom-8 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg  transition duration-200"
+      className="fixed bottom-14 left-6 text-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg  transition duration-200"
       aria-label="Open chat"
     >
       <svg
@@ -444,5 +461,5 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default NavigationPrevious;
 ``

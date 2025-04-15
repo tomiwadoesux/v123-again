@@ -12,6 +12,7 @@ import Section2 from "components/sections/Section2";
 import Section4 from "components/sections/Section4";
 import Section5 from "components/sections/Section5";
 import { Footer } from 'components/Footer';
+import NavigationNext from 'components/NavigationNext';
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -46,6 +47,7 @@ export default function Home() {
         <Section1 />
         <Section5 />
         <Section2 />
+        <NavigationNext/>
         <Footer/>
 
 
