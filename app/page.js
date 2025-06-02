@@ -13,6 +13,7 @@ import Section4 from "components/sections/Section4";
 import Section5 from "components/sections/Section5";
 import { Footer } from 'components/Footer';
 import NavigationNext from 'components/NavigationNext';
+import Section99 from 'components/sections/Section99';
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -38,9 +39,9 @@ export default function Home() {
       ref={scrollRef}
       className="relative w-full bg-[#FFFq] overflow-hidden"
     >
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none">
         <ParticlesComponent id="particles" />
-      </div>
+      </div> */}
 
       <div className="relative z-10">
         <MastHead />

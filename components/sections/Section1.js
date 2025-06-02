@@ -9,10 +9,8 @@ import { Scroll } from "components/Scroll";
 import { Button } from "components/Button";
 import Hail from "components/Hail";
 
-
 import { PutText } from "components/PutText";
 import LazyImageTrail from "components/LazyImageTrail";
-
 
 export default function Section1() {
   const newsRef = useRef(null);
@@ -60,10 +58,10 @@ export default function Section1() {
 
   return (
     <section>
-      <div className=" px-[2.5rem] pt-[1.3rem] md:px-[4rem] h-full flex flex-col md:flex-row gap-[4rem] lg:gap-[4rem] md:gap-[2rem]">
+      <div className=" px-[2.5rem] md:px-[4rem] h-full flex flex-col md:flex-row gap-[4rem] lg:gap-[2rem] md:gap-[2rem]">
         <div className="flex  flex-col gap-1 flex-1 h-[100%]">
           <HeaderText
-            className="relative text-center"
+            className="relative p-0 pb-2 text-center"
             content="THE PLOT"
             color="red"
           />
@@ -83,24 +81,104 @@ export default function Section1() {
 
           <h4 className="text-xs pt-4 md:text-[0.85rem] lg:text-base text-justify dropcap">
             This project is a simple and friendly service that sends you a daily
-            or weekly email with quick {" "}
-            <span ref={newsRef}>{splitText("News Articles Summaries")}</span> and a
-            <span ref={memeRef}> {splitText("Meme")}</span> or
-            <span ref={gifRef}> {splitText("GIF.")}</span>You choose your preferred category,
-            and it delivers it summarized. It's all about making your news experience
-            enjoyable and easy to read. (I don't like reading long articles)
+            or weekly email with quick{" "}
+            <span ref={newsRef}>{splitText("News Articles Summaries")}</span>{" "}
+            and a<span ref={memeRef}> {splitText("Meme")}</span> or
+            <span ref={gifRef}> {splitText("GIF.")}</span>You choose your
+            preferred category, and it delivers it summarized. It's all about
+            making your news experience enjoyable and easy to read. (I don't
+            like reading long articles)
           </h4>
           <Button className="" text="Subscribe Here" color="red" />
         </div>
+        <div>
+          <svg
+            width="10"
+            height="100%"
+            
+            viewBox="0 0 10 50"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            <line
+              x1="0.5"
+              y1="0"
+              x2="0.5"
+              y2="100"
+              stroke="black"
+              strokeWidth="1"
+            />
+          </svg>
+        </div>
+
         <div className="w-full hidden md:flex md:flex-1 lg:flex-2 h-[15rem] md:h-[100px] lg:h-[34rem] flex justify-center items-center bg-black ">
-        <LazyImageTrail className=" w-full h-full "  />
+          <LazyImageTrail className=" w-full h-full " />
         </div>
       </div>
-      <Scroll />
+      <div className="md:px-[4rem] pt-4 px-[2.5rem]">
+      <svg
+        width="100%"
+        height="20"
+        viewBox="0 0 100 10"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        
+        <line
+          className="svg-line"
+          x1="0"
+          y1="2"
+          x2="100"
+          y2="2"
+          stroke="black"
+          strokeWidth="2"
+        />
+        <line
+          className="svg-line"
+          x1="0"
+          y1="5.5"
+          x2="100"
+          y2="5.5"
+          stroke="black"
+          strokeWidth="0.6"
+        />
+      </svg>
+      </div>
+    
 
       <PutText color="red" />
-
-      <div className="flex bg-[#F4F2EC] px-[4rem] justify-center items-center h-full w-full">
+      <div className="md:px-[4rem] pt-4 px-[2.5rem]">
+      <svg
+        width="100%"
+        height="20"
+        viewBox="0 0 100 10"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        
+        <line
+          className="svg-line"
+          x1="0"
+          y1="2"
+          x2="100"
+          y2="2"
+          stroke="black"
+          strokeWidth="0.6"
+        />
+        <line
+          className="svg-line"
+          x1="0"
+          y1="5.5"
+          x2="100"
+          y2="5.5"
+          stroke="black"
+          strokeWidth="2"
+        />
+      </svg>
+      </div>
+      <div className="flex bg-[#F4F2EC] px-[4rem] justify-center items-center h-full w-full"></div>
+      <div className="fixed z-50 bottom-0 ">
+        <Scroll />
       </div>
     </section>
   );

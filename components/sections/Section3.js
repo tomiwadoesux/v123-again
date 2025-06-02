@@ -11,6 +11,8 @@ import Link from "next/link";
 import Muah from "components/Muah";
 import { Scroll } from "components/Scroll";
 import LazyImageTrail from "components/LazyImageTrail";
+import Section99 from "./Section99";
+
 // import ThreeSection from "components/ThreeSection";
 
 gsap.registerPlugin(TextPlugin);
@@ -100,11 +102,98 @@ export default function Section3() {
         <Muah />
       </div>
 
-      <div className="  px-[2.5rem]  md:px-[4.15rem] ">
-        <div className="grid grid-row md:grid-cols-2  gap-[1.5rem] md:gap-[2rem] lg:gap-[4rem]">
+      <div className="  px-[2.5rem] pt-5  md:px-[4.15rem] ">
+        <div className="relative -top- md:-top-0">
+        <svg
+          width="100%"
+          height="20"
+          viewBox="0 0 100 10"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <line
+            className="svg-line"
+            x1="0"
+            y1="2"
+            x2="100"
+            y2="2"
+            stroke="black"
+            strokeWidth="2"
+          />
+          <line
+            className="svg-line"
+            x1="0"
+            y1="5.5"
+            x2="100"
+            y2="5.5"
+            stroke="black"
+            strokeWidth="0.8"
+          />
+        </svg>
+
+          <div className="">
+            <svg
+              width="35"
+              height="20"
+              viewBox="0 0 42 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 13H41"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M6 20H41"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M6 27H41"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M22 6L41 6"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <g clip-path="url(#clip0_221_20)">
+                <mask
+                  id="mask0_221_20"
+                  style={{ maskType: "luminance" }}
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="20"
+                  height="20"
+                >
+                  <path d="M20 0H0V20H20V0Z" fill="white" />
+                </mask>
+                <g mask="url(#mask0_221_20)">
+                  <path
+                    d="M13.7003 2.58301C12.192 2.58301 10.842 3.31634 10.0003 4.44134C9.15866 3.31634 7.80866 2.58301 6.30033 2.58301C3.74199 2.58301 1.66699 4.66634 1.66699 7.24134C1.66699 8.23301 1.82533 9.14967 2.10033 9.99967C3.41699 14.1663 7.47533 16.658 9.48366 17.3413C9.76699 17.4413 10.2337 17.4413 10.517 17.3413C12.5253 16.658 16.5837 14.1663 17.9003 9.99967C18.1753 9.14967 18.3337 8.23301 18.3337 7.24134C18.3337 4.66634 16.2587 2.58301 13.7003 2.58301Z"
+                    fill="#FF1212"
+                  />
+                </g>
+              </g>
+              <defs>
+                <clipPath id="clip0_221_20">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row  gap-[1.5rem] md:gap-[2rem] lg:gap-[2rem]">
           <div className=" h-[100%]">
             <HeaderText
-              className="text-center"
+              className="text-left md:text-center pb-1 pt-2"
               content="THE PLOT"
               color="black"
             />
@@ -141,57 +230,39 @@ export default function Section3() {
               <Button text="Subscribe Here" color="red" />
             </div>
             <div className="w-full sm:block hidden bg-black h-[50%]">
-            <video
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  >
-                    <source src="./videos/gifvid.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="./videos/gifvid.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
-          {/* <div className="">
-            <div className="w-full  h-[60%]">
-              <div className=" grid w-full pb-2 grid-cols-2 ">
-                <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
-                  From
-                </p>
-                <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                  <a
-                    href="https://en.wikipedia.org/wiki/Princess_Mononoke"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" hover:text-red-600"
-                  >
-                    Princess Mononoke
-                  </a>
-                </p>
-              </div>`
-             
-               <LazyImageTrail
-                                className=" object-fit "
-                                imageSrc="./images/lo.jpg"
-                              />
-            </div>
-
-            <NormalText
-              className="pt-5"
-              content="Another who fell under his spell, explained his magic: “Perhaps the most remarkable lover of our time is
-               Gabriele D'Annunzio.” And this not withstanding that he is small, bald, and, except when his face lights up with
-                enthusiasm, ugly But when he speaks to a woman he likes, his face is transfigured, so that he suddenly becomes 
-                Apollo..He seemed to know each woman's weakness: one he would call a goddess of nature, another an incomparable
-                 artist in the making, another a romantic figure out of a novel.  "
-              color="black"
-            />
-
-            <Author author="The art of sedcution" color="red" />
-          </div> */}
+          <div>
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
 
           <div className=" h-[100%] ">
-            <h1 className="text-3xl text-center text-red-600 lg:text-4xl">
+            <h1 className="text-xl text-center md:text-left text-red-600  pb-1 pt-2 lg:text-3xl">
               SHE'S <span ref={changingTextRef}>A</span> LEOPARD
             </h1>
             <div className=" flex md:flex-col  gap-5 flex-row">
@@ -199,13 +270,13 @@ export default function Section3() {
                 <NormalText
                   content="Slumbering, I saw you again, we 
               sat alone..How simple, how sweet you smell..Let’s take care of our heart..Sake
-               of the imagining world we hope within..Covered by art, you are the lines only I can 
-               see yet how clear you are..But If I may be lost, leave me be with your heart..Let the sun
-                caress the wrinkles of time off.. As the wind blown sand brush my face..Your heart, I lay my
-                 head to rest on the bosom of my mother, earth..You require care, like how you would 
-                 for your white sheet..You won’t prosecute, your response; how steady you feel when you
-                 balance on a beam, the ease that is makeshift, the edge of surrender..But there it was,
-                  my flower in front of your steps"
+               of the imagining world we hope within.. Covered by art, like the lines only I can 
+               see yet how clear you are..But If I may be lost, leave me be with your heart.. Alone.. Let the heat of the sun
+                caress the wrinkles of time off off me As the wind blown sand brush my face leaving me defunct.. But I be with
+                 your heart, how can I be defunct then?.. You require care, like how you would 
+                 for your white sheet..You won’t fret.. your response? how steady you feel right when you
+                 balance on a beam, the ease that annihilate the panic, the ease that is makeshift just at the edge of surrender..But there it was,
+                  my flowers at your steps, unfresh"
                   color="black"
                   className=""
                 />
@@ -226,12 +297,72 @@ export default function Section3() {
         </div>
       </div>
 
-      <Scroll />
-
       <div className="  px-[2.5rem] pt-5 md:px-[4.15rem] ">
-        <div className="grid grid-row md:grid-cols-3  gap-[1.5rem] md:gap-[2rem] lg:gap-[4rem]">
-          <div className="">
+        <svg
+          width="100%"
+          height="20"
+          viewBox="0 0 100 10"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <line
+            className="svg-line"
+            x1="0"
+            y1="2"
+            x2="100"
+            y2="2"
+            stroke="black"
+            strokeWidth="2"
+          />
+          <line
+            className="svg-line"
+            x1="0"
+            y1="5.5"
+            x2="100"
+            y2="5.5"
+            stroke="black"
+            strokeWidth="0.8"
+          />
+        </svg>
+        <div>
+          <Section99 />
+        </div>
+        <div className="pb-4">
+          <svg
+            width="100%"
+            height="20"
+            viewBox="0 0 100 10"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            <line
+              className="svg-line"
+              x1="0"
+              y1="2"
+              x2="100"
+              y2="2"
+              stroke="black"
+              strokeWidth="0.8"
+            />
+            <line
+              className="svg-line"
+              x1="0"
+              y1="5.5"
+              x2="100"
+              y2="5.5"
+              stroke="black"
+              strokeWidth="2"
+            />
+          </svg>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-[1.5rem] md:gap-[2rem] lg:gap-[1rem]">
+          <div className=" flex-1">
             <div className="w-full ">
+              <LazyImageTrail
+                className=" object-fit "
+                imageSrc="./images/lo.jpg"
+              />
               <div className=" grid w-full pb-2 grid-cols-2 ">
                 <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                   From
@@ -247,11 +378,6 @@ export default function Section3() {
                   </a>
                 </p>
               </div>
-
-              <LazyImageTrail
-                className=" object-fit "
-                imageSrc="./images/lo.jpg"
-              />
             </div>
 
             <NormalText
@@ -266,10 +392,27 @@ export default function Section3() {
 
             <Author author="The art of sedcution" color="red" />
           </div>
-
-          <div className=" flex h-[60%] flex-col gap-2">
+          <div className="w-fit">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+          <div className=" flex flex-1 h-[60%] flex-col gap-2">
             <div>
-              <h1 className="text-3xl text-center text-red-600 lg:text-4xl">
+              <h1 className="text-xl pb-2 text-left p-0 text-red-600 lg:text-3xl">
                 <span ref={changerTextRef}>HE'S A</span> LOVER
               </h1>
               <div className="flex  flex-row gap-5 md:flex-col ">
@@ -302,10 +445,28 @@ export default function Section3() {
               <div className="hidden lg:block h-20"></div>
             </div>
           </div>
-          <div className=" flex flex-col gap-2">
+          <div className="w-fit">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+          <div className=" flex flex-1 flex-col gap-2">
             <div>
               <HeaderText
-                className=" relative text-center"
+                className="text-left p-0 pb-2 relative"
                 content="WHAT HE MEANT"
                 color="black"
               />
@@ -323,6 +484,10 @@ export default function Section3() {
                 color="red"
               />
               <div className="w-full ">
+                <LazyImageTrail
+                  className=" pt-3 object-fit "
+                  imageSrc="./images/lo.jpg"
+                />
                 <div className=" grid w-full pb-2 grid-cols-2 ">
                   <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                     From
@@ -338,11 +503,6 @@ export default function Section3() {
                     </a>
                   </p>
                 </div>
-
-                <LazyImageTrail
-                  className=" object-fit "
-                  imageSrc="./images/lo.jpg"
-                />
               </div>
             </div>
           </div>

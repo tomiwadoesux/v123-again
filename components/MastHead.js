@@ -72,24 +72,7 @@ export default function MastHead() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            <line
-              className="svg-line"
-              x1="0"
-              y1="7"
-              x2="100"
-              y2="7"
-              stroke="black"
-              strokeWidth="0.8"
-            />
-            <line
-              className="svg-line"
-              x1="0"
-              y1="2"
-              x2="100"
-              y2="2"
-              stroke="black"
-              strokeWidth="1"
-            />
+           
             <line
               className="svg-line"
               x1="0"

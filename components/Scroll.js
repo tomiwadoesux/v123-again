@@ -3,9 +3,18 @@ import { useRef } from "react";
 
 export function Scroll() {
   return (
-    <div className="px-[0rem] pt-[1.5rem] py-2 px-0 ">
-      <div className="bg-black w-full overflow-hidden py-1">
+    <div className="px-[0rem]  z-50 ">
+      <div className="bg-[red] w-full  overflow-hidden py-1">
         <div className="flex whitespace-nowrap animate-marquee">
+          <span className="text-[#F4F2EC] text-sm">
+            Your daily scoop: summarized NEWS articles and a MEME or two to your mail. &nbsp;&nbsp;&nbsp;
+          </span>
+          <span className="text-[#F4F2EC] text-sm">
+            Your daily scoop: summarized NEWS articles and a MEME or two to your mail. &nbsp;&nbsp;&nbsp;
+          </span>
+          <span className="text-[#F4F2EC] text-sm">
+            Your daily scoop: summarized NEWS articles and a MEME or two to your mail. &nbsp;&nbsp;&nbsp;
+          </span>
           <span className="text-[#F4F2EC] text-sm">
             Your daily scoop: summarized NEWS articles and a MEME or two to your mail. &nbsp;&nbsp;&nbsp;
           </span>
@@ -41,10 +50,9 @@ export function Scroll() {
             animation-duration: 8s;
           }
         }
-        /* Desktop: faster scrolling (e.g., 10s) */
         @media (min-width: 768px) {
           .animate-marquee {
-            animation-duration: 20s;
+            animation-duration: 30s;
           }
         }
       `}</style>

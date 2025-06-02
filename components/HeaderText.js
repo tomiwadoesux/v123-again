@@ -10,7 +10,7 @@ export function HeaderText({ content, color = "#333", variant = "heading", class
     <div ref={textRef}>
       <Tag
         style={{ color }}
-        className={` text-3xl md:text-4xl  ${className}`}
+        className={` text-xl md:text-3xl  ${className}`}
       >
         {content}
       </Tag>

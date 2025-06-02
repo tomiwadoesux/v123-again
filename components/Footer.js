@@ -1,11 +1,11 @@
 export function Footer() {
   return (
-    <div className=" flex pt-5 pb-6 flex-col">
+    <div className=" flex pt-5 pb-12 flex-col">
       <div className=" pt-16 pb-3 px-[2.5rem]  md:px-[4.15rem] flex flex-col md:flex-row gap-3">
         <div className=" self-center flex-1 italic text-sm">
           <div className="flex  gap-3 ">
           <a
-              href="https://x.com/ayotomcs" // replace with your actual GitHub URL
+              href="https://x.com/ayotomcs" 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="View X Account"

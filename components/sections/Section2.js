@@ -21,6 +21,34 @@ export default function Section2() {
 
   return (
     <section>
+      <div className="md:px-[4rem] pt-4 px-[2.5rem]">
+        <svg
+          width="100%"
+          height="20"
+          viewBox="0 0 100 10"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <line
+            className="svg-line"
+            x1="0"
+            y1="2"
+            x2="100"
+            y2="2"
+            stroke="black"
+            strokeWidth="2"
+          />
+          <line
+            className="svg-line"
+            x1="0"
+            y1="5.5"
+            x2="100"
+            y2="5.5"
+            stroke="black"
+            strokeWidth="0.6"
+          />
+        </svg>
+      </div>
       <div className="hidden md:block pt-8 px-[2.5rem] pt-[1.3rem] md:px-[4rem] lg:px-[4rem]">
         <div className=" h-[33.3%] grid overflow-hidden grid-row-3 md:grid-cols-2 lg:grid-cols-3 gap-9 md:gap-[2rem] lg:gap-[4rem]">
           <div className="  md:h-[29rem]">
@@ -47,8 +75,6 @@ export default function Section2() {
                   imageSrc="./images/002.png"
                 />
               </div>
-
-            
             </div>
 
             <NormalText
@@ -63,9 +89,10 @@ export default function Section2() {
             />
             <Author author="Ayotomcs" color="red" />
           </div>
+
           <div className="hidden lg:block flex flex-1 h-[95%] flex-col">
             <div className=" grid w-full pb-2 grid-cols-2 ">
-            <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                 From
               </p>
               <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
@@ -78,28 +105,21 @@ export default function Section2() {
                   Meet Joe Black
                 </a>
               </p>
-            </div>q
-
+            </div>
             {/* First Video - Plays on hover */}
-            <div
-              className="bg-black h-[25%]"
-              onMouseEnter={() => handleMouseEnter(0)}
-              onMouseLeave={() => handleMouseLeave(0)}
-            >
+            <div className="bg-black h-[25%]">
               <video
-                ref={videoRefs[0]}
                 src="/videos/001.mp4"
+                autoPlay
                 muted
                 loop
                 playsInline
                 className="w-full h-full object-cover"
               />
             </div>
-
             {/* Second Video - Always autoplay */}
             <div className="bg-black h-[25%]">
               <video
-                ref={videoRefs[1]}
                 src="/videos/002.mp4"
                 autoPlay
                 muted
@@ -108,32 +128,22 @@ export default function Section2() {
                 className="w-full h-full object-cover"
               />
             </div>
-
             {/* Third Video - Plays on hover */}
-            <div
-              className="bg-black h-[25%]"
-              onMouseEnter={() => handleMouseEnter(2)}
-              onMouseLeave={() => handleMouseLeave(2)}
-            >
+            <div className="bg-black h-[25%]">
               <video
-                ref={videoRefs[2]}
                 src="/videos/003.mp4"
+                autoPlay
                 muted
                 loop
                 playsInline
                 className="w-full h-full object-cover"
               />
             </div>
-
             {/* Fourth Video - Plays on hover */}
-            <div
-              className="bg-black h-[25%]"
-              onMouseEnter={() => handleMouseEnter(3)}
-              onMouseLeave={() => handleMouseLeave(3)}
-            >
+            <div className="bg-black h-[25%]">
               <video
-                ref={videoRefs[3]}
                 src="/videos/004.mp4"
+                autoPlay
                 muted
                 loop
                 playsInline

@@ -1,17 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&family=Titillium+Web:wght@400;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #fff;;
+  --background: #fff;
   --foreground: #171717;
 }
-
+@font-face {
+  font-family: 'Fino';
+  src: url('/fonts/Fino/fino-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Titillium Web', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -22,11 +28,9 @@
   }
 }
 
-
-
 /* Global Base Styles for Body */
-body, h4, h5, h6 {
-  font-family: Arial, sans-serif; /* Arial for body text */
+body, p, h4, h5, h6 {
+  font-family: 'Titillium Web', sans-serif; /* Changed from Arial to Titillium Web */
   line-height: 1.6;
   color: #333;
   margin: 0;
@@ -34,48 +38,57 @@ body, h4, h5, h6 {
 }
 
 /* Headings: Use Merriweather for all heading levels */
-h1, h2, h3 {
+ h2, h3 {
   font-family: 'Merriweather', serif;
   margin: 0;
   padding: 0.5em 0;
-  /* You can adjust the default heading size here if needed */
+}
+h1{
+  font-family: 'Fino', serif;
+  margin: 0;
+  padding: 0.5em 0;
 }
 
-
-/* Examples for Italic and Bold text */
-
-/* For body text that needs to be italicized */
+/* Italic and Bold utility classes */
 .italic {
   font-style: italic;
 }
 
-/* For body text that needs to be bold */
 .bold {
   font-weight: bold;
 }
 
-/* For headings, Merriweather will automatically apply bold if you use h1-h6 variants,
-   but you can also create specific utility classes if needed: */
 .heading-italic {
   font-style: italic;
 }
+
 .heading-bold {
   font-weight: bold;
 }
 
-/* globals.css */
+/* Drop Cap Styling */
 .dropcap::first-letter {
-  font-family: 'Merriweather', serif;  /* Use Merriweather for the drop cap */
-  font-size: 2rem;                     /* Adjust size as needed */
-  float: left;                         /* Let text wrap around it */
+  font-family: 'Fino', serif;
+  font-size: 2rem;
+  float: left;
   line-height: 0.5;
-  padding-right: 0rem;               /* Space between the drop cap and text */
-  margin-right: 0.rem;
+  padding-right: 0rem;
+  margin-right: 0rem;
+}
+
+p {
+  font-family: 'Titillium Web', sans-serif !important;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 canvas {
   display: block;
   vertical-align: bottom;
 }
+
 #__next {
-  height: 100%; /* Ensures Next.js root div takes full height */
+  height: 100%;
 }
+

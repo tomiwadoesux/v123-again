@@ -131,24 +131,7 @@ export default function LoveMastHead() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            <line
-              className="svg-line"
-              x1="0"
-              y1="7"
-              x2="100"
-              y2="7"
-              stroke="black"
-              strokeWidth="0.8"
-            />
-            <line
-              className="svg-line"
-              x1="0"
-              y1="2"
-              x2="100"
-              y2="2"
-              stroke="black"
-              strokeWidth="1"
-            />
+           
             <line
               className="svg-line"
               x1="0"
@@ -158,6 +141,8 @@ export default function LoveMastHead() {
               stroke="black"
               strokeWidth="3"
             />
+            
+           
           </svg>
           <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.3rem]">
             “Checking my email daily, because apparently chaos doesn’t send

@@ -14,7 +14,7 @@ function LazyImageTrail({ imageSrc }) {
   });
 
   return (
-    <div ref={ref} className="min-h-[200px]">
+    <div ref={ref} className="min-h-[200px] ">
       {inView ? (
         <Suspense
           fallback={<div className="w-full h-full flex items-center justify-center bg-black">

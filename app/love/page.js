@@ -4,6 +4,7 @@ import Section1 from "components/sections/Section1";
 import Section2 from "components/sections/Section2";
 import Section3 from "components/sections/Section3";
 import Section5 from "components/sections/Section5";
+
 import LoveMastHead from "components/LoveMastHead";
 import { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
@@ -36,6 +37,9 @@ export default function Home() {
     >
       <div className="absolute inset-0 z-0 pointer-events-none">
         <ParticlesComponent id="particles" />
+      </div>
+      <div className="fixed z-50 bottom-0 ">
+        <Scroll />
       </div>
       <div className="relative z-10">
         <LoveMastHead />
