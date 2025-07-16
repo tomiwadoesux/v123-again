@@ -21,7 +21,7 @@ export default function Section2() {
 
   return (
     <section>
-      <div className="md:px-[4rem] pt-4 px-[2.5rem]">
+      <div className="px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pb-2 md:pb-4 pt-4 ">
         <svg
           width="100%"
           height="20"
@@ -49,155 +49,7 @@ export default function Section2() {
           />
         </svg>
       </div>
-      <div className="hidden md:block pt-8 px-[2.5rem] pt-[1.3rem] md:px-[4rem] lg:px-[4rem]">
-        <div className=" h-[33.3%] grid overflow-hidden grid-row-3 md:grid-cols-2 lg:grid-cols-3 gap-9 md:gap-[2rem] lg:gap-[4rem]">
-          <div className="  md:h-[29rem]">
-            <div className=" grid w-full pb-2 grid-cols-2 ">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
-                From
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Twice_Born"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className=" hover:text-red-600"
-                >
-                  Twice Born
-                </a>
-              </p>
-            </div>
 
-            <div className=" w-[70%] h-[full] md:w-full ">
-              <div className="bg-black">
-                <LazyImageTrail
-                  className=" object-fit "
-                  imageSrc="./images/002.png"
-                />
-              </div>
-            </div>
-
-            <NormalText
-              className=" h-[33.3%] pt-6"
-              content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
-            organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
-            we have loads to lift and hard work to
-            do on the maps of the earth..You may find me not, i’m
-            held captive for not wishing for more..Should I not be there to
-            see?.. No screams, my hands thinking..But there's a"
-              color="black"
-            />
-            <Author author="Ayotomcs" color="red" />
-          </div>
-
-          <div className="hidden lg:block flex flex-1 h-[95%] flex-col">
-            <div className=" grid w-full pb-2 grid-cols-2 ">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
-                From
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Meet_Joe_Black"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className=" hover:text-red-600"
-                >
-                  Meet Joe Black
-                </a>
-              </p>
-            </div>
-            {/* First Video - Plays on hover */}
-            <div className="bg-black h-[25%]">
-              <video
-                src="/videos/001.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Second Video - Always autoplay */}
-            <div className="bg-black h-[25%]">
-              <video
-                src="/videos/002.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Third Video - Plays on hover */}
-            <div className="bg-black h-[25%]">
-              <video
-                src="/videos/003.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Fourth Video - Plays on hover */}
-            <div className="bg-black h-[25%]">
-              <video
-                src="/videos/004.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-
-          <div className=" ">
-            <NormalText
-              className=" pt-3 "
-              content="The storm didn’t sustain for days, nor the rain..The happiness is not forever, nor the pain..
-              They are the visitors, will come and go..You are an ancient forest here..please know: Sadness will dry 
-              you, your tear will bring the rain..Still, you will remain here, unmoved and same..Rain will grow foliage 
-              on your being..The storm will try to destroy everything..Still trust me, you are not a leaf, You are an ancient
-               forest..Drought is seasoning you..Bush fire is cleaning you..Storm is sweeping you..Everyone is helping you the best. "
-              color="black"
-            />
-            <Author author=" Md. Firoj Alam" color="red" />
-            <div>
-              <div className="pt-2">
-                <div className=" grid w-full pb-2 grid-cols-2 ">
-                  <p className="text-left whitespace-nowrap italic text-grey-400 text-xs">
-                    <a
-                      href="https://en.wikipedia.org/wiki/Princess_Mononoke"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" hover:text-black"
-                    >
-                      From
-                    </a>{" "}
-                  </p>
-                  <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                    <a
-                      href="https://en.wikipedia.org/wiki/Princess_Mononoke"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" hover:text-red-600"
-                    >
-                      Princess Mononoke
-                    </a>
-                  </p>
-                </div>
-                <div className="bg-black">
-                  <LazyImageTrail
-                    className=" object-fit "
-                    imageSrc="./images/002.png"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="block px-[2.5rem] md:hidden">
         <div className=" w-[100%] h-[auto] flex-row gap-9 md:w-full md:h-[full]">
           <div className="bg-black">
@@ -206,7 +58,7 @@ export default function Section2() {
               imageSrc="./images/002.png"
             />
           </div>
-          <div className="flex gap-5 pt-4 pb-4 flex-row">
+          <div className="flex gap-2 pt-4 pb-4 flex-row">
             <div className="flex-1 flex">
               <div>
                 <NormalText
@@ -220,6 +72,24 @@ export default function Section2() {
                 />{" "}
                 <Author author="Ayotomcs" color="red" />
               </div>
+            </div>
+            <div className=" w-fit">
+              <svg
+                width="10"
+                height="100%"
+                viewBox="0 0 10 50"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
+              >
+                <line
+                  x1="5"
+                  y1="0"
+                  x2="5"
+                  y2="50"
+                  stroke="black"
+                  strokeWidth="1"
+                />
+              </svg>
             </div>
             <div className="flex-1 flex">
               <div>
@@ -235,11 +105,166 @@ export default function Section2() {
               </div>
             </div>
           </div>
-          <div className="bg-black">
+          <div className=" bg-black">
             <LazyImageTrail
               className=" object-fit flex-1"
               imageSrc="./images/002.png"
             />
+          </div>
+        </div>
+      </div>
+
+      <div className=" px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-4 hidden md:block lg:hidden flex flex-col"></div>
+      <div className="hidden md:block">
+        <div className="flex gap-4 px-[4.15rem]  flex-row">
+          <div className=" flex-1">
+            <div className=" gap-2 flex flex-col ">
+              <div>
+                <NormalText
+                  className=" pt-1 h-[33.3%]"
+                  content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
+            organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
+            we have loads to lift and hard work to
+            do on the maps of the earth..You may find me not, i’m
+            held captive for not wishing for more..Should I not be there to
+            see?.. No screams, my hands thinking..But there's a"
+                  color="black"
+                />
+                <Author author="Ayotomcs" color="red" />
+              </div>
+              <div>
+                <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    From
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red text-xs">
+                    <a
+                      href="https://en.wikipedia.org/wiki/Twice_Born"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" underline hover:text-red"
+                    >
+                      Twice Born
+                    </a>
+                  </p>
+                </div>
+                <div className=" w-[70%] h-[full] md:w-full ">
+                  <div className="bg-black">
+                    <LazyImageTrail
+                      className=" object-fit "
+                      imageSrc="./images/002.png"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className=" w-fit">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="5"
+                y1="0"
+                x2="5"
+                y2="50"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+          <div className="hidden lg:block  flex-1">
+            <div className=" gap-2  flex flex-col ">
+              <div>
+                <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    From
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red text-xs">
+                    <a
+                      href="https://en.wikipedia.org/wiki/High_Fidelity_(TV_series)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" underline hover:text-red"
+                    >
+                      High Fidelity
+                    </a>
+                  </p>
+                </div>
+                <div className=" w-[70%] h-[full] md:w-full ">
+                  <div className="bg-black">
+                    <LazyImageTrail
+                      className=" object-fit "
+                      imageSrc="./images/008.webp"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className=" hidden lg:block  w-fit">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="5"
+                y1="0"
+                x2="5"
+                y2="50"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+          <div className=" flex-1">
+            <div className=" gap-2 flex flex-col ">
+              <div>
+                <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    @
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red text-xs">
+                    <a
+                      href="https://www.instagram.com/feliciathegoat/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" underline hover:text-red"
+                    >
+                      feliciathegoat
+                    </a>
+                  </p>
+                </div>
+                <div className=" w-[70%] h-[full] md:w-full ">
+                  <div className="bg-black">
+                    <LazyImageTrail
+                      className=" object-fit "
+                      imageSrc="./images/007.webp"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <NormalText
+                  className=" pt-1 h-[33.3%]"
+                  content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
+            organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
+            we have loads to lift and hard work to
+            do on the maps of the earth..You may find me not, i’m
+            held captive for not wishing for more..Should I not be there to
+            see?.. No screams, my hands thinking..But there's a"
+                  color="black"
+                />
+                <Author author="Ayotomcs" color="red" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

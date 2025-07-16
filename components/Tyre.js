@@ -41,7 +41,7 @@ export default function Tyre() {
                 cy="33.5637"
                 r="9.5"
                 transform="rotate(-90 23.4844 33.5637)"
-                fill="#FB5B58"
+                fill="#EB8E41"
               />
               <circle
                 id="Ellipse 28"
@@ -93,7 +93,7 @@ export default function Tyre() {
                 cy="8.77454"
                 r="8.57454"
                 transform="matrix(0.866025 -0.5 -0.5 -0.866025 13.1689 40.4379)"
-                stroke="#FB5B58"
+                stroke="#EB8E41"
                 strokeWidth="0.4"
               />
               <circle

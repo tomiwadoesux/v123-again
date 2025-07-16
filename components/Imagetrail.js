@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 const trailImages = [
   "/images/hovers/12.jpeg",
@@ -35,19 +36,43 @@ const trailImages = [
   "/images/hovers/40.jpeg",
 ];
 
-const Imagetrail = ({ imageSrc }) => {
+// Helper function to normalize image paths
+const normalizeImagePath = (src) => {
+  if (!src) return null;
+  
+  // If it's already an absolute URL, return as is
+  if (src.startsWith('http://') || src.startsWith('https://')) {
+    return src;
+  }
+  
+  // If it starts with './', convert to absolute path
+  if (src.startsWith('./')) {
+    return src.replace('./', '/');
+  }
+  
+  // If it doesn't start with '/', add it
+  if (!src.startsWith('/')) {
+    return '/' + src;
+  }
+  
+  return src;
+};
+
+const Imagetrail = ({ imageSrc, className }) => {
   const containerRef = useRef(null);
   const trailRefs = useRef([]); // Store active trail images
   const lastSpawnTime = useRef(0);
-  const [isHovering, setIsHovering] = useState(false); 
+  const [isHovering, setIsHovering] = useState(false);
+  
+  // Normalize the image source
+  const normalizedImageSrc = normalizeImagePath(imageSrc);
+
   useEffect(() => {
     trailImages.forEach((src) => {
-      new Image().src = src; // Preload each image
+      const img = document.createElement('img');
+      img.src = src; // Preload each image
     });
   }, []);
-
-
-
 
   const maxTrailImages = 10;
   const minSpawnInterval = 50;
@@ -89,8 +114,14 @@ const Imagetrail = ({ imageSrc }) => {
       opacity: 0,
     });
 
-    const moveX = gsap.quickTo(trailImg, "left", { duration: 2.5, ease: "power2.out" });
-    const moveY = gsap.quickTo(trailImg, "top", { duration: 2.5, ease: "power2.out" });
+    const moveX = gsap.quickTo(trailImg, "left", {
+      duration: 2.5,
+      ease: "power2.out",
+    });
+    const moveY = gsap.quickTo(trailImg, "top", {
+      duration: 2.5,
+      ease: "power2.out",
+    });
 
     moveX(e.nativeEvent.offsetX + offsetX);
     moveY(e.nativeEvent.offsetY + offsetY);
@@ -124,12 +155,20 @@ const Imagetrail = ({ imageSrc }) => {
   return (
     <div
       ref={containerRef}
-      className="relative inline-block"
+      className={`relative w-full h-full ${className || ""}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <img src={imageSrc} alt=" Imagez" className="w-full h-full object-cover" />
+      {normalizedImageSrc ? (
+        <Image
+          src={normalizedImageSrc}
+          height={800}
+          width={800}
+          alt="Imagez"
+          className="w-full h-full object-cover"
+        />
+      ) : null}
     </div>
   );
 };

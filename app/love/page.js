@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import { Scroll } from "components/Scroll";
 import { PutText } from "components/PutText";
-import { Footer } from "components/Footer";
+import { Footer2 } from "components/Footer2";
 import NavigationPrevious from "components/NavigationPrevious";
 
 export default function Home() {
@@ -45,8 +45,8 @@ export default function Home() {
         <LoveMastHead />
         <Section3 />
 
-        <Footer />
-        <NavigationPrevious />
+        <Footer2 />
+        {/* <NavigationPrevious /> */}
       </div>
     </section>
   );

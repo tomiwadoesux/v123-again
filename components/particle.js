@@ -33,7 +33,7 @@ const ParticlesComponent = (props) => {
           value: "#FFF",
         },
       },
-      fpsLimit: 120,
+      fpsLimit: 200,
       interactivity: {
         events: {
           onClick: {
@@ -57,7 +57,7 @@ const ParticlesComponent = (props) => {
       },
       particles: {
         color: {
-          value: "#000",
+          value: "",
         },
         links: {
           color: "#000",
@@ -80,7 +80,7 @@ const ParticlesComponent = (props) => {
           density: {
             enable: true,
           },
-          value: 150,
+          value: 50,
         },
         opacity: {
           value: 1.0,

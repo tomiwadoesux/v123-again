@@ -5,13 +5,12 @@ export default function Section99() {
   return (
     <section className="pt-3 pb-3">
       <div className="flex flex-col  justify-between md:flex-row">
-        <div className="flex flex-row gap-2">
-        
-        
+        <div className="flex flex-col md:flex-row gap-1 lg:gap-3">
           <div className="flex-col">
             <div className="bg-black h-44"></div>
-            <h1 className="text-xl lg:text-3xl text-left">H1 baby</h1>
-            <div>
+            <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-red-600 md:text-2xl lg:text-3xl">
+                What He Meant
+              </h1>            <div>
               <NormalText
                 content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
                         organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
@@ -21,38 +20,7 @@ export default function Section99() {
               <Author author="Ayotomcs" color="red" />
             </div>
           </div>
-          <div className="w-fit">
-            <svg
-              width="10"
-              height="100%"
-              viewBox="0 0 10 50"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none" 
-            >
-              <line
-                x1="0.5"
-                y1="0"
-                x2="0.5"
-                y2="100"
-                stroke="black"
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-          <div className="flex-col">
-            <div className="bg-black h-44"></div>
-            <h1 className="text-xl lg:text-3xl text-left">H1 baby</h1>
-            <div>
-              <NormalText
-                content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
-                        organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
-                        we have loads to lift and hard work to"
-                color="black"
-              />{" "}
-              <Author author="Ayotomcs" color="red" />
-            </div>
-          </div>
-          <div className="w-fit">
+          <div className=" hidden md:block w-fit">
             <svg
               width="10"
               height="100%"
@@ -61,19 +29,90 @@ export default function Section99() {
               preserveAspectRatio="none"
             >
               <line
-                x1="0.5"
+                x1="5"
                 y1="0"
-                x2="0.5"
-                y2="100"
+                x2="5"
+                y2="50"
                 stroke="black"
                 strokeWidth="1"
               />
             </svg>
           </div>
+          <div className="md:hidden ">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="5.5"
+                x2="100"
+                y2="5.5"
+                stroke="black"
+                strokeWidth="0.6"
+              />
+            </svg>
+          </div>
           <div className="flex-col">
             <div className="bg-black h-44"></div>
-            <h1 className="text-xl lg:text-3xl text-left">HHe Jlofus Ahdn</h1>
-            <div>
+            <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-red-600 md:text-2xl lg:text-3xl">
+                What He Meant
+              </h1>            <div>
+              <NormalText
+                content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
+                        organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
+                        we have loads to lift and hard work to"
+                color="black"
+              />{" "}
+              <Author author="Ayotomcs" color="red" />
+            </div>
+          </div>
+          <div className=" hidden md:block w-fit">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                x1="5"
+                y1="0"
+                x2="5"
+                y2="50"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+          <div className="md:hidden ">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="5.5"
+                x2="100"
+                y2="5.5"
+                stroke="black"
+                strokeWidth="0.6"
+              />
+            </svg>
+          </div>
+          <div className="flex-col">
+            <div className="bg-black h-44"></div>
+            <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-red-600 md:text-2xl lg:text-3xl">
+                What He Meant
+              </h1>            <div>
               <NormalText
                 content="    
                    No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
@@ -84,29 +123,7 @@ export default function Section99() {
               <Author author="Ayotomcs" color="red" />
             </div>
           </div>
-         
         </div>
-        {/* <div className="flex justify-between w-[50%]  flex-row">
-          <div className="flex-col">
-            <div className="bg-black h-44"></div>
-            <h1>H1 baby</h1>
-          </div>
-          <div className="flex-col">
-            <div className="bg-black h-44"></div>
-            <h1>H1 baby</h1>
-          </div>
-        </div> */}
-
-        {/* <div className="flex justify-between w-[50%] flex-row">
-          <div className="flex-col">
-            <div className="bg-black h-44"></div>
-            <h1>H1 baby</h1>
-          </div>
-          <div className="flex-col">
-            <div className="bg-black h-44"></div>
-            <h1>H1 baby</h1>
-          </div>
-        </div> */}
       </div>
     </section>
   );

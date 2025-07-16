@@ -7,6 +7,8 @@ import 'locomotive-scroll/dist/locomotive-scroll.css';
 
 import MastHead from "components/MastHead";
 import ParticlesComponent from "components/particle";
+import Image from 'next/image';
+import LazyImageTrail from 'components/LazyImageTrail';
 import Section1 from "components/sections/Section1";
 import Section2 from "components/sections/Section2";
 import Section4 from "components/sections/Section4";
@@ -14,6 +16,8 @@ import Section5 from "components/sections/Section5";
 import { Footer } from 'components/Footer';
 import NavigationNext from 'components/NavigationNext';
 import Section99 from 'components/sections/Section99';
+import Tomcs from 'components/Tomcs';
+import Hail from 'components/Hail';
 
 export default function Home() {
   const scrollRef = useRef(null);
@@ -37,18 +41,22 @@ export default function Home() {
     <section
       data-scroll-container
       ref={scrollRef}
-      className="relative w-full bg-[#FFFq] overflow-hidden"
+      className="relative w-full bg-[#FFF] overflow-hidden"
     >
-      {/* <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <ParticlesComponent id="particles" />
-      </div> */}
+      </div>
 
       <div className="relative z-10">
         <MastHead />
+      
+
         <Section1 />
-        <Section5 />
+        <Tomcs/>
+        <Section5 /> 
+        {/* <Hail/> */}
         <Section2 />
-        <NavigationNext/>
+        {/* <NavigationNext/> */}
         <Footer/>
 
 

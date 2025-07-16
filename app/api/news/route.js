@@ -2,45 +2,36 @@ import axios from "axios";
 import { MongoClient } from "mongodb";
 import validator from "validator";
 import mailchimp from "@mailchimp/mailchimp_marketing";
+import * as cheerio from "cheerio";
+import formData from "form-data";
 
-// Send email via Mailchimp
-const sendMailchimpEmail = async (mailOptions) => {
+// Send email via Mailgun
+const sendEmail = async (mailOptions) => {
   try {
-    const response = await fetch("https://api.mailchimp.com/3.0/campaigns", {
-      method: "POST",QQ
-      headers: {
-        Authorization: `Bearer ${process.env.MAILCHIMP_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        type: "regular",
-        recipients: { list_id: process.env.MAILCHIMP_LIST_ID },
-        settings: {
-          subject_line: mailOptions.subject,
-          from_name: "Your Newsletter",
-          reply_to: process.env.MAILCHIMP_FROM_EMAIL,
-        },
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`Mailchimp campaign creation failed: ${response.statusText}`);
-    }
-    const campaign = await response.json();
-    await fetch(`https://api.mailchimp.com/3.0/campaigns/${campaign.id}/content`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${process.env.MAILCHIMP_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ html: mailOptions.html }),
-    });
-    await fetch(`https://api.mailchimp.com/3.0/campaigns/${campaign.id}/actions/send`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.MAILCHIMP_API_KEY}` },
-    });
-    return { message: "Email sent" };
+    const form = new formData();
+    form.append('from', process.env.MAILGUN_FROM_EMAIL || 'noreply@yourdomain.com');
+    form.append('to', mailOptions.to);
+    form.append('subject', mailOptions.subject);
+    form.append('html', mailOptions.html);
+    
+    const response = await axios.post(
+      `https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
+      form,
+      {
+        headers: {
+          ...form.getHeaders(),
+          'Authorization': `Basic ${Buffer.from(`api:${process.env.MAILGUN_API_KEY}`).toString('base64')}`
+        }
+      }
+    );
+    
+    console.log(`Email sent successfully to ${mailOptions.to}`);
+    return { message: "Email sent", id: response.data.id };
   } catch (error) {
-    console.error("Mailchimp Error:", error.message);
+    console.error("Mailgun Error:", error.message);
+    if (error.response) {
+      console.error("Mailgun Response:", error.response.data);
+    }
     throw new Error(`Failed to send email: ${error.message}`);
   }
 };
@@ -66,14 +57,21 @@ const syncSubscriber = async (email, category, frequency) => {
 // Hugging Face summarization
 async function summarizeText(text) {
   try {
+    const prompt = "Summarize this article in a concise, factual way: ";
     const response = await axios.post(
       "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
-      { inputs: text, parameters: { max_length: 100, min_length: 30 } },
+      {
+        inputs: prompt + text,
+        parameters: { max_length: 200, min_length: 50 },
+      },
       {
         headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` },
       }
     );
-    return response.data[0]?.summary_text || text.slice(0, 100) + "...";
+    let summary = response.data[0]?.summary_text || text.slice(0, 100) + "...";
+    // Inject humor post-processing
+    summary = `Buckle up for some news with a twist! ${summary} And honestly, who saw *that* coming? 😄`;
+    return summary;
   } catch (error) {
     console.error("Hugging Face Error:", error.message);
     return text.slice(0, 100) + "...";
@@ -83,16 +81,103 @@ async function summarizeText(text) {
 // Fetch random Giphy
 async function getRandomGiphy() {
   try {
+    // Use a mix of random funny tags for variety
+    const randomTags = [
+      "funny",
+      "reaction",
+      "meme",
+      "lol",
+      "humor",
+      "comedy",
+      "gif",
+      "random"
+    ];
+    
+    // Pick a random tag
+    const randomTag = randomTags[Math.floor(Math.random() * randomTags.length)];
+    
     const response = await axios.get(
-      `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}&tag=funny&rating=pg`
+      `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}&tag=${randomTag}&rating=pg`
     );
-    return (
-      response.data.data?.images?.original?.url ||
-      "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif"
-    );
+    
+    // Get the fixed height version which is more reliable for emails
+    const gifUrl = response.data.data?.images?.fixed_height?.url ||
+                   response.data.data?.images?.original?.url ||
+                   "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif";
+    
+    console.log(`Random Giphy URL (tag: ${randomTag}):`, gifUrl);
+    return gifUrl;
   } catch (error) {
     console.error("Giphy Error:", error.message);
     return "https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif";
+  }
+}
+
+// Scrape article content from URL
+async function scrapeArticleContent(url) {
+  try {
+    console.log(`Scraping article from: ${url}`);
+    
+    const response = await axios.get(url, {
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    
+    const $ = cheerio.load(response.data);
+    
+    // Remove script and style elements
+    $('script, style, nav, header, footer, .ad, .advertisement, .social-share, .comments').remove();
+    
+    // Common selectors for article content
+    const contentSelectors = [
+      'article',
+      '.article-content',
+      '.post-content',
+      '.entry-content',
+      '.story-content',
+      '.content-body',
+      '.article-body',
+      '.post-body',
+      '[role="main"]',
+      '.main-content',
+      '.article-text',
+      '.story-text'
+    ];
+    
+    let content = '';
+    
+    // Try to find content using common selectors
+    for (const selector of contentSelectors) {
+      const element = $(selector);
+      if (element.length > 0) {
+        content = element.text().trim();
+        if (content.length > 200) { // Ensure we have substantial content
+          break;
+        }
+      }
+    }
+    
+    // If no content found with selectors, try to extract from paragraphs
+    if (!content || content.length < 200) {
+      const paragraphs = $('p').map((i, el) => $(el).text().trim()).get();
+      content = paragraphs.join(' ').substring(0, 2000); // Limit to 2000 chars
+    }
+    
+    // Clean up the content
+    content = content
+      .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+      .replace(/\n+/g, ' ') // Replace newlines with spaces
+      .trim();
+    
+    console.log(`Scraped content length: ${content.length} characters`);
+    
+    return content || 'Unable to extract article content';
+    
+  } catch (error) {
+    console.error(`Error scraping article from ${url}:`, error.message);
+    return 'Unable to extract article content';
   }
 }
 
@@ -113,13 +198,13 @@ export async function GET(req) {
   const email = searchParams.get("email");
   const action = searchParams.get("action") || "fetch";
   const validCategories = [
-    "top",
-    "world",
-    "politics",
     "business",
-    "technology",
-    "sports",
     "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
   ];
 
   // Validate inputs
@@ -164,31 +249,194 @@ export async function GET(req) {
           headers: { "Content-Type": "application/json" },
         });
       }
+      
+      const frequency = searchParams.get("frequency") || "daily";
+      
+      // Save subscriber to database
       await subscribers.updateOne(
         { email },
         {
           $set: {
             email,
             category,
-            frequency: searchParams.get("frequency") || "daily",
+            frequency,
             subscribedAt: new Date(),
           },
         },
         { upsert: true }
       );
-      await syncSubscriber(email, category, searchParams.get("frequency") || "daily");
-      console.log(
-        `Subscribed ${email} to ${category} news (${
-          searchParams.get("frequency") || "daily"
-        })`
-      );
-      return new Response(
-        JSON.stringify({ message: `Subscribed ${email} to ${category} news` }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
+      
+      // Sync to Mailchimp (optional)
+      await syncSubscriber(email, category, frequency);
+      
+      console.log(`Subscribed ${email} to ${category} news (${frequency})`);
+      
+      // Send welcome email with news to the subscriber
+      try {
+        // Fetch news for the subscriber
+        const baseUrl = "https://newsapi.org/v2";
+        let endpoint;
+        let params;
+
+        if (category === "top") {
+          endpoint = `${baseUrl}/top-headlines`;
+          params = { country: "us", pageSize: 3 };
+        } else {
+          endpoint = `${baseUrl}/everything`;
+          params = { 
+            q: category, 
+            language: "en", 
+            sortBy: "publishedAt", 
+            pageSize: 3,
+            from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+          };
         }
-      );
+
+        const newsResponse = await axios.get(endpoint, {
+          params: {
+            ...params,
+            apiKey: process.env.NEWSAPI_KEY,
+          },
+        });
+
+        const data = newsResponse.data.articles || [];
+        let articles = Array.isArray(data)
+          ? data.slice(0, 3).map((article) => ({
+              title: article.title || "No title",
+              description: article.description || article.content || "No description",
+              link: article.url || "#",
+              pubDate: article.publishedAt || new Date().toISOString(),
+            }))
+          : [];
+
+        // Scrape article content
+        const articlesWithContent = await Promise.all(
+          articles.map(async (article) => {
+            try {
+              const scrapedContent = await scrapeArticleContent(article.link);
+              return {
+                ...article,
+                fullContent: scrapedContent,
+                originalDescription: article.description
+              };
+            } catch (scrapeError) {
+              return {
+                ...article,
+                fullContent: article.description || 'Unable to scrape content',
+                originalDescription: article.description
+              };
+            }
+          })
+        );
+
+        // Summarize articles
+        const summarizedArticles = await Promise.all(
+          articlesWithContent.map(async (article) => ({
+            title: article.title,
+            description: article.originalDescription,
+            fullContent: article.fullContent,
+            link: article.link,
+            pubDate: article.pubDate,
+            summary: await summarizeText(
+              article.fullContent || article.originalDescription || article.title || "No content"
+            ),
+          }))
+        );
+
+        // Get random GIF
+        const giphyUrl = await getRandomGiphy();
+
+        // Send welcome email with news
+        const welcomeEmailHtml = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #333; text-align: center;">🎉 Welcome to V123 Newsletter! 🎉</h1>
+            <p style="color: #666; text-align: center;">You've successfully subscribed to ${category} news (${frequency} updates)</p>
+            
+            <h2 style="color: #333; margin-top: 30px;">Your First ${category.charAt(0).toUpperCase() + category.slice(1)} News Update</h2>
+            ${summarizedArticles
+              .map(
+                (article) => `
+                  <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                    <h3 style="color: #333; margin-bottom: 10px;">${article.title}</h3>
+                    <p style="color: #666; font-style: italic; margin-bottom: 15px;"><strong>Summary:</strong> ${article.summary}</p>
+                    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                      <h4 style="margin-top: 0; color: #555;">Full Article Content:</h4>
+                      <p style="line-height: 1.6; color: #333;">${article.fullContent ? article.fullContent.substring(0, 800) + (article.fullContent.length > 800 ? '...' : '') : article.description}</p>
+                    </div>
+                    <a href="${article.link}" style="color: #007bff; text-decoration: none; font-weight: bold;">Read full article →</a>
+                    <p style="color: #999; font-size: 12px; margin-top: 10px;">Published: ${new Date(
+                      article.pubDate
+                    ).toLocaleDateString()}</p>
+                  </div>
+                `
+              )
+              .join("")}
+            
+            <div style="margin-top: 40px; text-align: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+              <h3 style="color: #333; margin-bottom: 15px;">🎉 Here's a Fun GIF to Welcome You! 🎉</h3>
+              <img 
+                src="${giphyUrl}" 
+                alt="Fun GIF" 
+                style="max-width: 100%; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
+              />
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; padding: 20px; border-top: 1px solid #eee;">
+              <p style="color: #666;">You'll receive ${frequency} updates about ${category} news.</p>
+              <a href="/api/news?action=unsubscribe&email=${encodeURIComponent(
+                email
+              )}" style="color: #dc3545; text-decoration: none; font-weight: bold;">Unsubscribe</a>
+            </div>
+          </div>
+        `;
+
+        await sendEmail({
+          to: email,
+          subject: `Welcome to V123 - Your ${category.charAt(0).toUpperCase() + category.slice(1)} News Subscription!`,
+          html: welcomeEmailHtml,
+        });
+
+        // Send notification email to admin
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL,
+          subject: `Yay! New V123 Newsletter Subscription! 🎉`,
+          html: `
+            <div style="font-family: Arial, sans-serif;">
+              <h2 style="color: #28a745;">🎉 New Newsletter Subscription! 🎉</h2>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Category:</strong> ${category}</p>
+              <p><strong>Frequency:</strong> ${frequency}</p>
+              <p><strong>Subscribed at:</strong> ${new Date().toLocaleString()}</p>
+              <p style="color: #666; font-style: italic;">Yay! You've subscribed for ${category} on V123</p>
+            </div>
+          `,
+        });
+
+        return new Response(
+          JSON.stringify({ 
+            message: `Successfully subscribed ${email} to ${category} news! Welcome email sent.`,
+            emailSent: true
+          }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        
+      } catch (emailError) {
+        console.error("Failed to send welcome email:", emailError.message);
+        return new Response(
+          JSON.stringify({ 
+            message: `Subscribed ${email} to ${category} news, but failed to send welcome email`,
+            emailSent: false,
+            error: emailError.message
+          }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      }
     } else if (action === "unsubscribe") {
       if (!email) {
         return new Response(JSON.stringify({ error: "Email required" }), {
@@ -209,82 +457,116 @@ export async function GET(req) {
       );
     }
 
-    // Fetch news from Real-Time News Data API
+    // Fetch news from NewsAPI
     let articles;
     try {
-      const topicMap = {
-        top: "top", // Will use /top-headlines
-        world: "WORLD",
-        politics: "politics", // Will use /search
-        business: "BUSINESS",
-        technology: "TECHNOLOGY",
-        sports: "SPORTS",
-        entertainment: "ENTERTAINMENT",
-      };
-      const baseUrl = "https://real-time-news-data.p.rapidapi.com";
+      const baseUrl = "https://newsapi.org/v2";
       let endpoint;
       let params;
 
       if (category === "top") {
         endpoint = `${baseUrl}/top-headlines`;
-        params = { country: "US", lang: "en", limit: 3 };
-      } else if (category === "politics") {
-        endpoint = `${baseUrl}/search`;
-        params = { query: topicMap[category], country: "US", lang: "en", limit: 3, time_published: "anytime" };
+        params = { country: "us", pageSize: 3 };
       } else {
-        endpoint = `${baseUrl}/topic-headlines`;
-        params = { topic: topicMap[category], country: "US", lang: "en", limit: 3 };
+        endpoint = `${baseUrl}/everything`;
+        params = { 
+          q: category, 
+          language: "en", 
+          sortBy: "publishedAt", 
+          pageSize: 3,
+          from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] // Last 7 days
+        };
       }
 
+      console.log(`Making API request to: ${endpoint} with params:`, params);
+      
       const newsResponse = await axios.get(endpoint, {
-        headers: {
-          "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
-          "X-RapidAPI-Host": "real-time-news-data.p.rapidapi.com",
+        params: {
+          ...params,
+          apiKey: process.env.NEWSAPI_KEY,
         },
-        params,
       });
 
       // Log the full response for debugging
       console.log(`API Response for ${category}:`, JSON.stringify(newsResponse.data, null, 2));
 
       // Validate response and extract articles
-      const data = newsResponse.data.data || newsResponse.data.articles || newsResponse.data.results || [];
+      const data = newsResponse.data.articles || [];
+      console.log(`Extracted data array length:`, data.length);
+      
       articles = Array.isArray(data)
         ? data.slice(0, 3).map((article) => ({
-            title: article.title || article.headline || "No title",
-            description: article.snippet || article.description || article.content || article.title || "No description",
-            link: article.url || article.link || "#",
-            pubDate: article.published_at || article.publication_date || article.date || new Date().toISOString(),
+            title: article.title || "No title",
+            description: article.description || article.content || "No description",
+            link: article.url || "#",
+            pubDate: article.publishedAt || new Date().toISOString(),
           }))
         : [];
+      
+      console.log(`Processed articles count:`, articles.length);
+      
+      // Scrape full article content from each URL
+      console.log('Starting to scrape article content...');
+      const articlesWithContent = await Promise.all(
+        articles.map(async (article) => {
+          try {
+            const scrapedContent = await scrapeArticleContent(article.link);
+            return {
+              ...article,
+              fullContent: scrapedContent,
+              originalDescription: article.description
+            };
+          } catch (scrapeError) {
+            console.error(`Failed to scrape article ${article.link}:`, scrapeError.message);
+            return {
+              ...article,
+              fullContent: article.description || 'Unable to scrape content',
+              originalDescription: article.description
+            };
+          }
+        })
+      );
+      
+      articles = articlesWithContent;
+      console.log('Finished scraping article content');
     } catch (error) {
-      console.error("Real-Time News Data Error:", {
+      console.error("NewsAPI Error:", {
         message: error.message,
         status: error.response?.status,
         data: error.response?.data,
+        category: category,
+        endpoint: endpoint,
+        params: params,
       });
+      
+      // Check if it's an API key issue
+      if (error.response?.status === 401) {
+        console.error("API Key issue - check NEWSAPI_KEY environment variable");
+      }
+      
       articles = [];
     }
 
-    // Summarize articles
+    // Summarize articles using scraped content
     const summarizedArticles = await Promise.all(
       articles.length > 0
         ? articles.map(async (article) => ({
             title: article.title,
-            description: article.description,
+            description: article.originalDescription,
+            fullContent: article.fullContent,
             link: article.link,
             pubDate: article.pubDate,
             summary: await summarizeText(
-              article.description || article.title || "No content"
+              article.fullContent || article.originalDescription || article.title || "No content"
             ),
           }))
         : [
             {
-              title: "No news available",
-              description: "No news available",
+              title: `No ${category} news found`,
+              description: `Unable to fetch ${category} news at this time. Please check your API configuration or try again later.`,
               link: "#",
               pubDate: new Date().toISOString(),
-              summary: "No news available",
+              summary: `No ${category} news found - check API configuration`,
             },
           ]
     );
@@ -303,33 +585,51 @@ export async function GET(req) {
         ${summarizedArticles
           .map(
             (article) => `
-              <div>
-                <h3>${article.title}</h3>
-                <p>${article.summary}</p>
-                <a href="${article.link}">Read more</a>
-                <p>Published: ${new Date(
+              <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                <h3 style="color: #333; margin-bottom: 10px;">${article.title}</h3>
+                <p style="color: #666; font-style: italic; margin-bottom: 15px;"><strong>Summary:</strong> ${article.summary}</p>
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                  <h4 style="margin-top: 0; color: #555;">Full Article Content:</h4>
+                  <p style="line-height: 1.6; color: #333;">${article.fullContent ? article.fullContent.substring(0, 800) + (article.fullContent.length > 800 ? '...' : '') : article.description}</p>
+                </div>
+                <a href="${article.link}" style="color: #007bff; text-decoration: none; font-weight: bold;">Read full article →</a>
+                <p style="color: #999; font-size: 12px; margin-top: 10px;">Published: ${new Date(
                   article.pubDate
                 ).toLocaleDateString()}</p>
               </div>
-              <hr />
             `
           )
           .join("")}
-        <h3>Here's a Fun Meme/GIF for You!</h3>
-        <img src="${giphyUrl}" alt="Random Meme/GIF" style="max-width: 100%;" />
-        <p><a href="/api/news?action=unsubscribe&email=${encodeURIComponent(
-          email
-        )}">Unsubscribe</a></p>
+        <div style="margin-top: 40px; text-align: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+          <h3 style="color: #333; margin-bottom: 15px;">🎉 Here's a Fun GIF to Brighten Your Day! 🎉</h3>
+          <img 
+            src="${giphyUrl}" 
+            alt="Fun GIF" 
+            style="max-width: 100%; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          />
+          <p style="display: none; color: #666; font-style: italic;">
+            🎬 GIF couldn't load, but here's a virtual high-five! ✋
+          </p>
+          <p style="margin-top: 15px; color: #666; font-size: 14px;">
+            Powered by Giphy • <a href="${giphyUrl}" style="color: #007bff;">View original</a>
+          </p>
+        </div>
+        <div style="margin-top: 30px; text-align: center; padding: 20px; border-top: 1px solid #eee;">
+          <a href="/api/news?action=unsubscribe&email=${encodeURIComponent(
+            email
+          )}" style="color: #dc3545; text-decoration: none; font-weight: bold;">Unsubscribe from this newsletter</a>
+        </div>
       `,
     };
 
     // Send email immediately
     try {
-      await sendMailchimpEmail(mailOptions);
+      await sendEmail(mailOptions);
       console.log(
         `Email sent successfully for category: ${category} to ${email}`
       );
-      await sendMailchimpEmail({
+      await sendEmail({
         to: process.env.ADMIN_EMAIL,
         subject: `Email Delivery Success for ${category}`,
         html: `Success: Email sent for ${category} to ${email} at ${new Date().toISOString()}`,
@@ -340,6 +640,7 @@ export async function GET(req) {
           message: `News for ${category} sent to ${email}`,
           articles: summarizedArticles,
           giphy: giphyUrl,
+          scrapedContent: true,
         }),
         {
           status: 200,
@@ -351,7 +652,7 @@ export async function GET(req) {
         `Failed to send email for category: ${category} to ${email}`,
         emailError.message
       );
-      await sendMailchimpEmail({
+      await sendEmail({
         to: process.env.ADMIN_EMAIL,
         subject: `Email Delivery Failure for ${category}`,
         html: `Error: Failed to send email for ${category} to ${email} at ${new Date().toISOString()} - ${
@@ -364,6 +665,7 @@ export async function GET(req) {
           error: "Failed to send email",
           articles: summarizedArticles,
           giphy: giphyUrl,
+          scrapedContent: true,
         }),
         {
           status: 500,

@@ -46,21 +46,26 @@ export default function MastHead() {
 
   return (
     <section>
-      <div className=" h-31 md:h-43  px-[2.5rem] pt-[1.3rem] md:px-[4.15rem]">
-        <div className="flex flex-row w-full gap-9">
+      <div className=" h-auto  px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
+        <div className="flex flex-col md:flex-row w-full gap-9">
           <div className=" sm:block hidden flex-1 ">
-            <h4 className="text-left italic text-xs md:text-xs lg:text-base self-start"  role="text">
-              A Portfolio Project
+            <h4
+              className="text-left italic text-xs md:text-xs lg:text-base self-start"
+              role="text"
+            >
+              {currentDate}
             </h4>
           </div>
           <div className="flex-1 justify-center flex relative">
-            <h1 className="title-text relative -top-7 whitespace-nowrap text-center text-4xl -top-7 lg:-top-7 md:-top-9 md:text-[3.3rem] lg:text-[4.3rem] text-black font-light z-10 inline-block max-w-full overflow-x-auto">
+            <h1 className="title-text relative -top-7 whitespace-nowrap text-center text-4xl lg:-top-7 md:-top-9 md:text-[3.3rem] lg:text-[4.3rem] text-black font-light z-10 inline-block max-w-full overflow-x-auto">
               TITLE:"V123"
             </h1>
           </div>
           <div className="  sm:block hidden  flex-1">
-            <h4 className="text-right text-xs md:text-xs lg:text-base italic ">
-              {currentDate}
+            <h4 className=" text-[#EB8E41] underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+              <a href="/love" className="hover:opacity-70 transition-opacity">
+                Next Page{" "}
+              </a>
             </h4>
           </div>
         </div>
@@ -72,7 +77,6 @@ export default function MastHead() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-           
             <line
               className="svg-line"
               x1="0"
@@ -105,6 +109,24 @@ export default function MastHead() {
                 strokeWidth="0.4"
               />
             </svg>
+          </div>
+        </div>
+        <div className="flex flex-row relative md:hidden -top-14 justify-between w-full ">
+          <div className=" ">
+            <h4
+              className="text-left italic text-xs md:text-xs lg:text-base self-start"
+              role="text"
+            >
+              {currentDate}
+            </h4>
+          </div>
+
+          <div className=" ">
+            <h4 className=" text-black underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+              <a href="/love" className="hover:opacity-70 transition-opacity">
+                Next Page{" "}
+              </a>
+            </h4>
           </div>
         </div>
       </div>

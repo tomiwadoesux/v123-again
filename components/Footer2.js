@@ -1,9 +1,9 @@
 import Ayotomcs from "./ayotomcs";
 import Link from "next/link";
 
-export function Footer() {
+export function Footer2() {
   return (
-    <div className=" flex pt-2 md:pt-3 lg:pt-3 pb-12 flex-col">
+    <div className=" flex pt-5 md:pt-3 lg:pt-5 pb-12 flex-col">
       <div className=" pt-16 pb-3 px-[2.5rem]  md:px-[4.15rem] flex flex-col md:flex-row gap-3">
         <div className=" self-center flex-1 italic text-sm">
           <div className="flex  gap-3 ">
@@ -58,6 +58,7 @@ export function Footer() {
                 <path d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M17,20v19h-6V20H17z M11,14.47c0-1.4,1.2-2.47,3-2.47s2.93,1.07,3,2.47c0,1.4-1.12,2.53-3,2.53C12.2,17,11,15.87,11,14.47z M39,39h-6c0,0,0-9.26,0-10 c0-2-1-4-3.5-4.04h-0.08C27,24.96,26,27.02,26,29c0,0.91,0,10,0,10h-6V20h6v2.56c0,0,1.93-2.56,5.81-2.56 c3.97,0,7.19,2.73,7.19,8.26V39z"></path>
               </svg>
             </a>
+            
             <a
               href="https://github.com/tomiwadoesux/v123-again" // replace with your actual GitHub URL
               target="_blank"
@@ -104,15 +105,16 @@ export function Footer() {
         </div>
       </div>
       <div className="flex gap-2 self-center">
-       <Ayotomcs/>
+      <h4 className="text-xs text-red-500  md:text-sm italic underline">
+        <Link href="/" className="hover:opacity-70 transition-opacity">
+          Previous Page
+        </Link>
+      </h4>
+        <Ayotomcs/>
        <h4 className="text-xs md:text-sm ">
        2025 All rights reserved.
         </h4>
-        <h4 className="text-xs md:text-sm text-[#EB8E41] italic underline">
-          <Link href="/love" className="hover:opacity-70 transition-opacity">
-            Next Page
-          </Link>
-        </h4>
+       
       </div>
     </div>
   );

@@ -1,37 +1,51 @@
 // /app/test-newsletter/page.js
 "use client";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function TestNewsletter() {
-  const [email, setEmail] = useState('');
-  const [category, setCategory] = useState('top');
-  const [frequency, setFrequency] = useState('daily');
-  const [response, setResponse] = useState('');
+  const [email, setEmail] = useState("");
+  const [category, setCategory] = useState("top");
+  const [frequency, setFrequency] = useState("daily");
+  const [response, setResponse] = useState("");
 
-  const categories = ['top', 'world', 'business', 'technology', 'sports', 'entertainment'];
+  const categories = [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
+  ];
 
   const handleSubscribe = async () => {
     const res = await fetch(
-      `/api/news?action=subscribe&email=${encodeURIComponent(email)}&category=${category}&frequency=${frequency}`
+      `/api/news?action=subscribe&email=${encodeURIComponent(
+        email
+      )}&category=${category}&frequency=${frequency}`
     );
     const data = await res.json();
     setResponse(JSON.stringify(data, null, 2));
   };
 
   const handleUnsubscribe = async () => {
-    const res = await fetch(`/api/news?action=unsubscribe&email=${encodeURIComponent(email)}`);
+    const res = await fetch(
+      `/api/news?action=unsubscribe&email=${encodeURIComponent(email)}`
+    );
     const data = await res.json();
     setResponse(JSON.stringify(data, null, 2));
   };
 
   const handleSend = async () => {
-    const res = await fetch(`/api/news?category=${category}&email=${encodeURIComponent(email)}`);
+    const res = await fetch(
+      `/api/news?category=${category}&email=${encodeURIComponent(email)}`
+    );
     const data = await res.json();
     setResponse(JSON.stringify(data, null, 2));
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <h1>Test Newsletter API</h1>
       <div>
         <label>Email:</label>
@@ -54,7 +68,10 @@ export default function TestNewsletter() {
       </div>
       <div>
         <label>Frequency:</label>
-        <select value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+        <select
+          value={frequency}
+          onChange={(e) => setFrequency(e.target.value)}
+        >
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
         </select>

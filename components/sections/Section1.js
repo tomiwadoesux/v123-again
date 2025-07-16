@@ -5,19 +5,19 @@ import { NormalText } from "components/NormalText";
 import { HeaderText } from "components/HeaderText";
 import { Author } from "components/Author";
 import Image from "next/image";
-import { Scroll } from "components/Scroll";
+import { AsciiScatter } from "components/Ascii";
 import { Button } from "components/Button";
 import Hail from "components/Hail";
 
 import { PutText } from "components/PutText";
 import LazyImageTrail from "components/LazyImageTrail";
+import { Scroll2 } from "components/Scroll2";
 
 export default function Section1() {
   const newsRef = useRef(null);
   const memeRef = useRef(null);
   const gifRef = useRef(null);
 
-  // Function to wrap each letter in a span
   const splitText = (text) =>
     text.split(" ").map((word, i) => (
       <span key={i} className="inline-block">
@@ -42,143 +42,223 @@ export default function Section1() {
 
     // Glitch effect: rapid color flicker
     tl.to([newsLetters, memeLetters, gifLetters], {
-      color: "red",
-      duration: 0.1,
-      repeat: 5,
+      color: "#EB8E41",
+      duration: 0.4,
+      repeat: 8,
       yoyo: true,
       ease: "power2.inOut",
-    }).to([newsLetters, memeLetters, gifLetters], {
-      color: "black",
-      duration: 0.1,
-      repeat: 5,
-      yoyo: true,
-      ease: "power2.inOut",
-    });
+    })
+      .to([newsLetters, memeLetters, gifLetters], {
+        color: "#EB8E41",
+        duration: 0.4,
+        repeat: 8,
+        yoyo: true,
+        ease: "power2.inOut",
+      })
+      .to([newsLetters, memeLetters, gifLetters], {
+        color: "black",
+        duration: 0.4,
+        repeat: 5,
+        yoyo: true,
+        ease: "power2.inOut",
+      });
   }, []);
 
   return (
     <section>
-      <div className=" px-[2.5rem] md:px-[4rem] h-full flex flex-col md:flex-row gap-[4rem] lg:gap-[2rem] md:gap-[2rem]">
-        <div className="flex  flex-col gap-1 flex-1 h-[100%]">
-          <HeaderText
-            className="relative p-0 pb-2 text-center"
-            content="THE PLOT"
-            color="red"
-          />
-
-          <div className=" w-full h-[10rem] bg-black h-[auto] flex ">
-            <video
-              className="w-full h-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
+      <div className="w-[100vw] -mt-10 md:mt-0 ">
+        <div className=" px-[2.5rem] w-[100%] md:px-[3rem] lg:px-[4.15rem] h-full flex flex-col md:flex-row gap-9 lg:gap-[2rem] md:gap-[2rem]">
+          <div className="flex  flex-col gap-1 flex-1 h-[100%]">
+            <HeaderText
+              className="relative p-0 pb-2 md:pb-0 text-center"
+              content="THE PLOT"
+              color="#EB8E41"
+            />
+            <div className="hidden lg:block">
+              <div className=" w-full aspect-square  flex-col flex gap-2">
+                <AsciiScatter
+                  ascii={`-----------------::::::::::::::::::::::::::::::::::::::------------------
+---------------::::::::::::::::::::::::::::::::::::::::::----------------
+-------------:::::::::::::::::-*%@@@@@@@%#+::::::::::::::::--------------
+-----------:::::::::::::::::*@@@#@@@@@@@@@@@%+:::::::::::::::------------
+----------::::::::::::::::=@@@%#*%%@@@@@@@@@@@@=::::::::::::::-----------
+---------::::::::::::::::*@*----:::--=*@@@@@@@@@=::::::::::::::----------
+--------::::::::::::::::-@+-::::::::::=+%@@@@@@@@=::::::::::::::---------
+--------:::::::::::::::*%%--:::::::::--==*%@@@@@@%:::::::::::::::--------
+------------::::::::::#@@+-:::::::::::-::-#@@@@@@@*:------=:::::::-------
+-=++=----=+=---::::::=%@@+----:::-==-----=+@@@@@@@@-=====+++:::::::------
++*++++==+++++===--:::-%@@%#*#+=:=*=+##*#%==#@@@@@@@*++++++++=::::::-----=
+**++++++++++++++------@@@+--=--:-=--==--:-=*@@@@@@@#***++++*+=---------=+
+*++++++++**+**++==+*=%@@@+::::-:---::::---+@@@@@@@@%******+**+--------=++
+*++++++++***********+@@@@#--::-----:::---++@@@@@@@@@++++++++++=------==++
+##+**++********+****#@@@@@+--:=-**-:----+++%@@@@@@@@#**++++++++++++++++++
+###++++******++**####@@@@@%-------------+++@@@@@@@@@@####*******++++++*##
+####*+++++++++*######%@@@@@*=--====----=++#@@@@@@@@@@#*****++++++++++****
+#####*+++++++*#######%%@@@@@@=--:----=+++##@@@@@@@@@@#*+**++++++++*######
+######*++**********++%@@@@@@@@#---=++******@@@@@@@@@@#+*****+++++++++*###
+########********+++++*@@@@@@@@@@@**********+@@@@@@@@@*+++*****+**########
+########****++++++++++*@@@@@@@@@@=++****++++#@@@@@@@@##############****##
+#######*+++++++++++++++@@@@@@@@@@=========-:=@@@@@@@@@#++++++++++++******
+++++++++*******#####*##@@@@@@@@#========--::+%@@@@@@@@@@######*#+++*#****
+++++++**********####**#@@@@@#-::--:---::::::+@@@@%@@@@@@#**++++++****#***
+##+***************##**@@@@@*::::::::::::::::*%@@%%@@@@@@@%##+++******+***
+###***************##%@@@@@%=::::::::::::::::=@@@@%@@%####%@%#######***+**
+######************%@@@@@-+-::::::::::::::::-+*@@@%#%###%%%%%@@%**++++++++
+##########******#@@@@@@+---::::::::::::::::-%@%%%####%%@@@@@@@@@######*++
+#############**#@@@@@@@%+-::::::-:::::::::=*#%%#%@@@@@@@@@@@@@@@@%######*
+#########****#@@@@@@@@%%%%%+=:=-::::::::=##%%@@@@@@@@@@@@@@@@@@@@@%######
+###*++#######@@@@@@@@%%%%%%%%%%%%%#######%%%%@@@@@%%@%@@@@@@@@@@@@@######
+%###*+*#####@@@@@@@@%%%%%%%%%%%%%%%%%%#%%%@@@@@@@%%@%@@@##%%@@@@@@@%#####
+%%#######**+@@@@@@@%%%%%@%@@%%%%%%%%%%%@@@@@@@@@%@%@%@%%%%%%@@@@@@@@*++*%
+%%%#########@@@@@@@%%%%@@%@@%%%%%@%%@@%@@@@@@@@@@@@%%%%%%@@@@@@@@@@@%#%%%
+%%%******#%@@@@@@@@@%@%@@%@%@@@@@%%#%@@@@@@@@@@@@@%%%%%@@@@@@@@@@%@@@**#%
+%#+++++++#@@@@%@@@@@@@@@%@@@@@@@%%@@@@@@@@@@@@@@@%%%%@@@@@@@@@@@@@@@@%++#
+*+++++++%@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*++
+%%%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@%##
+%%%%@@@@@@@@%%@%%%%@@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@%%
+%%%@@@@@@@@@@@@@@@@%@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@%%%%@@@@@@@@@@@@%%
+`}
+                />
+              </div>
+            </div>
+            <div className=" hidden md:block lg:hidden">
+              <div className=" w-full aspect-square  flex-col flex gap-2">
+                <AsciiScatter
+                  ascii={`----------::::::::::::::::::::::::-----------
+--------::::::::::-+%@@@@*-:::::::::---------
+------::::::::::=%@#%@@@@@@@*-::::::::-------
+-----::::::::::+*-::::-=%@@@@%-::::::::------
+-----:::::::::*#=::::::-=*%@@@#:::::::::-----
+-==---=--::::+@*---::----=#@@@@=--===::::----
+*++++++++=-::+@%+#+-+=***=+@@@@@+++++=------=
+*+++++**++=++%@*-:----::-=#@@@@@*****+=----=+
+*++++*******#@@@=:----:--+#@@@@@+========++++
+#**++*****###@@@#--===---+#@@@@@%##****++++*#
+###+++++*####%@@@%=----=+*%@@@@@%**++++++**##
+####********+%@@@@@#+*#****@@@@@%*+***+****##
+#####*++++++++@@@@@@==+++==*@@@@%#*****#*****
++++++****#####@@@@@*+===--:+@@%@@@%###**+*#**
+*+*********###@@@-:::::::::#@@%@@@@%#++******
+###********#@@@##::::::::::-@@%@#%%@@%#**+*++
+######****%@@@#-::::::::::-%@%##%%%@@@@%###*+
+######**#@@@@%%#+:--::::-+#%@@@@@@@@@@@@%####
+##**####@@@@@%%%%%%%%%%##%%@@@@%@@@@@@@@@%###
+%###***#@@@@%%%@@%%%%%%%@@@@@@@@%%%%%@@@@@**%
+%%####%@@@@@%@@@@%@@@%%@@@@@@@@%%%@@@@@@@@%#%
+%*+++#@@@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@**
+%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%#
+%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@%
+`}
+                />
+              </div>
+            </div>
+            <div>
+              <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                The project is simple, a service that sends you
+                daily or weekly mail of ai summarized{" "}
+                <span ref={newsRef}>
+                  {splitText("News Articles")}
+                </span>{" along side a "}
+                and a<span ref={memeRef}> {splitText("Meme")}</span> or
+                <span ref={gifRef}> {splitText("GIF.")}</span>You choose your
+                preferred category, and it delivers. It's just
+                about making news experience enjoyable and easy to read Enjoy! :)
+              </h4>
+              <Button className="" text="Subscribe Here" color="#EB8E41" />
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <svg
+              width="10"
+              height="100%"
+              viewBox="0 0 10 50"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
             >
-              <source src="./videos/gifvid.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+              <line
+                x1="0.5"
+                y1="0"
+                x2="0.5"
+                y2="100"
+                stroke="black"
+                strokeWidth="1"
+              />
+            </svg>
           </div>
 
-          <h4 className="text-xs pt-4 md:text-[0.85rem] lg:text-base text-justify dropcap">
-            This project is a simple and friendly service that sends you a daily
-            or weekly email with quick{" "}
-            <span ref={newsRef}>{splitText("News Articles Summaries")}</span>{" "}
-            and a<span ref={memeRef}> {splitText("Meme")}</span> or
-            <span ref={gifRef}> {splitText("GIF.")}</span>You choose your
-            preferred category, and it delivers it summarized. It's all about
-            making your news experience enjoyable and easy to read. (I don't
-            like reading long articles)
-          </h4>
-          <Button className="" text="Subscribe Here" color="red" />
+          <div className=" w-[100%] lg:w-[55%] aspect-square   flex-col flex gap-2">
+            <div className="flex gap-2  flex-row">
+              <div className=" aspect-square bg-black w-1/2"></div>
+              <div className=" aspect-square bg-black w-1/2"></div>
+            </div>
+            <div className=" hidden md:block lg:hidden">
+              <div className="flex gap-2 flex-row">
+                <div className=" aspect-square bg-black w-1/2"></div>
+                <div className=" aspect-square bg-black w-1/2"></div>
+              </div>
+            </div>
+
+            <div className="flex gap-2  flex-row">
+              <div className=" aspect-square bg-black w-1/2"></div>
+              <div className=" aspect-square bg-black w-1/2"></div>
+            </div>
+          </div>
         </div>
-        <div>
+
+        <div className="md:px-[4rem] w-[100%] pt-4 px-[2.5rem]">
           <svg
-            width="10"
-            height="100%"
-            
-            viewBox="0 0 10 50"
+            width="100%"
+            height="20"
+            viewBox="0 0 100 10"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
             <line
-              x1="0.5"
-              y1="0"
-              x2="0.5"
-              y2="100"
+              className="svg-line"
+              x1="0"
+              y1="2"
+              x2="100"
+              y2="2"
               stroke="black"
-              strokeWidth="1"
+              strokeWidth="2"
+            />
+            <line
+              className="svg-line"
+              x1="0"
+              y1="5.5"
+              x2="100"
+              y2="5.5"
+              stroke="black"
+              strokeWidth="0.6"
             />
           </svg>
         </div>
+      </div>
 
-        <div className="w-full hidden md:flex md:flex-1 lg:flex-2 h-[15rem] md:h-[100px] lg:h-[34rem] flex justify-center items-center bg-black ">
-          <LazyImageTrail className=" w-full h-full " />
-        </div>
-      </div>
+      {/* <PutText color="red" />
       <div className="md:px-[4rem] pt-4 px-[2.5rem]">
-      <svg
-        width="100%"
-        height="20"
-        viewBox="0 0 100 10"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
-      >
-        
-        <line
-          className="svg-line"
-          x1="0"
-          y1="2"
-          x2="100"
-          y2="2"
-          stroke="black"
-          strokeWidth="2"
-        />
-        <line
-          className="svg-line"
-          x1="0"
-          y1="5.5"
-          x2="100"
-          y2="5.5"
-          stroke="black"
-          strokeWidth="0.6"
-        />
-      </svg>
-      </div>
-    
-
-      <PutText color="red" />
-      <div className="md:px-[4rem] pt-4 px-[2.5rem]">
-      <svg
-        width="100%"
-        height="20"
-        viewBox="0 0 100 10"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
-      >
-        
-        <line
-          className="svg-line"
-          x1="0"
-          y1="2"
-          x2="100"
-          y2="2"
-          stroke="black"
-          strokeWidth="0.6"
-        />
-        <line
-          className="svg-line"
-          x1="0"
-          y1="5.5"
-          x2="100"
-          y2="5.5"
-          stroke="black"
-          strokeWidth="2"
-        />
-      </svg>
-      </div>
+        <svg
+          width="100%"
+          height="20"
+          viewBox="0 0 100 10"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <line
+            className="svg-line"
+            x1="0"
+            y1="2"
+            x2="100"
+            y2="2"
+            stroke="black"
+            strokeWidth="0.6"
+          />
+        </svg>
+      </div> */}
       <div className="flex bg-[#F4F2EC] px-[4rem] justify-center items-center h-full w-full"></div>
+
       <div className="fixed z-50 bottom-0 ">
-        <Scroll />
+        <Scroll2 />
       </div>
     </section>
   );

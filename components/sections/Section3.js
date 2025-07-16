@@ -21,30 +21,18 @@ export default function Section3() {
   const newsRef = useRef(null);
   const memeRef = useRef(null);
   const gifRef = useRef(null);
-  const changingTextRef = useRef(null);
   const changerTextRef = useRef(null);
+  const swanTextRef = useRef(null);
+  const emojiRef = useRef(null);
 
   useEffect(() => {
-    if (!changingTextRef.current) return;
+    if (!changerTextRef.current) return;
 
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
 
-    tl.to(changingTextRef.current, {
-      text: "HIS",
-      duration: 0.3,
-      ease: "power1.inOut",
-    })
-      .to(changingTextRef.current, {
-        duration: 2,
-      })
-      .to(changingTextRef.current, {
-        text: "A",
-        duration: 0.3,
-        ease: "power1.inOut",
-      });
 
     tl.to(changerTextRef.current, {
-      text: "SHE'S HIS",
+      text: "MAYBE HER",
       duration: 0.6,
       ease: "power1.inOut",
     })
@@ -96,40 +84,96 @@ export default function Section3() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!swanTextRef.current || !emojiRef.current) return;
+
+    const moveDistance = 110; // px, adjust as needed
+
+    const animate = () => {
+      // Reset to original position, facing right
+      gsap.set(emojiRef.current, {
+        x: 0,
+        scaleX: -1,
+      });
+
+      const tl = gsap.timeline();
+
+      // Flip to face left, then move left
+      tl.to(emojiRef.current, {
+        scaleX: 1,
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+      tl.to(
+        emojiRef.current,
+        {
+          x: -moveDistance,
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
+        ">"
+      );
+
+      // Pause, then flip to face right and move back
+      tl.to(
+        emojiRef.current,
+        {
+          scaleX: -1,
+          duration: 0.3,
+          ease: "power2.inOut",
+        },
+        "+=1"
+      );
+      tl.to(
+        emojiRef.current,
+        {
+          x: 0,
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
+        ">"
+      );
+    };
+
+    animate();
+    const interval = setInterval(animate, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section>
-      <div className="px-[2.5rem]  md:px-[4.15rem]">
+      <div className="px-[2.5rem] md:px-[3rem] lg:px-[4.15rem]">
         <Muah />
       </div>
 
-      <div className="  px-[2.5rem] pt-5  md:px-[4.15rem] ">
+      <div className="  px-[2.5rem] pt-5  md:px-[3rem] lg:px-[4.15rem] ">
         <div className="relative -top- md:-top-0">
-        <svg
-          width="100%"
-          height="20"
-          viewBox="0 0 100 10"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <line
-            className="svg-line"
-            x1="0"
-            y1="2"
-            x2="100"
-            y2="2"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <line
-            className="svg-line"
-            x1="0"
-            y1="5.5"
-            x2="100"
-            y2="5.5"
-            stroke="black"
-            strokeWidth="0.8"
-          />
-        </svg>
+          <svg
+            width="100%"
+            height="20"
+            viewBox="0 0 100 10"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            <line
+              className="svg-line"
+              x1="0"
+              y1="2"
+              x2="100"
+              y2="2"
+              stroke="black"
+              strokeWidth="2"
+            />
+            <line
+              className="svg-line"
+              x1="0"
+              y1="5.5"
+              x2="100"
+              y2="5.5"
+              stroke="black"
+              strokeWidth="0.8"
+            />
+          </svg>
 
           <div className="">
             <svg
@@ -163,7 +207,7 @@ export default function Section3() {
                 strokeWidth="2"
                 strokeLinecap="round"
               />
-              <g clip-path="url(#clip0_221_20)">
+              <g clipPath="url(#clip0_221_20)">
                 <mask
                   id="mask0_221_20"
                   style={{ maskType: "luminance" }}
@@ -190,7 +234,7 @@ export default function Section3() {
             </svg>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row  gap-[1.5rem] md:gap-[2rem] lg:gap-[2rem]">
+        <div className="flex flex-col md:flex-row  gap-2 md:gap-4 ">
           <div className=" h-[100%]">
             <HeaderText
               className="text-left md:text-center pb-1 pt-2"
@@ -242,7 +286,7 @@ export default function Section3() {
               </video>
             </div>
           </div>
-          <div>
+          <div className=" hidden md:block w-fit">
             <svg
               width="10"
               height="100%"
@@ -251,21 +295,53 @@ export default function Section3() {
               preserveAspectRatio="none"
             >
               <line
-                x1="0.5"
+                x1="5"
                 y1="0"
-                x2="0.5"
-                y2="100"
+                x2="5"
+                y2="50"
                 stroke="black"
                 strokeWidth="1"
               />
             </svg>
           </div>
+          <div className="md:hidden ">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="5.5"
+                x2="100"
+                y2="5.5"
+                stroke="black"
+                strokeWidth="0.6"
+              />
+            </svg>
+          </div>
 
           <div className=" h-[100%] ">
-            <h1 className="text-xl text-center md:text-left text-red-600  pb-1 pt-2 lg:text-3xl">
-              SHE'S <span ref={changingTextRef}>A</span> LEOPARD
+            <h1
+              ref={swanTextRef}
+              className="text-xl text-center lg:text-left text-red-600 pb-1 pt-2 lg:text-3xl relative flex items-center justify-center"
+            >
+              THE SWAN
+              <span
+                ref={emojiRef}
+                className="swan-emoji text-2xl ml-2 inline-block -z-10"
+                style={{
+                  pointerEvents: "none",
+                  display: "inline-block",
+                }}
+              >
+                🦢
+              </span>
             </h1>
-            <div className=" flex md:flex-col  gap-5 flex-row">
+            <div className=" flex md:flex-col gap-3 md:gap-2 flex-row">
               <div className=" flex-1">
                 <NormalText
                   content="Slumbering, I saw you again, we 
@@ -282,6 +358,25 @@ export default function Section3() {
                 />
                 <Author author="Ayotomcs" color="red" />
               </div>
+              <div className="  md:hidden  w-fit">
+                <svg
+                  width="10"
+                  height="100%"
+                  viewBox="0 0 10 50"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                >
+                  <line
+                    x1="5"
+                    y1="0"
+                    x2="5"
+                    y2="50"
+                    stroke="black"
+                    strokeWidth="1"
+                  />
+                </svg>
+              </div>
+             
               <div className=" self-start flex-1">
                 <NormalText
                   content="No one knew the struggle..The daily chaos from which she emerged to reach work..The 
@@ -297,7 +392,7 @@ export default function Section3() {
         </div>
       </div>
 
-      <div className="  px-[2.5rem] pt-5 md:px-[4.15rem] ">
+      <div className="   pt-5 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] ">
         <svg
           width="100%"
           height="20"
@@ -356,25 +451,25 @@ export default function Section3() {
           </svg>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-[1.5rem] md:gap-[2rem] lg:gap-[1rem]">
+        <div className="flex flex-col md:flex-row gap-1 md:gap-3 ">
           <div className=" flex-1">
             <div className="w-full ">
               <LazyImageTrail
                 className=" object-fit "
-                imageSrc="./images/lo.jpg"
+                imageSrc="./images/009.webp"
               />
               <div className=" grid w-full pb-2 grid-cols-2 ">
                 <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                   From
                 </p>
-                <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
+                <p className="text-right underline whitespace-nowrap italic text-red-400 text-xs">
                   <a
-                    href="https://en.wikipedia.org/wiki/Princess_Mononoke"
+                    href="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
                     target="_blank"
                     rel="noopener noreferrer"
                     className=" hover:text-red-600"
                   >
-                    Princess Mononoke
+                    Titanic
                   </a>
                 </p>
               </div>
@@ -392,7 +487,7 @@ export default function Section3() {
 
             <Author author="The art of sedcution" color="red" />
           </div>
-          <div className="w-fit">
+          <div className=" hidden md:block w-fit">
             <svg
               width="10"
               height="100%"
@@ -401,18 +496,37 @@ export default function Section3() {
               preserveAspectRatio="none"
             >
               <line
-                x1="0.5"
+                x1="5"
                 y1="0"
-                x2="0.5"
-                y2="100"
+                x2="5"
+                y2="50"
                 stroke="black"
                 strokeWidth="1"
               />
             </svg>
           </div>
+          <div className="md:hidden ">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="5.5"
+                x2="100"
+                y2="5.5"
+                stroke="black"
+                strokeWidth="0.6"
+              />
+            </svg>
+          </div>
           <div className=" flex flex-1 h-[60%] flex-col gap-2">
             <div>
-              <h1 className="text-xl pb-2 text-left p-0 text-red-600 lg:text-3xl">
+              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
                 <span ref={changerTextRef}>HE'S A</span> LOVER
               </h1>
               <div className="flex  flex-row gap-5 md:flex-col ">
@@ -430,7 +544,25 @@ export default function Section3() {
                     color="red"
                   />
                 </div>
-
+                <div className=" md:hidden w-fit">
+                  <svg
+                    width="10"
+                    height="100%"
+                    viewBox="0 0 10 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none"
+                  >
+                    <line
+                      x1="5"
+                      y1="0"
+                      x2="5"
+                      y2="50"
+                      stroke="black"
+                      strokeWidth="1"
+                    />
+                  </svg>
+                </div>
+              
                 <div className="flex-1">
                   <NormalText
                     content="Your love is better than wine, your perfume more fragrant than spices. Your lips are sweet as nectar, my bride. Honey
@@ -445,7 +577,7 @@ export default function Section3() {
               <div className="hidden lg:block h-20"></div>
             </div>
           </div>
-          <div className="w-fit">
+          <div className=" hidden md:block w-fit">
             <svg
               width="10"
               height="100%"
@@ -454,22 +586,39 @@ export default function Section3() {
               preserveAspectRatio="none"
             >
               <line
-                x1="0.5"
+                x1="5"
                 y1="0"
-                x2="0.5"
-                y2="100"
+                x2="5"
+                y2="50"
                 stroke="black"
                 strokeWidth="1"
               />
             </svg>
           </div>
+          <div className="md:hidden ">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="5.5"
+                x2="100"
+                y2="5.5"
+                stroke="black"
+                strokeWidth="0.6"
+              />
+            </svg>
+          </div>
           <div className=" flex flex-1 flex-col gap-2">
             <div>
-              <HeaderText
-                className="text-left p-0 pb-2 relative"
-                content="WHAT HE MEANT"
-                color="black"
-              />
+              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
+                What He Meant
+              </h1>
               <NormalText
                 content="I have sought your image without knowledge of your existence, My ideal woman you
              are..So come with me..Please..Be with me and share your life..Create life we will, and together we’ll
@@ -492,7 +641,7 @@ export default function Section3() {
                   <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
                     From
                   </p>
-                  <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
+                  <p className="text-right underline whitespace-nowrap italic text-red-400 text-xs">
                     <a
                       href="https://en.wikipedia.org/wiki/Princess_Mononoke"
                       target="_blank"

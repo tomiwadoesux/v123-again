@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 import { NormalText } from "../components/NormalText";
 import { HeaderText } from "../components/HeaderText";
 import { Author } from "../components/Author";
@@ -32,33 +33,21 @@ export default function LoveMastHead() {
       stagger: 0.2,
       delay: 0.3,
     });
-
-    // Animate SVGs jumping up and down every 6 seconds
-    const svgs = gsap.utils.toArray(".jump-svg");
-    gsap.timeline({ repeat: -1, repeatDelay: 4 })
-      .to(svgs, {
-        y: -50,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        stagger: 0.1,
-      })
-     
   }, []);
 
   return (
     <section>
-      <div className=" h-31 md:h-43 overflow-hidden px-[2.5rem] pt-[1.3rem] md:px-[4.15rem]">
+      <div className=" h-31 md:h-43 overflow-hidden px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
         <div className="flex flex-row w-full gap-9">
           <div className="sm:block hidden flex-1 flex">
-            <p className="text-left italic text-xs md:text-xs lg:text-base self-start">
-              A Portfolio Project
-            </p>
+          <h4 className=" text-red-600 underline text-left underline text-xs md:text-xs lg:text-base italic ">
+              <Link href="/" className="hover:opacity-70 transition-opacity">
+                Previous Page{" "}
+              </Link>
+            </h4>
           </div>
           <div className="flex-1 justify-center flex relative">
-            <h1
-              className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-red-600 font-light z-10"
-            >
+            <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-red-600 font-light z-10">
               TITLE: "LOVE"
             </h1>
             {/* Four heart SVGs positioned close together */}
@@ -131,7 +120,6 @@ export default function LoveMastHead() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-           
             <line
               className="svg-line"
               x1="0"
@@ -141,8 +129,6 @@ export default function LoveMastHead() {
               stroke="black"
               strokeWidth="3"
             />
-            
-           
           </svg>
           <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.3rem]">
             “Checking my email daily, because apparently chaos doesn’t send
@@ -166,6 +152,24 @@ export default function LoveMastHead() {
                 strokeWidth="0.4"
               />
             </svg>
+          </div>
+        </div>
+        <div className="flex flex-row-reverse relative md:hidden -top-14 justify-between w-full ">
+          <div className=" ">
+            <h4
+              className="text-left italic text-xs md:text-xs lg:text-base self-start"
+              role="text"
+            >
+              {currentDate}
+            </h4>
+          </div>
+
+          <div className=" ">
+            <h4 className=" text-red-600 underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+              <Link href="/" className="hover:opacity-70 transition-opacity">
+                Previous Page{" "}
+              </Link>
+            </h4>
           </div>
         </div>
       </div>

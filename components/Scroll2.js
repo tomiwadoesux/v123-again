@@ -1,12 +1,12 @@
 "use client";
 import { useRef } from "react";
 
-export function Scroll() {
+export function Scroll2() {
   const text =
     "Your daily scoop: summarized NEWS articles and a MEME or two to your mail.   ";
   return (
     <div className="px-[0rem]  z-50 ">
-      <div className="bg-[red] w-[100vw]  overflow-hidden py-1">
+      <div className="bg-[#EB8E41] w-[100vw]  overflow-hidden py-1">
         <div className="flex whitespace-nowrap w-full animate-marquee">
           <span className="text-black text-sm">{text } </span>
           <span className="text-black text-sm">{text } </span>

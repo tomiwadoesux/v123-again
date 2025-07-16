@@ -51,7 +51,6 @@ export default function Section5() {
         trigger: element, // The element itself triggers the animation
         start: "top 10%", // Start when the top of the div hits the bottom of the viewport
         scrub: true, // Smoothly ties the animation to scroll position
-        
       },
     });
   };
@@ -64,40 +63,30 @@ export default function Section5() {
         trigger: element, // The element itself triggers the animation
         start: "top 10%", // Start when the top of the div hits the bottom of the viewport
         scrub: true, // Smoothly ties the animation to scroll position
-        
       },
     });
   };
 
   return (
-    <section className="h-[100vh]  px-[2.5rem] pb-[4rem] pt-[1.3rem] md:px-[4.15rem] w-[100%] h-auto justify-center items-center align-center">
+    <section className="h-[100vh] px-[2.5rem] md:px-[3rem] lg:px-[4.15rem]  py-[1.3rem]  w-[100%] h-auto justify-center items-center align-center">
       <div className="flex gap-3 md:gap-1 flex-col">
         <div className="flex justify-between flex-row">
           <div className="self-center  sm:block hidden  w-[25%] h-auto">
             <div className="grid w-full pb-2 grid-cols-2">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs text-xs">From</h5>
+              <p className="text-right whitespace-nowrap underline italic text-[#EB8E41] text-xs">
                 <a
-                  href="https://en.wikipedia.org/wiki/Princess_Mononoke"
+                  href="https://www.davidsipress.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-black"
+                  className="hover:text-[#EB8E41]"
                 >
-                  From
-                </a>
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Conclave_(film)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-red-600"
-                >
-                  Conclave
+                  David Sipress
                 </a>
               </p>
             </div>
             <div className="">
-              <LazyImageTrail imageSrc="./images/004.jpg" />
+              <LazyImageTrail imageSrc="./images/cartoon4.webp" />
               <div className="flex flex-row justify-between">
                 <Tyre />
                 <Tyre />
@@ -106,57 +95,38 @@ export default function Section5() {
           </div>
           <div className=" w-[70%] md:w-[40%] h-auto">
             <div className="grid w-full pb-2 grid-cols-2">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs text-xs">From</h5>
+              <p className="text-right underline whitespace-nowrap italic text-[#EB8E41] text-xs">
                 <a
-                  href="https://en.wikipedia.org/wiki/Princess_Mononoke"
+                  href="https://www.paulnoth.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-black"
+                  className="hover:text-[#EB8E41]"
                 >
-                  From
-                </a>
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Conclave_(film)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-red-600"
-                >
-                  Conclave
+                  Paul Noth
                 </a>
               </p>
             </div>
-            <LazyImageTrail imageSrc="./images/004.jpg" />
-             
+            <LazyImageTrail imageSrc="./images/cartoon01.webp" />
           </div>
         </div>
         <div className="flex justify-between flex-row-reverse">
           <div className="self-center  sm:block hidden w-[25%] h-auto">
             <div className="grid w-full pb-2 grid-cols-2">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs text-xs">From</h5>
+              <p className="text-right whitespace-nowrap italic underline text-[#EB8E41] text-xs">
                 <a
-                  href="https://en.wikipedia.org/wiki/Princess_Mononoke"
+                  href="https://en.wikipedia.org/wiki/Charles_Barsotti"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-black"
+                  className=""
                 >
-                  From
-                </a>
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Conclave_(film)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-red-600"
-                >
-                  Conclave
+                 Charles Barsotti
                 </a>
               </p>
             </div>
             <div className="">
-              <LazyImageTrail imageSrc="./images/004.jpg" />
+              <LazyImageTrail imageSrc="./images/cartoon3.webp" />
               <div className="flex flex-row justify-between">
                 <Tyre />
                 <Tyre />
@@ -165,28 +135,19 @@ export default function Section5() {
           </div>
           <div className=" w-[70%] md:w-[40%] h-auto">
             <div className="grid w-full pb-2 grid-cols-2">
-              <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs text-xs">From</h5>
+              <p className="text-right whitespace-nowrap italic underline text-[#EB8E41] text-xs">
                 <a
-                  href="https://en.wikipedia.org/wiki/Princess_Mononoke"
+                  href="https://en.wikipedia.org/wiki/Zach_Kanin"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-black"
+                  className="hover:text-[#EB8E41]"
                 >
-                  From
-                </a>
-              </p>
-              <p className="text-right whitespace-nowrap italic text-red-400 text-xs">
-                <a
-                  href="https://en.wikipedia.org/wiki/Conclave_(film)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-red-600"
-                >
-                  Conclave
+                  Zach Kanin
                 </a>
               </p>
             </div>
-            <LazyImageTrail imageSrc="./images/004.jpg" />
+            <LazyImageTrail imageSrc="./images/cartoon2.webp" />
           </div>
         </div>
         <div className="flex flex-row"></div>
