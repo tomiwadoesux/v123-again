@@ -166,16 +166,15 @@ export default function Section1() {
               </div>
             </div>
             <div>
-              <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
-                The project is simple, a service that sends you
-                daily or weekly mail of ai summarized{" "}
+            <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                The project is simple, a service that sends 
+                daily or weekly mail of {" "}
                 <span ref={newsRef}>
-                  {splitText("News Articles")}
-                </span>{" along side a "}
-                and a<span ref={memeRef}> {splitText("Meme")}</span> or
-                <span ref={gifRef}> {splitText("GIF.")}</span>You choose your
+                  {splitText("AI summarized News Articles")}
+                </span>{" and a"}
+                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose your
                 preferred category, and it delivers. It's just
-                about making news experience enjoyable and easy to read Enjoy! :)
+                about making news experience easy to understand. <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
               </h4>
               <Button className="" text="Subscribe Here" color="#EB8E41" />
             </div>

@@ -3,7 +3,7 @@
 export function Button({
   text,
   link,
-  color = "#333",
+  color = "#DC2625",
   variant = "base",
   className = "",
 }) {
@@ -17,7 +17,7 @@ export function Button({
     <a
     style={{color}}
       href="https://ayotomcs.me/"
-      className=" pb-3 underline text-sm"
+      className=" pb-3 underline text-base"
     >
       {text}
     </a>

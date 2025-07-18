@@ -16,7 +16,7 @@ return(
                   href="https://en.wikipedia.org/wiki/The_Pursuit_of_Happyness"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" hover:text-red-600"
+                  className=" hover:text-[#DC2625]"
                 >
                   The Pursuit of Happyness
                 </a>

@@ -4,7 +4,8 @@ import { AsciiScatter } from "components/Ascii";
 
 export default function Section99() {
   return (
-    <section className="pt-3 pb-3">
+    <section className="pt-1 pb-3">
+
       <div className="flex flex-col  justify-between md:flex-row">
         <div className="flex flex-col md:flex-row gap-1.5 lg:gap-3">
           <div className="flex-col">
@@ -70,7 +71,6 @@ export default function Section99() {
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`}
                 />
               </div>
@@ -128,7 +128,7 @@ export default function Section99() {
             </div>
 
             <div className="pt-3">
-              <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-red-600 md:text-2xl lg:text-3xl">
+              <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
                 What He Meant
               </h1>{" "}
               <div>
@@ -138,7 +138,26 @@ export default function Section99() {
                         we have loads to lift and hard work to"
                   color="black"
                 />{" "}
-                <Author author="Ayotomcs" color="red" />
+                <div class="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="#DC2625"
+                    width="16"
+                    height="16"
+                    class="icon small"
+                    aria-hidden="true"
+                  >
+                    <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
+                  </svg>
+                  <h5 className="italic  text-xs md:text:sm text-[#DC2625]">
+                    Planted{" "}
+                    <span className="underline">
+                      {" "}
+                      <a href="https://ayotomcs.me"> On Medium</a>{" "}
+                    </span>
+                  </h5>
+                </div>
               </div>
             </div>
           </div>
@@ -206,7 +225,6 @@ export default function Section99() {
 @@@@@@@@@@@@@@@@@@#*******%@@@@********@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@%***#%@@@@@@@@@%%***#@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -299,23 +317,38 @@ export default function Section99() {
               </div>
             </div>
             <div className="pt-3">
-            <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-red-600 md:text-2xl lg:text-3xl">
-              What He Meant
-            </h1>{" "}
-            <div>
-              <NormalText
-                content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
+              <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
+                What He Meant
+              </h1>{" "}
+              <div>
+                <NormalText
+                  content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
                         organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
                         we have loads to lift and hard work to"
-                color="black"
-              />{" "}
-              <Author author="Ayotomcs" color="red" />
+                  color="black"
+                />{" "}
+                <div>
+                  {/* <Author author="Ayotomcs" color="#DC2625" />{" "} */}
+                  <div class="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="#DC2625"
+                      width="16"
+                      height="16"
+                      class="icon small"
+                      aria-hidden="true"
+                    >
+                      <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
+                    </svg>
+                    <h5 className="italic  text-xs md:text:sm text-[#DC2625]">
+                      Planted <span className="underline">On Medium </span>
+                    </h5>
+                  </div>
+                </div>
+              </div>
             </div>
-            </div>
-           
           </div>
-
-        
         </div>
       </div>
     </section>

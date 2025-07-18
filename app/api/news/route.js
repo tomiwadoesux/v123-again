@@ -1,51 +1,27 @@
 import axios from "axios";
 import { MongoClient } from "mongodb";
 import validator from "validator";
-import mailchimp from "@mailchimp/mailchimp_marketing";
 import * as cheerio from "cheerio";
-import formData from "form-data";
 
-import FormData from "form-data"; // form-data v4.0.1
-import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
-
-async function sendSimpleMessage() {
-  const mailgun = new Mailgun(FormData);
-  const mg = mailgun.client({
-    username: "api",
-    key: process.env.API_KEY || "API_KEY",
-    // When you have an EU-domain, you must specify the endpoint:
-    // url: "https://api.eu.mailgun.net"
-  });
-  try {
-    const data = await mg.messages.create("newsletter.ayotomcs.me", {
-      from: "Mailgun Sandbox <postmaster@newsletter.ayotomcs.me>",
-      to: ["Wale-Durojaye Ayotomiwa <ayotomiwawaledurojaye@gmail.com>"],
-      subject: "Hello Wale-Durojaye Ayotomiwa",
-      text: "Congratulations Wale-Durojaye Ayotomiwa, you just sent an email with Mailgun! You are truly awesome!",
-    });
-
-    console.log(data); // logs response data
-  } catch (error) {
-    console.log(error); //logs any error
-  }
-}
-
-// Send email via Mailgun
+// Send email via MailerLite
 const sendEmail = async (mailOptions) => {
   try {
-    const form = new formData();
-    form.append('from', process.env.MAILGUN_FROM_EMAIL || 'noreply@yourdomain.com');
-    form.append('to', mailOptions.to);
-    form.append('subject', mailOptions.subject);
-    form.append('html', mailOptions.html);
-    
     const response = await axios.post(
-      `https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
-      form,
+      "https://connect.mailerlite.com/api/emails",
+      {
+        recipients: [{ email: mailOptions.to }],
+        subject: mailOptions.subject,
+        html_body: mailOptions.html,
+        from: { 
+          email: process.env.MAILERLITE_FROM_EMAIL,
+          name: process.env.MAILERLITE_FROM_NAME || "V123 Newsletter"
+        }
+      },
       {
         headers: {
-          ...form.getHeaders(),
-          'Authorization': `Basic ${Buffer.from(`api:${process.env.MAILGUN_API_KEY}`).toString('base64')}`
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${process.env.MAILERLITE_API_KEY}`
         }
       }
     );
@@ -53,29 +29,39 @@ const sendEmail = async (mailOptions) => {
     console.log(`Email sent successfully to ${mailOptions.to}`);
     return { message: "Email sent", id: response.data.id };
   } catch (error) {
-    console.error("Mailgun Error:", error.message);
+    console.error("MailerLite Error:", error.message);
     if (error.response) {
-      console.error("Mailgun Response:", error.response.data);
+      console.error("MailerLite Response:", error.response.data);
     }
     throw new Error(`Failed to send email: ${error.message}`);
   }
 };
 
-// Sync subscriber to Mailchimp audience
+// Sync subscriber to MailerLite
 const syncSubscriber = async (email, category, frequency) => {
-  mailchimp.setConfig({
-    apiKey: process.env.MAILCHIMP_API_KEY,
-    server: process.env.MAILCHIMP_SERVER_PREFIX, // e.g., 'us1'
-  });
   try {
-    await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID, {
-      email_address: email,
-      status: "subscribed",
-      merge_fields: { CATEGORY: category, FREQUENCY: frequency },
-    });
-    console.log(`Subscribed ${email} to Mailchimp list`);
+    const response = await axios.post(
+      "https://connect.mailerlite.com/api/subscribers",
+      {
+        email: email,
+        fields: {
+          category: category,
+          frequency: frequency
+        }
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${process.env.MAILERLITE_API_KEY}`
+        }
+      }
+    );
+    console.log(`Subscribed ${email} to MailerLite`);
+    return response.data;
   } catch (error) {
-    console.error("Mailchimp Sync Error:", error.message);
+    console.error("MailerLite Subscriber Error:", error.message);
+    // Don't throw error, just log it so the main flow continues
   }
 };
 
@@ -290,7 +276,7 @@ export async function GET(req) {
         { upsert: true }
       );
       
-      // Sync to Mailchimp (optional)
+      // Sync to MailerLite (optional)
       await syncSubscriber(email, category, frequency);
       
       console.log(`Subscribed ${email} to ${category} news (${frequency})`);

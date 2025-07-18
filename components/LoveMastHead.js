@@ -40,14 +40,14 @@ export default function LoveMastHead() {
       <div className=" h-31 md:h-43 overflow-hidden px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
         <div className="flex flex-row w-full gap-9">
           <div className="sm:block hidden flex-1 flex">
-          <h4 className=" text-red-600 underline text-left underline text-xs md:text-xs lg:text-base italic ">
+          <h4 className=" text-[#DC2625] underline text-left underline text-xs md:text-xs lg:text-base italic ">
               <Link href="/" className="hover:opacity-70 transition-opacity">
                 Previous Page{" "}
               </Link>
             </h4>
           </div>
           <div className="flex-1 justify-center flex relative">
-            <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-red-600 font-light z-10">
+            <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-[#DC2625] font-light z-10">
               TITLE: "LOVE"
             </h1>
             {/* Four heart SVGs positioned close together */}
@@ -165,7 +165,7 @@ export default function LoveMastHead() {
           </div>
 
           <div className=" ">
-            <h4 className=" text-red-600 underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+            <h4 className=" text-[#DC2625] underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
               <Link href="/" className="hover:opacity-70 transition-opacity">
                 Previous Page{" "}
               </Link>

@@ -125,11 +125,11 @@ export function PutTextMobile({
           <div ref={textRef} className="absolute">
             <h1 className="text-xs md:text-base text-justify italic font-sans dropcap">
               The rest of this website is going to showcase {" "}
-              <span className="text-red-600 text-bold">
+              <span className="text-[#DC2625] text-bold">
                 Quotes from Books I’ve read
               </span>{" "}
-              and some <span className="text-red-600"> Poems</span>, maybe{" "}
-              <span className="text-red-600"> Movies</span> too.
+              and some <span className="text-[#DC2625]"> Poems</span>, maybe{" "}
+              <span className="text-[#DC2625]"> Movies</span> too.
             </h1>
           </div>
         </div>

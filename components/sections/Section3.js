@@ -13,6 +13,27 @@ import { Scroll } from "components/Scroll";
 import LazyImageTrail from "components/LazyImageTrail";
 import Section99 from "./Section99";
 gsap.registerPlugin(TextPlugin);
+import axios from "axios";
+
+async function sendMailerLiteEmail({ to, subject, html }) {
+  const apiKey = process.env.MAILERLITE_API_KEY;
+  const response = await axios.post(
+    "https://api.mailerlite.com/api/v2/email/send",
+    {
+      to,
+      subject,
+      html,
+      from: "your_verified_sender@yourdomain.com"
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-MailerLite-ApiKey": apiKey
+      }
+    }
+  );
+  return response.data;
+}
 
 export default function Section3() {
   const newsRef = useRef(null);
@@ -197,20 +218,17 @@ export default function Section3() {
                 </div>
               </div>
 
-              <h4 className="  text-xs md:text-[0.85rem] lg:text-base text-justify dropcap">
-                I keep forgetting this is a website, ohh...ohh...You get to pick
-                the
-                <span ref={newsRef}>{splitText(" News Category")}</span>and
-                decide if you want
-                <span ref={memeRef}> {splitText("Memes")}</span> or
-                <span ref={gifRef}> {splitText("GIFs")}</span>sent to your mail
-                daily with <span ref={gifRef}> {splitText("No Spam")}</span> and
-                the option to unsubscribe anytime. The news comes from the{" "}
-                <span ref={gifRef}> {splitText(" New York Times")}</span>, and
-                the memes and GIFs are powered by{" "}
-                <span ref={gifRef}> {splitText(" Giphy.")}</span>Thanks for
-                reading.
+              <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                The project is simple, a service that sends 
+                daily or weekly mail of {" "}
+                <span ref={newsRef}>
+                  {splitText("AI summarized News Articles")}
+                </span>{" and a"}
+                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose your
+                preferred category, and it delivers. It's just
+                about making news experience easy to understand. <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
               </h4>
+
               <Button text="Subscribe Here" color="red" />
             </div>
             <div className="w-full sm:block hidden bg-black h-[50%]">
@@ -267,7 +285,7 @@ export default function Section3() {
           <div className=" h-[100%] ">
             <h1
               ref={swanTextRef}
-              className="text-xl text-center lg:text-left text-red-600 pb-1 pt-2 lg:text-3xl relative flex items-center justify-center"
+              className="text-xl text-center lg:text-left text-[#DC2625] pb-1 pt-2 lg:text-3xl relative flex items-center justify-center"
             >
               THE SWAN
               <span
@@ -284,19 +302,15 @@ export default function Section3() {
             <div className=" flex md:flex-col gap-3 md:gap-2 flex-row">
               <div className=" flex-1">
                 <NormalText
-                  content="Slumbering, I saw you again, we 
-              sat alone..How simple, how sweet you smell..Let’s take care of our heart..Sake
-               of the imagining world we hope within.. Covered by art, like the lines only I can 
-               see yet how clear you are..But If I may be lost, leave me be with your heart.. Alone.. Let the heat of the sun
-                caress the wrinkles of time off off me As the wind blown sand brush my face leaving me defunct.. But I be with
-                 your heart, how can I be defunct then?.. You require care, like how you would 
-                 for your white sheet..You won’t fret.. your response? how steady you feel right when you
-                 balance on a beam, the ease that annihilate the panic, the ease that is makeshift just at the edge of surrender..But there it was,
-                  my flowers at your steps, unfresh"
+                  content=" Yo'u are the constant object of my thoughts',
+he wrote to his wife from abroad. 'My imagination exhausts itself in guessing what you are doing'.
+ His generals saw him distracted: he would leave
+meetings early, spend hours writing letters, or stare at the miniature of
+Josephine he wore around his neck."
                   color="black"
                   className=""
                 />
-                <Author author="Ayotomcs" color="red" />
+                <Author author="The art of seduction" color="red" />
               </div>
               <div className="  md:hidden  w-fit">
                 <svg
@@ -407,7 +421,7 @@ export default function Section3() {
                     href="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className=" hover:text-red-600"
+                    className=" hover:text-[#DC2625]"
                   >
                     Titanic
                   </a>
@@ -448,7 +462,7 @@ export default function Section3() {
          
           <div className=" flex flex-1 h-[60%] flex-col gap-2">
             <div className="pt-3 md:pt-0">
-              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
+              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-[#DC2625] md:text-2xl lg:text-3xl">
                 <span ref={changerTextRef}>HE'S A</span> LOVER
               </h1>
               <div className="flex  flex-row gap-5 md:flex-col ">
@@ -520,7 +534,7 @@ export default function Section3() {
          
           <div className=" pt-3 md:pt-0 flex flex-1 flex-col gap-2">
             <div>
-              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
+              <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-[#DC2625] md:text-2xl lg:text-3xl">
                 What He Meant
               </h1>
               <NormalText
@@ -550,7 +564,7 @@ export default function Section3() {
                       href="https://en.wikipedia.org/wiki/Princess_Mononoke"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className=" hover:text-red-600"
+                      className=" hover:text-[#DC2625]"
                     >
                       Princess Mononoke
                     </a>

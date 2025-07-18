@@ -21,7 +21,7 @@ export default function Home() {
       el: scrollRef.current,
       smooth: true,
       smoothMobile: true,
-      lerp: 0.05, // default is ~0.1 — reduce for smoother
+      lerp: 0.05, 
     });
 
     return () => {

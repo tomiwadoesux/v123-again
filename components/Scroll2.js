@@ -3,7 +3,8 @@ import { useRef } from "react";
 
 export function Scroll2() {
   const text =
-    "Your daily scoop: summarized NEWS articles and a MEME or two to your mail.   ";
+  "The rest of the website will show quotes from some movies and books and somethings i wrote.  ";
+
   return (
     <div className="px-[0rem]  z-50 ">
       <div className="bg-[#EB8E41] w-[100vw]  overflow-hidden py-1">

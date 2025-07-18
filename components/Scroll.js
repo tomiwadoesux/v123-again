@@ -3,20 +3,20 @@ import { useRef } from "react";
 
 export function Scroll() {
   const text =
-    "Your daily scoop: summarized NEWS articles and a MEME or two to your mail.   ";
+    "The rest of the website will show quotes from some movies and books and somethings i wrote.  ";
   return (
     <div className="px-[0rem]  z-50 ">
-      <div className="bg-[red] w-[100vw]  overflow-hidden py-1">
+      <div className="bg-[#DC2625] w-[100vw]  overflow-hidden py-1">
         <div className="flex whitespace-nowrap w-full animate-marquee">
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
 
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
 
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
 
-          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text} </span>
         </div>
       </div>
 
