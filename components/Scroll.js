@@ -8,15 +8,15 @@ export function Scroll() {
     <div className="px-[0rem]  z-50 ">
       <div className="bg-[red] w-[100vw]  overflow-hidden py-1">
         <div className="flex whitespace-nowrap w-full animate-marquee">
-          <span className="text-black text-sm">{text } </span>
-          <span className="text-black text-sm">{text } </span>
-          <span className="text-black text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
 
-          <span className="text-black text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
 
-          <span className="text-black text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
 
-          <span className="text-black text-sm">{text } </span>
+          <span className="text-[#F4F2EC] text-sm">{text } </span>
         </div>
       </div>
 

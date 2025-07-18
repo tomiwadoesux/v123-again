@@ -5,6 +5,31 @@ import mailchimp from "@mailchimp/mailchimp_marketing";
 import * as cheerio from "cheerio";
 import formData from "form-data";
 
+import FormData from "form-data"; // form-data v4.0.1
+import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
+
+async function sendSimpleMessage() {
+  const mailgun = new Mailgun(FormData);
+  const mg = mailgun.client({
+    username: "api",
+    key: process.env.API_KEY || "API_KEY",
+    // When you have an EU-domain, you must specify the endpoint:
+    // url: "https://api.eu.mailgun.net"
+  });
+  try {
+    const data = await mg.messages.create("newsletter.ayotomcs.me", {
+      from: "Mailgun Sandbox <postmaster@newsletter.ayotomcs.me>",
+      to: ["Wale-Durojaye Ayotomiwa <ayotomiwawaledurojaye@gmail.com>"],
+      subject: "Hello Wale-Durojaye Ayotomiwa",
+      text: "Congratulations Wale-Durojaye Ayotomiwa, you just sent an email with Mailgun! You are truly awesome!",
+    });
+
+    console.log(data); // logs response data
+  } catch (error) {
+    console.log(error); //logs any error
+  }
+}
+
 // Send email via Mailgun
 const sendEmail = async (mailOptions) => {
   try {
@@ -55,26 +80,25 @@ const syncSubscriber = async (email, category, frequency) => {
 };
 
 // Hugging Face summarization
-async function summarizeText(text) {
+async function summarizeText(title, content) {
   try {
+    const combinedText = `Title: ${title}. Content: ${content}`;
     const prompt = "Summarize this article in a concise, factual way: ";
     const response = await axios.post(
       "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
       {
-        inputs: prompt + text,
+        inputs: prompt + combinedText,
         parameters: { max_length: 200, min_length: 50 },
       },
       {
         headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` },
       }
     );
-    let summary = response.data[0]?.summary_text || text.slice(0, 100) + "...";
-    // Inject humor post-processing
-    summary = `Buckle up for some news with a twist! ${summary} And honestly, who saw *that* coming? 😄`;
+    let summary = response.data[0]?.summary_text || combinedText.slice(0, 200) + "...";
     return summary;
   } catch (error) {
     console.error("Hugging Face Error:", error.message);
-    return text.slice(0, 100) + "...";
+    return content.slice(0, 100) + "...";
   }
 }
 
@@ -338,6 +362,7 @@ export async function GET(req) {
             link: article.link,
             pubDate: article.pubDate,
             summary: await summarizeText(
+              article.title,
               article.fullContent || article.originalDescription || article.title || "No content"
             ),
           }))
@@ -446,15 +471,50 @@ export async function GET(req) {
       }
       await subscribers.deleteOne({ email });
       console.log(`Unsubscribed ${email} from ${category} news`);
+      
+      // Send unsubscribe confirmation email
+      try {
+        await sendEmail({
+          to: email,
+          subject: "You've been unsubscribed from V123 Newsletter",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #dc3545;">👋 Sorry to see you go!</h2>
+              <p>You've been successfully unsubscribed from the V123 Newsletter.</p>
+              <p>If this was a mistake, you can always <a href="/test-newsletter" style="color: #007bff;">resubscribe here</a>.</p>
+              <p style="color: #666; font-style: italic;">Thanks for being part of our community!</p>
+            </div>
+          `,
+        });
+        
+        // Send notification to admin
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL,
+          subject: `Unsubscribe: ${email}`,
+          html: `
+            <div style="font-family: Arial, sans-serif;">
+              <h3 style="color: #dc3545;">User Unsubscribed</h3>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Unsubscribed at:</strong> ${new Date().toLocaleString()}</p>
+            </div>
+          `,
+        });
+      } catch (emailError) {
+        console.error("Failed to send unsubscribe email:", emailError.message);
+      }
+      
       return new Response(
         JSON.stringify({
-          message: `Unsubscribed ${email} from ${category} news`,
+          message: `Unsubscribed ${email} from ${category} news. Confirmation email sent.`,
         }),
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
         }
       );
+    } else if (action === "fetch") {
+      // Just fetch and return news without sending email
+      console.log(`Fetching news for category: ${category}`);
     }
 
     // Fetch news from NewsAPI
@@ -547,25 +607,21 @@ export async function GET(req) {
       articles = [];
     }
 
-    // Summarize articles using scraped content
+    // Summarize articles using title and content
     const summarizedArticles = await Promise.all(
       articles.length > 0
         ? articles.map(async (article) => ({
             title: article.title,
-            description: article.originalDescription,
-            fullContent: article.fullContent,
-            link: article.link,
-            pubDate: article.pubDate,
+            url: article.link,
             summary: await summarizeText(
+              article.title,
               article.fullContent || article.originalDescription || article.title || "No content"
             ),
           }))
         : [
             {
               title: `No ${category} news found`,
-              description: `Unable to fetch ${category} news at this time. Please check your API configuration or try again later.`,
-              link: "#",
-              pubDate: new Date().toISOString(),
+              url: "#",
               summary: `No ${category} news found - check API configuration`,
             },
           ]
@@ -585,17 +641,9 @@ export async function GET(req) {
         ${summarizedArticles
           .map(
             (article) => `
-              <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-                <h3 style="color: #333; margin-bottom: 10px;">${article.title}</h3>
+              <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; text-align: center;">
                 <p style="color: #666; font-style: italic; margin-bottom: 15px;"><strong>Summary:</strong> ${article.summary}</p>
-                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                  <h4 style="margin-top: 0; color: #555;">Full Article Content:</h4>
-                  <p style="line-height: 1.6; color: #333;">${article.fullContent ? article.fullContent.substring(0, 800) + (article.fullContent.length > 800 ? '...' : '') : article.description}</p>
-                </div>
-                <a href="${article.link}" style="color: #007bff; text-decoration: none; font-weight: bold;">Read full article →</a>
-                <p style="color: #999; font-size: 12px; margin-top: 10px;">Published: ${new Date(
-                  article.pubDate
-                ).toLocaleDateString()}</p>
+                <a href="${article.link}" style="display: inline-block; padding: 10px 24px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">See News</a>
               </div>
             `
           )
@@ -623,7 +671,22 @@ export async function GET(req) {
       `,
     };
 
-    // Send email immediately
+    // If action is "fetch", just return the articles without sending email
+    if (action === "fetch") {
+      return new Response(
+        JSON.stringify({
+          message: `Fetched ${category} news successfully`,
+          articles: summarizedArticles,
+          giphy: giphyUrl,
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Send email immediately (for subscribe and send actions)
     try {
       await sendEmail(mailOptions);
       console.log(

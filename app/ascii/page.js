@@ -3,22 +3,38 @@
 // Simple ASCII component without interactions
 export function AsciiScatter({ ascii }) {
   return (
-    <pre
-      style={{
-        fontFamily: "monospace",
-        fontSize: "0.7rem",
-        lineHeight: "1.1",
-        background: "#fff",
-        color: "#000",
-        padding: "1rem",
-        borderRadius: "8px",
-        userSelect: "text",
-        whiteSpace: "pre",
-        margin: 0,
-      }}
-    >
-      {ascii}
-    </pre>
+    <div style={{
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '1rem',
+      minHeight: '100vh',
+      boxSizing: 'border-box'
+    }}>
+      <pre
+        style={{
+          fontFamily: "monospace",
+          fontSize: "clamp(0.5rem, 2vw, 1.2rem)",
+          lineHeight: "1.1",
+          background: "#fff",
+          color: "#000",
+          padding: "1rem",
+          borderRadius: "8px",
+          userSelect: "text",
+          whiteSpace: "pre",
+          margin: 0,
+          width: "100%",
+          maxWidth: "100%",
+          overflow: "auto",
+          textAlign: "center",
+          transform: "scale(1)",
+          transformOrigin: "center center"
+        }}
+      >
+        {ascii}
+      </pre>
+    </div>
   );
 }
 

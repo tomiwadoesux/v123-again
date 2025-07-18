@@ -6,14 +6,15 @@ export function AsciiScatter({ ascii }) {
     <pre
       style={{
         fontFamily: "monospace",
-        fontSize: "0.7rem",
-        lineHeight: "1.1",
+        fontSize: "0.6rem",
+        lineHeight: "1.0",
         color: "#000",
-        padding: "1rem",
-        borderRadius: "8px",
+
         userSelect: "text",
         whiteSpace: "pre",
         margin: 0,
+        overflow: "auto",
+        width: "fit-content",
       }}
     >
       {ascii}
@@ -58,5 +59,9 @@ const asciiArt1 = `---------------------------------------------------
 `;
 
 export default function Ascii() {
-  return <AsciiScatter ascii={asciiArt1} />;
+  return (
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <AsciiScatter ascii={asciiArt1} />
+    </div>
+  );
 }

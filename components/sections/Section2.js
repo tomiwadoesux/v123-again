@@ -52,7 +52,22 @@ export default function Section2() {
 
       <div className="block px-[2.5rem] md:hidden">
         <div className=" w-[100%] h-[auto] flex-row gap-9 md:w-full md:h-[full]">
-          <div className="bg-black">
+          <div className="">
+          <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    @
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red text-xs">
+                    <a
+                      href="https://en.wikipedia.org/wiki/Twice_Born"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" underline hover:text-red"
+                    >
+                      Twice Born
+                    </a>
+                  </p>
+                </div>
             <LazyImageTrail
               className=" object-fit flex-1"
               imageSrc="./images/002.png"
@@ -105,10 +120,25 @@ export default function Section2() {
               </div>
             </div>
           </div>
-          <div className=" bg-black">
+          <div className="">
+          <div className=" grid w-full pb-2 grid-cols-2 ">
+                  <p className="text-left whitespace-nowrap italic text-black-500 text-xs">
+                    @
+                  </p>
+                  <p className="text-right whitespace-nowrap italic text-red text-xs">
+                    <a
+                      href="https://www.instagram.com/feliciathegoat/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" underline hover:text-red"
+                    >
+                      feliciathegoat
+                    </a>
+                  </p>
+                </div>
             <LazyImageTrail
               className=" object-fit flex-1"
-              imageSrc="./images/002.png"
+              imageSrc="./images/007.webp"
             />
           </div>
         </div>

@@ -12,9 +12,6 @@ import Muah from "components/Muah";
 import { Scroll } from "components/Scroll";
 import LazyImageTrail from "components/LazyImageTrail";
 import Section99 from "./Section99";
-
-// import ThreeSection from "components/ThreeSection";
-
 gsap.registerPlugin(TextPlugin);
 
 export default function Section3() {
@@ -146,7 +143,7 @@ export default function Section3() {
         <Muah />
       </div>
 
-      <div className="  px-[2.5rem] pt-5  md:px-[3rem] lg:px-[4.15rem] ">
+      <div className="  px-[2.5rem] pt-2  md:px-[3rem] lg:px-[4.15rem] ">
         <div className="relative -top- md:-top-0">
           <svg
             width="100%"
@@ -175,64 +172,7 @@ export default function Section3() {
             />
           </svg>
 
-          <div className="">
-            <svg
-              width="35"
-              height="20"
-              viewBox="0 0 42 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M19 13H41"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M6 20H41"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M6 27H41"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M22 6L41 6"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <g clipPath="url(#clip0_221_20)">
-                <mask
-                  id="mask0_221_20"
-                  style={{ maskType: "luminance" }}
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M20 0H0V20H20V0Z" fill="white" />
-                </mask>
-                <g mask="url(#mask0_221_20)">
-                  <path
-                    d="M13.7003 2.58301C12.192 2.58301 10.842 3.31634 10.0003 4.44134C9.15866 3.31634 7.80866 2.58301 6.30033 2.58301C3.74199 2.58301 1.66699 4.66634 1.66699 7.24134C1.66699 8.23301 1.82533 9.14967 2.10033 9.99967C3.41699 14.1663 7.47533 16.658 9.48366 17.3413C9.76699 17.4413 10.2337 17.4413 10.517 17.3413C12.5253 16.658 16.5837 14.1663 17.9003 9.99967C18.1753 9.14967 18.3337 8.23301 18.3337 7.24134C18.3337 4.66634 16.2587 2.58301 13.7003 2.58301Z"
-                    fill="#FF1212"
-                  />
-                </g>
-              </g>
-              <defs>
-                <clipPath id="clip0_221_20">
-                  <rect width="20" height="20" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>
+         
         </div>
         <div className="flex flex-col md:flex-row  gap-2 md:gap-4 ">
           <div className=" h-[100%]">
@@ -392,7 +332,7 @@ export default function Section3() {
         </div>
       </div>
 
-      <div className="   pt-5 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] ">
+      <div className="   pt-2 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] ">
         <svg
           width="100%"
           height="20"
@@ -422,7 +362,7 @@ export default function Section3() {
         <div>
           <Section99 />
         </div>
-        <div className="pb-4">
+        <div className="pb-6 pt-4">
           <svg
             width="100%"
             height="20"
@@ -476,7 +416,7 @@ export default function Section3() {
             </div>
 
             <NormalText
-              className="pt-5"
+              className="pt-2"
               content="Another who fell under his spell, explained his magic: “Perhaps the most remarkable lover of our time is
                Gabriele D'Annunzio.” And this not withstanding that he is small, bald, and, except when his face lights up with
                 enthusiasm, ugly But when he speaks to a woman he likes, his face is transfigured, so that he suddenly becomes 
@@ -505,27 +445,9 @@ export default function Section3() {
               />
             </svg>
           </div>
-          <div className="md:hidden ">
-            <svg
-              width="100%"
-              height="20"
-              viewBox="0 0 100 10"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-            >
-              <line
-                className="svg-line"
-                x1="0"
-                y1="5.5"
-                x2="100"
-                y2="5.5"
-                stroke="black"
-                strokeWidth="0.6"
-              />
-            </svg>
-          </div>
+         
           <div className=" flex flex-1 h-[60%] flex-col gap-2">
-            <div>
+            <div className="pt-3 md:pt-0">
               <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
                 <span ref={changerTextRef}>HE'S A</span> LOVER
               </h1>
@@ -595,26 +517,8 @@ export default function Section3() {
               />
             </svg>
           </div>
-          <div className="md:hidden ">
-            <svg
-              width="100%"
-              height="20"
-              viewBox="0 0 100 10"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-            >
-              <line
-                className="svg-line"
-                x1="0"
-                y1="5.5"
-                x2="100"
-                y2="5.5"
-                stroke="black"
-                strokeWidth="0.6"
-              />
-            </svg>
-          </div>
-          <div className=" flex flex-1 flex-col gap-2">
+         
+          <div className=" pt-3 md:pt-0 flex flex-1 flex-col gap-2">
             <div>
               <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-red-600 md:text-2xl lg:text-3xl">
                 What He Meant

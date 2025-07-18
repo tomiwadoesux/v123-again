@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <div className=" flex pt-2 md:pt-3 lg:pt-3 pb-12 flex-col">
-      <div className=" pt-16 pb-3 px-[2.5rem]  md:px-[4.15rem] flex flex-col md:flex-row gap-3">
+    <div className=" flex pt-11 md:pt-3 lg:pt-5 pb-12 flex-col">
+      <div className=" pb-3 px-[2.5rem] gap-0 md:gap-5 md:px-[4.15rem] flex flex-col md:flex-row ">
         <div className=" self-center flex-1 italic text-sm">
           <div className="flex  gap-3 ">
           <a

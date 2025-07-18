@@ -10,7 +10,7 @@ export function NormalText({ content, color = "#333", variant = "base", classNam
     <div ref={textRef}>
       <Tag
         style={{ color }}
-        className={`text-xs md:text-sm lg:text-base text-justify  font-sans dropcap ${className}`}
+        className={`text-xs md:text-sm lg:text-base text-justify  dropcap ${className}`}
       >
         {content}
       </Tag>
