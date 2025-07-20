@@ -1,8 +1,7 @@
 {
-    "crons": [
-      {
-        "path": "/api/news?schedule=true",
-        "schedule": "40 8 * * *" 
-      }
-    ]
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev"
+}

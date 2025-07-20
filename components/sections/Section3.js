@@ -405,7 +405,7 @@ Josephine he wore around his neck."
           </svg>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-1 md:gap-3 ">
+        <div className="flex flex-col md:flex-row gap-1 md:gap-2 lg:gap-3 ">
           <div className=" flex-1">
             <div className="w-full ">
               <LazyImageTrail
@@ -465,7 +465,7 @@ Josephine he wore around his neck."
               <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-[#DC2625] md:text-2xl lg:text-3xl">
                 <span ref={changerTextRef}>HE'S A</span> LOVER
               </h1>
-              <div className="flex  flex-row gap-5 md:flex-col ">
+              <div className="flex  flex-row gap-3 md:flex-col ">
                 <div className="flex-1">
                   <NormalText
                     content="I love you, So it is enough for me To be near you every now and again..I love you, So it is 
