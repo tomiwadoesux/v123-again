@@ -2,30 +2,27 @@
 "use client";
 import { useState } from "react";
 
-import FormData from "form-data"; // form-data v4.0.1
-import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
-
-// import ThreeSection from "components/ThreeSection";
-
+// Test MailerLite email function
 async function sendSimpleMessage() {
-  const mailgun = new Mailgun(FormData);
-  const mg = mailgun.client({
-    username: "api",
-    key: process.env.NEXT_PUBLIC_MAILGUN_API_KEY || process.env.MAILGUN_API_KEY || "API_KEY",
-    // When you have an EU-domain, you must specify the endpoint:
-    // url: "https://api.eu.mailgun.net"
-  });
   try {
-    const data = await mg.messages.create(process.env.NEXT_PUBLIC_MAILGUN_DOMAIN || "newsletter.ayotomcs.me", {
-      from: process.env.NEXT_PUBLIC_MAILGUN_FROM_EMAIL || "postmaster@newsletter.ayotomcs.me",
-      to: ["Wale-Durojaye Ayotomiwa <ayotomiwawaledurojaye@gmail.com>"],
-      subject: "Hello Wale-Durojaye Ayotomiwa",
-      text: "Congratulations Wale-Durojaye Ayotomiwa, you just sent an email with Mailgun! You are truly awesome!",
+    const response = await fetch('/api/test-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: "ayotomiwawaledurojaye@gmail.com",
+        subject: "Hello Wale-Durojaye Ayotomiwa",
+        html: "<h2>Hello Wale-Durojaye Ayotomiwa!</h2><p>Congratulations! You just sent an email with MailerLite! You are truly awesome!</p>"
+      })
     });
-
-    console.log(data); // logs response data
+    
+    const data = await response.json();
+    console.log(data);
+    alert(data.message || 'Email sent successfully!');
   } catch (error) {
-    console.log(error); //logs any error
+    console.log(error);
+    alert('Failed to send email: ' + error.message);
   }
 }
 
@@ -226,7 +223,7 @@ export default function TestNewsletter() {
             opacity: loading ? 0.6 : 1
           }}
         >
-          {loading ? 'Loading...' : 'Test Mailgun Email'}
+          {loading ? 'Loading...' : 'Test MailerLite Email'}
         </button>
       </div>
 
@@ -243,7 +240,7 @@ export default function TestNewsletter() {
               }}>
                 <h3 style={{ margin: "0 0 10px 0", color: "#333" }}>{article.title}</h3>
                 <p style={{ margin: "0 0 15px 0", color: "#666", lineHeight: "1.5" }}>
-                  {article.description}
+                  {article.summary}
                 </p>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <a 
@@ -251,15 +248,15 @@ export default function TestNewsletter() {
                     target="_blank" 
                     rel="noopener noreferrer"
                     style={{ 
-                      color: "#007bff", 
-                      textDecoration: "none", 
-                      fontWeight: "bold" 
+                      color: '#007bff', 
+                      textDecoration: 'none',
+                      fontWeight: 'bold'
                     }}
                   >
-                    Read Full Article →
+                    Read More →
                   </a>
-                  <span style={{ color: "#999", fontSize: "12px" }}>
-                    {new Date(article.publishedAt).toLocaleDateString()}
+                  <span style={{ color: '#999', fontSize: '12px' }}>
+                    {new Date().toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -268,19 +265,21 @@ export default function TestNewsletter() {
         </div>
       )}
 
-      <div style={{ backgroundColor: "#f8f9fa", padding: "20px", borderRadius: "8px" }}>
-        <h3 style={{ margin: "0 0 15px 0", color: "#333" }}>API Response:</h3>
-        <pre style={{ 
-          backgroundColor: "#fff", 
-          padding: "15px", 
-          borderRadius: "5px", 
-          overflow: "auto",
-          fontSize: "12px",
-          border: "1px solid #ddd"
-        }}>
-          {response || "No response yet. Click a button above to test the API."}
-        </pre>
-      </div>
+      {response && (
+        <div style={{ marginTop: "30px" }}>
+          <h3 style={{ color: "#333", marginBottom: "15px" }}>API Response:</h3>
+          <pre style={{ 
+            backgroundColor: "#f5f5f5", 
+            padding: "15px", 
+            borderRadius: "5px", 
+            overflow: "auto",
+            fontSize: "12px",
+            border: "1px solid #ddd"
+          }}>
+            {response}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
