@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 export function Scroll() {
   const text =
-    "The rest of the website will show quotes from some movies and books and somethings i wrote.  ";
+    " THIS WEBSITE IS STILL IN CONSTRUCTION ";
   return (
     <div className="px-[0rem]  z-50 ">
       <div className="bg-[#DC2625] w-[100vw]  overflow-hidden py-1">

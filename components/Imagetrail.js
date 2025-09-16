@@ -74,8 +74,8 @@ const Imagetrail = ({ imageSrc, className }) => {
     });
   }, []);
 
-  const maxTrailImages = 10;
-  const minSpawnInterval = 50;
+  const maxTrailImages = 6;
+  const minSpawnInterval = 40;
 
   const handleMouseMove = (e) => {
     if (!isHovering) return; // Only trigger when hovering over the image

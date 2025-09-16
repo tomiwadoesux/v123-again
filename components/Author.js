@@ -1,7 +1,13 @@
-"use client"
+"use client";
 import { useRef } from "react";
 
-export function Author({ author, from, color = "#333", variant = "heading", className = "" }) {
+export function Author({
+  author,
+  from,
+  color = "#333",
+  variant = "heading",
+  className = "",
+}) {
   // If variant is "heading", use an inline h4; otherwise, default to span.
   const Tag = variant === "heading" ? "h4" : "span";
 
@@ -10,7 +16,22 @@ export function Author({ author, from, color = "#333", variant = "heading", clas
       style={{ color }}
       className={`text-xs font-extralight italic inline font-sans ${className}`}
     >
-     {from}  ~ {author}
+      {from} ~ {author}
+      {/* <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="currentColor"
+        style={{
+          fillRule: "evenodd",
+          clipRule: "evenodd",
+          strokeLinejoin: "round",
+          strokeMiterlimit: 2,
+        }}
+      >
+        <path d="M3,25l8,-0c0.552,0 1,-0.448 1,-1c0,-0.552 -0.448,-1 -1,-1l-8,-0c-0.552,0 -1,0.448 -1,1c0,0.552 0.448,1 1,1Zm10.914,-6.671l-0.895,4.475c-0.065,0.328 0.037,0.667 0.274,0.903c0.236,0.237 0.575,0.339 0.903,0.274l4.475,-0.895l-4.757,-4.757Zm12.586,-2.415l-6.086,6.086l-5.414,-5.414l6.086,-6.086l5.414,5.414Zm-4,-6.828l5.414,5.414l1.793,-1.793c0.391,-0.39 0.391,-1.024 0,-1.414l-4,-4c-0.39,-0.391 -1.024,-0.391 -1.414,-0l-1.793,1.793Z" />
+      </svg> */}
     </Tag>
   );
 }

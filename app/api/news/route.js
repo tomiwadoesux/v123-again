@@ -276,157 +276,30 @@ export async function GET(req) {
         { upsert: true }
       );
       
-      // Sync to MailerLite (optional)
-      await syncSubscriber(email, category, frequency);
-      
-      console.log(`Subscribed ${email} to ${category} news (${frequency})`);
-      
-      // Send welcome email with news to the subscriber
+      // Sync to MailerLite automation (this will trigger the welcome sequence)
       try {
-        // Fetch news for the subscriber
-        const baseUrl = "https://newsapi.org/v2";
-        let endpoint;
-        let params;
-
-        if (category === "top") {
-          endpoint = `${baseUrl}/top-headlines`;
-          params = { country: "us", pageSize: 3 };
-        } else {
-          endpoint = `${baseUrl}/everything`;
-          params = { 
-            q: category, 
-            language: "en", 
-            sortBy: "publishedAt", 
-            pageSize: 3,
-            from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-          };
-        }
-
-        const newsResponse = await axios.get(endpoint, {
-          params: {
-            ...params,
-            apiKey: process.env.NEWSAPI_KEY,
+        const syncResponse = await axios.post(
+          `${req.nextUrl.origin}/api/mailerlite-sync`,
+          {
+            email,
+            category,
+            frequency
           },
-        });
-
-        const data = newsResponse.data.articles || [];
-        let articles = Array.isArray(data)
-          ? data.slice(0, 3).map((article) => ({
-              title: article.title || "No title",
-              description: article.description || article.content || "No description",
-              link: article.url || "#",
-              pubDate: article.publishedAt || new Date().toISOString(),
-            }))
-          : [];
-
-        // Scrape article content
-        const articlesWithContent = await Promise.all(
-          articles.map(async (article) => {
-            try {
-              const scrapedContent = await scrapeArticleContent(article.link);
-              return {
-                ...article,
-                fullContent: scrapedContent,
-                originalDescription: article.description
-              };
-            } catch (scrapeError) {
-              return {
-                ...article,
-                fullContent: article.description || 'Unable to scrape content',
-                originalDescription: article.description
-              };
+          {
+            headers: {
+              "Content-Type": "application/json",
             }
-          })
+          }
         );
-
-        // Summarize articles
-        const summarizedArticles = await Promise.all(
-          articlesWithContent.map(async (article) => ({
-            title: article.title,
-            description: article.originalDescription,
-            fullContent: article.fullContent,
-            link: article.link,
-            pubDate: article.pubDate,
-            summary: await summarizeText(
-              article.title,
-              article.fullContent || article.originalDescription || article.title || "No content"
-            ),
-          }))
-        );
-
-        // Get random GIF
-        const giphyUrl = await getRandomGiphy();
-
-        // Send welcome email with news
-        const welcomeEmailHtml = `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h1 style="color: #333; text-align: center;">🎉 Welcome to V123 Newsletter! 🎉</h1>
-            <p style="color: #666; text-align: center;">You've successfully subscribed to ${category} news (${frequency} updates)</p>
-            
-            <h2 style="color: #333; margin-top: 30px;">Your First ${category.charAt(0).toUpperCase() + category.slice(1)} News Update</h2>
-            ${summarizedArticles
-              .map(
-                (article) => `
-                  <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-                    <h3 style="color: #333; margin-bottom: 10px;">${article.title}</h3>
-                    <p style="color: #666; font-style: italic; margin-bottom: 15px;"><strong>Summary:</strong> ${article.summary}</p>
-                    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                      <h4 style="margin-top: 0; color: #555;">Full Article Content:</h4>
-                      <p style="line-height: 1.6; color: #333;">${article.fullContent ? article.fullContent.substring(0, 800) + (article.fullContent.length > 800 ? '...' : '') : article.description}</p>
-                    </div>
-                    <a href="${article.link}" style="color: #007bff; text-decoration: none; font-weight: bold;">Read full article →</a>
-                    <p style="color: #999; font-size: 12px; margin-top: 10px;">Published: ${new Date(
-                      article.pubDate
-                    ).toLocaleDateString()}</p>
-                  </div>
-                `
-              )
-              .join("")}
-            
-            <div style="margin-top: 40px; text-align: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-              <h3 style="color: #333; margin-bottom: 15px;">🎉 Here's a Fun GIF to Welcome You! 🎉</h3>
-              <img 
-                src="${giphyUrl}" 
-                alt="Fun GIF" 
-                style="max-width: 100%; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" 
-              />
-            </div>
-            
-            <div style="margin-top: 30px; text-align: center; padding: 20px; border-top: 1px solid #eee;">
-              <p style="color: #666;">You'll receive ${frequency} updates about ${category} news.</p>
-              <a href="/api/news?action=unsubscribe&email=${encodeURIComponent(
-                email
-              )}" style="color: #dc3545; text-decoration: none; font-weight: bold;">Unsubscribe</a>
-            </div>
-          </div>
-        `;
-
-        await sendEmail({
-          to: email,
-          subject: `Welcome to V123 - Your ${category.charAt(0).toUpperCase() + category.slice(1)} News Subscription!`,
-          html: welcomeEmailHtml,
-        });
-
-        // Send notification email to admin
-        await sendEmail({
-          to: process.env.ADMIN_EMAIL,
-          subject: `Yay! New V123 Newsletter Subscription! 🎉`,
-          html: `
-            <div style="font-family: Arial, sans-serif;">
-              <h2 style="color: #28a745;">🎉 New Newsletter Subscription! 🎉</h2>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Category:</strong> ${category}</p>
-              <p><strong>Frequency:</strong> ${frequency}</p>
-              <p><strong>Subscribed at:</strong> ${new Date().toLocaleString()}</p>
-              <p style="color: #666; font-style: italic;">Yay! You've subscribed for ${category} on V123</p>
-            </div>
-          `,
-        });
-
+        
+        console.log(`Subscribed ${email} to ${category} news (${frequency}) - Automation triggered`);
+        
         return new Response(
           JSON.stringify({ 
-            message: `Successfully subscribed ${email} to ${category} news! Welcome email sent.`,
-            emailSent: true
+            message: `Successfully subscribed ${email} to ${category} news! Welcome sequence started.`,
+            automationTriggered: true,
+            mailerliteId: syncResponse.data.mailerliteId,
+            group: syncResponse.data.group
           }),
           {
             status: 200,
@@ -434,13 +307,15 @@ export async function GET(req) {
           }
         );
         
-      } catch (emailError) {
-        console.error("Failed to send welcome email:", emailError.message);
+      } catch (syncError) {
+        console.error("Failed to sync with MailerLite:", syncError.message);
+        
+        // Still return success for database save, but note the sync issue
         return new Response(
           JSON.stringify({ 
-            message: `Subscribed ${email} to ${category} news, but failed to send welcome email`,
-            emailSent: false,
-            error: emailError.message
+            message: `Subscribed ${email} to ${category} news, but automation sync failed`,
+            automationTriggered: false,
+            error: syncError.message
           }),
           {
             status: 200,
