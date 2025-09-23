@@ -1,59 +1,108 @@
-# MailerLite Automation Setup Guide
+# MailerLite Campaign Management Guide
 
 ## 🎯 Overview
-This guide will help you set up automated email sequences in MailerLite that trigger when subscribers join your newsletter. The automation will handle welcome emails, onboarding, and engagement sequences.
+This guide covers how to manage your V123 newsletter using **MailerLite Campaigns Only**. All emails are now sent through MailerLite's campaign system:
+
+**Campaign-Based Email Management**:
+- **Welcome emails**: MailerLite campaigns → Individual sends
+- **Newsletter campaigns**: MailerLite campaigns → Group sends
+- **Admin notifications**: MailerLite campaigns → Individual sends
+- **Manual control**: Full control over all email sending via MailerLite dashboard
+
+This approach provides **single platform management** with **complete campaign control**.
 
 ## 📋 Prerequisites
 - MailerLite account with API access
 - Your API key configured in environment variables
-- Groups created in MailerLite for each news category
+- Understanding that all emails (including welcome emails) will use MailerLite campaigns
 
-## 🚀 Step-by-Step Setup
+## ⚠️ Important Notes
+- **All emails** are now sent via MailerLite campaigns
+- **Welcome emails** may go to Promotions tab (this is expected behavior for campaigns)
+- **Single platform** - everything managed through MailerLite dashboard
+- **Campaign control** - full manual control over email sending
 
-### Step 1: Create Groups in MailerLite
+## 🚀 Campaign Management Setup
 
-Create separate groups for each news category:
+### Step 1: Subscriber Groups (Already Created)
 
-1. **Log into MailerLite Dashboard**
-2. **Go to Subscribers → Groups**
-3. **Create the following groups:**
-   - `technology_subscribers`
-   - `business_subscribers`
-   - `health_subscribers`
-   - `science_subscribers`
-   - `sports_subscribers`
-   - `entertainment_subscribers`
-   - `general_subscribers`
+Your system automatically creates organized groups:
+- **Technology Newsletter** (for tech subscribers)
+- **Business Newsletter** (for business subscribers)
+- **Health Newsletter** (for health subscribers)
+- **Science Newsletter** (for science subscribers)
+- etc.
 
-### Step 2: Set Up Automation Workflow
+Subscribers are automatically assigned to appropriate groups with clean data.
 
-#### 2.1 Create New Automation
-1. **Go to Automations → Create Automation**
-2. **Choose Template:** "Advanced Welcome Email" (or start from scratch)
-3. **Name:** "V123 Newsletter Welcome Sequence"
+### Step 2: Create Campaign Templates
 
-#### 2.2 Configure Trigger
-1. **Trigger Type:** "Subscriber added to group"
-2. **Select Group:** Choose one of your category groups (e.g., `technology_subscribers`)
-3. **Conditions:** None (triggers for all new group members)
+#### 2.1 Newsletter Campaign Template
+1. **Go to Campaigns → Create Campaign**
+2. **Choose:** Regular Campaign
+3. **Name:** "V123 [Category] Newsletter - [Date]"
+4. **Recipients:** Select specific group (e.g., "Technology Newsletter")
 
-#### 2.3 Design Email Sequence
+#### 2.2 Campaign Content Template
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V123 [Category] Newsletter</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
 
-**Email 1: Welcome (0 minutes delay)**
+    <h1>V123 [Category] Newsletter</h1>
+    <p style="color: #666;">Your daily dose of [category] news</p>
+
+    <!-- News Article 1 -->
+    <div style="margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2>[Article 1 Title]</h2>
+        <p>[Article 1 Summary]</p>
+        <a href="[Article 1 URL]" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Read More</a>
+    </div>
+
+    <!-- News Article 2 -->
+    <div style="margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2>[Article 2 Title]</h2>
+        <p>[Article 2 Summary]</p>
+        <a href="[Article 2 URL]" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Read More</a>
+    </div>
+
+    <!-- News Article 3 -->
+    <div style="margin: 30px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2>[Article 3 Title]</h2>
+        <p>[Article 3 Summary]</p>
+        <a href="[Article 3 URL]" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Read More</a>
+    </div>
+
+    <!-- Fun GIF Section -->
+    <div style="text-align: center; margin: 40px 0; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+        <h3>Today's Fun Break</h3>
+        <img src="[GIF_URL]" alt="Fun GIF" style="max-width: 100%; border-radius: 10px;"/>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top: 40px; padding: 20px; border-top: 1px solid #eee; text-align: center;">
+        <p style="font-size: 12px; color: #666;">
+            You're receiving this because you subscribed to V123 [Category] Newsletter<br>
+            <a href="[UNSUBSCRIBE_URL]">Unsubscribe</a> | <a href="[MANAGE_URL]">Manage Preferences</a>
+        </p>
+    </div>
+
+</body>
+</html>
 ```
-Subject: 🎉 Welcome to V123 - Your [Category] News Journey Begins!
 
-Content:
-<h1>🎉 Welcome to V123 Newsletter!</h1>
-<p>Hi there, news enthusiast!</p>
-<p>You've just joined our exclusive [Category] news community. Get ready for:</p>
-<ul>
-  <li>📰 Curated [Category] news with AI summaries</li>
-  <li>🎭 Fun GIFs to brighten your day</li>
-  <li>🚀 Fresh content delivered [Frequency]</li>
-</ul>
-<p>Your first news digest is coming soon!</p>
-```
+### Step 3: Campaign Creation Workflow
+
+#### Daily Newsletter Process:
+1. **Generate Content**: Use your `/api/news?category=technology&action=fetch` endpoint
+2. **Create Campaign**: In MailerLite dashboard
+3. **Select Template**: Use your saved newsletter template
+4. **Fill Content**: Replace placeholders with actual news
+5. **Select Recipients**: Choose appropriate group (e.g., "Technology Newsletter")
+6. **Schedule/Send**: Send immediately or schedule for preferred time
 
 **Email 2: Onboarding (1 day delay)**
 ```
@@ -91,15 +140,15 @@ Content:
 Repeat the process for each news category:
 
 1. **Technology News Automation**
-   - Trigger: Subscriber added to `technology_subscribers`
+   - Trigger: Subscriber added to `technology_sub`
    - Customize content for tech news
 
 2. **Business News Automation**
-   - Trigger: Subscriber added to `business_subscribers`
+   - Trigger: Subscriber added to `business_sub`
    - Customize content for business news
 
 3. **Health News Automation**
-   - Trigger: Subscriber added to `health_subscribers`
+   - Trigger: Subscriber added to `health_sub`
    - Customize content for health news
 
 ### Step 4: Test Your Automation
@@ -149,7 +198,7 @@ Test different email subjects and content:
 
 **Automation not triggering:**
 - Check if subscriber is added to correct group
-- Verify group name matches exactly (e.g., `technology_subscribers`)
+- Verify group name matches exactly (e.g., `technology_sub`)
 - Check API response for any errors
 
 **Emails not sending:**

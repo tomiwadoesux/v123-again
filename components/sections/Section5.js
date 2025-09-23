@@ -95,7 +95,7 @@ export default function Section5() {
           </div>
           <div className=" w-[70%] md:w-[40%] h-auto">
             <div className="grid w-full pb-2 grid-cols-2">
-              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs text-xs">From</h5>
+              <h5 className="text-left whitespace-nowrap italic text-black-500 text-xs">From</h5>
               <p className="text-right underline whitespace-nowrap italic text-[#EB8E41] text-xs">
                 <a
                   href="https://www.paulnoth.com"

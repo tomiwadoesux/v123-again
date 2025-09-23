@@ -2,7 +2,7 @@
 
 export function Button({
   text,
-  link,
+  link = "/subscribe",
   color = "#DC2625",
   variant = "base",
   className = "",
@@ -16,7 +16,7 @@ export function Button({
     <Tag>
     <a
     style={{color}}
-      href="https://ayotomcs.me/"
+      href={link}
       className=" pb-3 underline text-base"
     >
       {text}

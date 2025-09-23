@@ -1,21 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "V123",
   description: "A Portfolio Project by Wale-Durojaye Ayoyomiwa",
-  keywords: ["portfolio", "Wale-Durojaye", "Ayoyomiwa", "web developer", "frontend", "V123"],
+  keywords: ["portfolio", "Wale-Durojaye", "Ayoyomiwa", "Design Engineer", "frontend", "V123"],
   authors: [{ name: "Wale-Durojaye Ayoyomiwa" }],
   creator: "Wale-Durojaye Ayoyomiwa",
   metadataBase: new URL("https://ayotomcs.me"),
@@ -29,7 +18,7 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "V123 - Portfolio of Wale-Durojaye Ayoyomiwa",
+    title: "V123 - Portfolio Project of Wale-Durojaye Ayoyomiwa",
     description: "A clean, modern project showcasing the work of Wale-Durojaye Ayoyomiwa.",
     url: "https://ayotomcs.me",
     siteName: "V123 Portfolio Project",
@@ -38,7 +27,7 @@ export const metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Preview of V123 Portfolio by Wale-Durojaye Ayoyomiwa",
+        alt: "Preview of V123 Portfolio Project by Wale-Durojaye Ayoyomiwa",
       },
     ],
     locale: "en_US",
@@ -46,17 +35,22 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "V123 - Portfolio of Wale-Durojaye Ayoyomiwa",
-    description: "A modern portfolio designed and developed by Wale-Durojaye Ayoyomiwa.",
+    title: "V123 - Portfolio Project of Wale-Durojaye Ayoyomiwa",
+    description: "News System Portfolio Project developed by Wale-Durojaye Ayoyomiwa.",
     images: ["/og-image.jpg"],
-    creator: "@WaleDurojaye",
+    creator: "@ayotomcs",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <head>
+        <link rel="preload" href="/locomotive-scroll.css" as="style" />
+        <link rel="prefetch" href="/love" />
+        <link rel="preload" href="/fonts/Fino/fino-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
+      <body >
         {children}
         <Analytics />
       </body>

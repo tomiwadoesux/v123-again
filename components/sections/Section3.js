@@ -23,13 +23,13 @@ async function sendMailerLiteEmail({ to, subject, html }) {
       to,
       subject,
       html,
-      from: "your_verified_sender@yourdomain.com"
+      from: "your_verified_sender@yourdomain.com",
     },
     {
       headers: {
         "Content-Type": "application/json",
-        "X-MailerLite-ApiKey": apiKey
-      }
+        "X-MailerLite-ApiKey": apiKey,
+      },
     }
   );
   return response.data;
@@ -47,7 +47,6 @@ export default function Section3() {
     if (!changerTextRef.current) return;
 
     const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
-
 
     tl.to(changerTextRef.current, {
       text: "MAYBE HER",
@@ -192,10 +191,8 @@ export default function Section3() {
               strokeWidth="0.8"
             />
           </svg>
-
-         
         </div>
-        <div className="flex flex-col md:flex-row  gap-2 md:gap-4 ">
+        <div className="flex flex-col md:flex-row  gap-0 md:gap-4 ">
           <div className=" h-[100%]">
             <HeaderText
               className="text-left md:text-center pb-1 pt-2"
@@ -219,14 +216,16 @@ export default function Section3() {
               </div>
 
               <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
-                The project is simple, a service that sends 
-                daily or weekly mail of {" "}
+                The project is simple, a service that sends daily or weekly mail
+                of{" "}
                 <span ref={newsRef}>
                   {splitText("AI summarized News Articles")}
-                </span>{" and a"}
-                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose your
-                preferred category, and it delivers. It's just
-                about making news experience easy to understand. <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
+                </span>
+                {" and a"}
+                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose
+                your preferred category, and it delivers. It's just about making
+                news experience easy to understand.{" "}
+                <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
               </h4>
 
               <Button text="Subscribe Here" color="red" />
@@ -310,8 +309,12 @@ Josephine he wore around his neck."
                   color="black"
                   className=""
                 />
-                <Author author="The art of seduction" color="red" />
-              </div>
+
+            <Author
+              from="The Art of Seduction"
+              author="Robert Greene"
+              color="#DC2625"
+            />              </div>
               <div className="  md:hidden  w-fit">
                 <svg
                   width="10"
@@ -330,7 +333,7 @@ Josephine he wore around his neck."
                   />
                 </svg>
               </div>
-             
+
               <div className=" self-start flex-1">
                 <NormalText
                   content="No one knew the struggle..The daily chaos from which she emerged to reach work..The 
@@ -339,14 +342,18 @@ Josephine he wore around his neck."
               in which she was struggling to keep afloat..The puzzle she was trying to complete..Her world within was only hers. "
                   color="black"
                 />
-                <Author author="Her world within" color="red" />
+            <Author
+              from="Her World Within"
+              author="Robert Greene"
+              color="#DC2625"
+            />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="   pt-2 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] ">
+      <div className="   pt-6 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] ">
         <svg
           width="100%"
           height="20"
@@ -376,7 +383,7 @@ Josephine he wore around his neck."
         <div>
           <Section99 />
         </div>
-        <div className="pb-6 pt-4">
+        <div className="pb-2 md:pb-4 pt-4">
           <svg
             width="100%"
             height="20"
@@ -439,7 +446,11 @@ Josephine he wore around his neck."
               color="black"
             />
 
-            <Author author="The art of sedcution" color="red" />
+            <Author
+              from="The art of Seduction"
+              author="Robert Greene"
+              color="#DC2625"
+            />
           </div>
           <div className=" hidden md:block w-fit">
             <svg
@@ -459,7 +470,7 @@ Josephine he wore around his neck."
               />
             </svg>
           </div>
-         
+
           <div className=" flex flex-1 h-[60%] flex-col gap-2">
             <div className="pt-3 md:pt-0">
               <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-[#DC2625] md:text-2xl lg:text-3xl">
@@ -477,7 +488,7 @@ Josephine he wore around his neck."
                   <Author
                     from="i love you"
                     author="Sherif Okasha"
-                    color="red"
+                    color="#DC2625"
                   />
                 </div>
                 <div className=" md:hidden w-fit">
@@ -498,7 +509,7 @@ Josephine he wore around his neck."
                     />
                   </svg>
                 </div>
-              
+
                 <div className="flex-1">
                   <NormalText
                     content="Your love is better than wine, your perfume more fragrant than spices. Your lips are sweet as nectar, my bride. Honey
@@ -507,7 +518,7 @@ Josephine he wore around his neck."
                     color="black"
                     className=""
                   />
-                  <Author from="The Bible" author="SOS 4:10-12" color="red" />
+                  <Author from="The Bible" author="SOS 4:10-12" color="#DC2625" />
                 </div>
               </div>
               <div className="hidden lg:block h-20"></div>
@@ -531,7 +542,7 @@ Josephine he wore around his neck."
               />
             </svg>
           </div>
-         
+
           <div className=" pt-3 md:pt-0 flex flex-1 flex-col gap-2">
             <div>
               <h1 className="text-xl pb-2 text-center lg:text-left p-0 text-[#DC2625] md:text-2xl lg:text-3xl">
@@ -548,7 +559,7 @@ Josephine he wore around his neck."
               <Author
                 from="will you come with me"
                 author="Frederick Douglas Harper "
-                color="red"
+                color="#DC2625"
               />
               <div className="w-full ">
                 <LazyImageTrail

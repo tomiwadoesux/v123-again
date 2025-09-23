@@ -1,6 +1,7 @@
 // /app/test-newsletter/page.js
 "use client";
 import { useState } from "react";
+import ParticlesComponent from "components/particle";
 
 // Test MailerLite email function
 async function sendSimpleMessage() {
@@ -77,15 +78,27 @@ export default function TestNewsletter() {
   };
 
   const handleSend = async () => {
+    if (!email) {
+      alert('Please enter an email address');
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch(
-        `/api/news?category=${category}&email=${encodeURIComponent(email)}`
+        `/api/news?category=${category}&email=${encodeURIComponent(email)}&action=send`
       );
       const data = await res.json();
       setResponse(JSON.stringify(data, null, 2));
+
+      if (res.ok) {
+        alert(`Newsletter sent successfully to ${email}!`);
+      } else {
+        alert(`Failed to send newsletter: ${data.error || 'Unknown error'}`);
+      }
     } catch (error) {
       setResponse(JSON.stringify({ error: error.message }, null, 2));
+      alert(`Error sending newsletter: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -108,6 +121,7 @@ export default function TestNewsletter() {
   };
 
   return (
+    
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <h1 style={{ textAlign: "center", color: "#333", marginBottom: "30px" }}>Test Newsletter API</h1>
       

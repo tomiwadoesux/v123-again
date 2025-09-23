@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 import { NormalText } from "../components/NormalText";
 import { HeaderText } from "../components/HeaderText";
 import { Author } from "../components/Author";
@@ -15,7 +16,6 @@ export default function MastHead() {
   });
 
   useEffect(() => {
-    // Animate the title
     gsap.from(".title-text", {
       opacity: 0,
       y: 50,
@@ -23,7 +23,6 @@ export default function MastHead() {
       ease: "power3.out",
     });
 
-    // Animate SVG lines
     gsap.from(".svg-line", {
       scaleX: 0,
       transformOrigin: "left",
@@ -33,7 +32,6 @@ export default function MastHead() {
       delay: 0.3,
     });
 
-    // Animate SVGs jumping up and down every 6 seconds
     const svgs = gsap.utils.toArray(".jump-svg");
     gsap.timeline({ repeat: -1, repeatDelay: 4 }).to(svgs, {
       y: -50,
@@ -46,7 +44,7 @@ export default function MastHead() {
 
   return (
     <section>
-      <div className=" h-auto  px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
+      <div className=" h-auto lg:-mb-0 md:-mb-6 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
         <div className="flex flex-col md:flex-row w-full gap-9">
           <div className=" sm:block hidden flex-1 ">
             <h4
@@ -57,12 +55,14 @@ export default function MastHead() {
             </h4>
           </div>
           <div className="flex-1 justify-center flex relative">
-            <h1 className="title-text relative -top-7 whitespace-nowrap text-center text-4xl lg:-top-7 md:-top-9 md:text-[3.3rem] lg:text-[4.3rem] text-black font-light z-10 inline-block max-w-full overflow-x-auto">
-              TITLE:"V123"
-            </h1>
+           <Link href="/love" className="hover:opacity-70 transition-opacity">
+              <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] font-light z-10">
+                TITLE: "V123"
+              </h1>
+            </Link>
           </div>
           <div className="  sm:block hidden  flex-1">
-            <h4 className=" text-[#EB8E41] underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+            <h4 className=" text-[#EB8E41] underline text-right underline-offset-2 text-xs md:text-xs lg:text-base italic ">
               <a href="/love" className="hover:opacity-70 transition-opacity">
                 Next Page{" "}
               </a>
@@ -87,9 +87,8 @@ export default function MastHead() {
               strokeWidth="3"
             />
           </svg>
-          <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.3rem]">
-            “Checking my email daily, because apparently chaos doesn’t send
-            itself”
+          <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.15rem]">
+            “Art is never finished, only abandoned”
           </h6>
           <div className="relative -top-3 md:-top-0">
             <svg
@@ -111,10 +110,10 @@ export default function MastHead() {
             </svg>
           </div>
         </div>
-        <div className="flex flex-row relative md:hidden -top-14 justify-between w-full ">
+        <div className="flex flex-row relative md:hidden -top-36 justify-between w-full ">
           <div className=" ">
             <h4
-              className="text-left italic text-xs md:text-xs lg:text-base self-start"
+              className="text-left hidden md:block italic text-xs md:text-xs lg:text-base self-start"
               role="text"
             >
               {currentDate}
@@ -122,7 +121,7 @@ export default function MastHead() {
           </div>
 
           <div className=" ">
-            <h4 className=" text-black underline text-right underline00 text-xs md:text-xs lg:text-base italic ">
+            <h4 className=" text-[#EB8E41] underline text-right underline00 text-xs italic ">
               <a href="/love" className="hover:opacity-70 transition-opacity">
                 Next Page{" "}
               </a>

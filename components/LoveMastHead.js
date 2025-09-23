@@ -16,7 +16,6 @@ export default function LoveMastHead() {
   });
 
   useEffect(() => {
-    // Animate the title
     gsap.from(".title-text", {
       opacity: 0,
       y: 50,
@@ -24,7 +23,6 @@ export default function LoveMastHead() {
       ease: "power3.out",
     });
 
-    // Animate SVG lines
     gsap.from(".svg-line", {
       scaleX: 0,
       transformOrigin: "left",
@@ -37,8 +35,8 @@ export default function LoveMastHead() {
 
   return (
     <section>
-      <div className=" h-31 md:h-43 overflow-hidden px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
-        <div className="flex flex-row w-full gap-9">
+      <div className=" h-auto lg:-mb-0 md:-mb-6 sm:-mb-4  px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
+      <div className="flex flex-row w-full gap-9">
           <div className="sm:block hidden flex-1 flex">
           <h4 className=" text-[#DC2625] underline text-left underline text-xs md:text-xs lg:text-base italic ">
               <Link href="/" className="hover:opacity-70 transition-opacity">
@@ -47,9 +45,11 @@ export default function LoveMastHead() {
             </h4>
           </div>
           <div className="flex-1 justify-center flex relative">
-            <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-[#DC2625] font-light z-10">
-              TITLE: "LOVE"
-            </h1>
+            <Link href="/" className="hover:opacity-70 transition-opacity">
+              <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] text-[#DC2625] font-light z-10">
+                TITLE: "LOVE"
+              </h1>
+            </Link>
             {/* Four heart SVGs positioned close together */}
             <div className="absolute top-0 left-[40%] z-0 flex gap-2">
               <svg
@@ -130,9 +130,8 @@ export default function LoveMastHead() {
               strokeWidth="3"
             />
           </svg>
-          <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.3rem]">
-            “Checking my email daily, because apparently chaos doesn’t send
-            itself”
+          <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.2rem]">
+            “Art is never finished, only abandoned”
           </h6>
           <div className="relative -top-3 md:-top-0">
             <svg
@@ -154,10 +153,10 @@ export default function LoveMastHead() {
             </svg>
           </div>
         </div>
-        <div className="flex flex-row-reverse relative md:hidden -top-14 justify-between w-full ">
+        <div className="flex flex-row-reverse relative md:hidden -top-36 justify-between w-full ">
           <div className=" ">
             <h4
-              className="text-left italic text-xs md:text-xs lg:text-base self-start"
+              className="text-left  hidden md:block  italic text-xs md:text-xs lg:text-base self-start"
               role="text"
             >
               {currentDate}

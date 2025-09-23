@@ -8,6 +8,7 @@ export function AsciiScatter({ ascii }) {
         fontFamily: "monospace",
         fontSize: "0.6rem",
         lineHeight: "1.0",
+
         color: "#000",
 
         userSelect: "text",
@@ -18,8 +19,8 @@ export function AsciiScatter({ ascii }) {
       }}
     >
       {ascii}
-    </pre>
-  );
+  </pre>
+);
 }
 
 const asciiArt1 = `---------------------------------------------------

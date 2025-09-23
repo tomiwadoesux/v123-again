@@ -73,6 +73,19 @@ export default function TestAutomation() {
     }
   };
 
+  const handleDebugTest = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/mailerlite-sync?debug=true');
+      const data = await res.json();
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (error) {
+      setResponse(JSON.stringify({ error: error.message }, null, 2));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <h1 style={{ textAlign: "center", color: "#333", marginBottom: "30px" }}>
@@ -165,20 +178,35 @@ export default function TestAutomation() {
         >
           {loading ? 'Loading...' : '📡 Direct MailerLite Sync'}
         </button>
-        <button 
-          onClick={handleCheckSubscriber} 
+        <button
+          onClick={handleCheckSubscriber}
           disabled={loading}
-          style={{ 
-            backgroundColor: '#6f42c1', 
-            color: 'white', 
-            padding: '12px 20px', 
-            border: 'none', 
-            borderRadius: '5px', 
+          style={{
+            backgroundColor: '#6f42c1',
+            color: 'white',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '5px',
             cursor: loading ? 'not-allowed' : 'pointer',
             opacity: loading ? 0.6 : 1
           }}
         >
           {loading ? 'Loading...' : '🔍 Check Subscriber Status'}
+        </button>
+        <button
+          onClick={handleDebugTest}
+          disabled={loading}
+          style={{
+            backgroundColor: '#dc3545',
+            color: 'white',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: loading ? 0.6 : 1
+          }}
+        >
+          {loading ? 'Loading...' : '🛠️ Debug MailerLite Connection'}
         </button>
       </div>
 

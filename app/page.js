@@ -32,6 +32,30 @@ export default function Home() {
       lerp: 0.07,
     });
 
+    const preloadLovePage = () => {
+      router.prefetch('/love');
+
+      import('./love/page').catch(() => {});
+      import('../components/particle2').catch(() => {});
+      import('../components/LoveMastHead.js').catch(() => {});
+      import('../components/sections/Section3.js').catch(() => {});
+      import('../components/Footer2.js').catch(() => {});
+
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.href = '/locomotive-scroll.css';
+      link.as = 'style';
+      document.head.appendChild(link);
+    };
+
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(preloadLovePage);
+      } else {
+        setTimeout(preloadLovePage, 100);
+      }
+    }
+
     return () => {
       scroll.destroy();
     };
@@ -53,10 +77,8 @@ export default function Home() {
 
         <Section1 />
         <Tomcs/>
-        <Section5 /> 
-        {/* <Hail/> */}
         <Section2 />
-        {/* <NavigationNext/> */}
+        <Section5 /> 
         <Footer/>
 
 

@@ -1,6 +1,7 @@
 /* app/globals.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/alan-sans');
 
 /* Remove Tailwind import since you're not using it */
 :root {
@@ -18,19 +19,19 @@
 
 /* Global Base Styles for Body */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Alan Sans', ;
   line-height: 1.6;
   color: #333;
   margin: 0;
   padding: 0;
   background: #000; /* Match the particle background */
-  
-  
+
+
 }
 
 /* Headings: Use Merriweather for all heading levels */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Merriweather', serif;
+  font-family: 'Alan Sans';
   margin: 0;
   padding: 0.5em 0;
 }

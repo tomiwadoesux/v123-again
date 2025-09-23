@@ -6,22 +6,19 @@ export default function Section99() {
   return (
     <section className="pt-1 pb-3">
       <div className="flex flex-col ">
-
-     
-     
-      <div className="flex flex-col  justify-between md:flex-row">
-        <div className="flex flex-col md:flex-row gap-1.5 lg:gap-3">
-          <div className="flex-col">
-            <div className=" lg:hidden  ">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <AsciiScatter
-                  ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        <div className="flex flex-col  justify-between md:flex-row">
+          <div className="flex flex-col md:flex-row gap-1.5 lg:gap-3">
+            <div className="flex-col">
+              <div className=" lg:hidden  ">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <AsciiScatter
+                    ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -75,19 +72,19 @@ export default function Section99() {
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`}
-                />
+                  />
+                </div>
               </div>
-            </div>
-            <div className=" hidden lg:block ">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <AsciiScatter
-                  ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              <div className=" hidden lg:block ">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <AsciiScatter
+                    ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@***++++*++++++++*++++++++++++++++++++++++++++++++++%@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*++++++++++++++++++*#%@@@@%%*++++++++++++++++++++++%@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -126,92 +123,114 @@ export default function Section99() {
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#@@@@@@@@@@@@@@@@@@@@++++++++++++*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@############%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`}
-                />
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="pt-3">
-              <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
-                What He Meant
-              </h1>{" "}
-              <div>
-                <NormalText
-                  content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
-                        organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
-                        we have loads to lift and hard work to"
-                  color="black"
-                />{" "}
-                <div class="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="#DC2625"
-                    width="16"
-                    height="16"
-                    class="icon small"
-                    aria-hidden="true"
-                  >
-                    <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
-                  </svg>
-                  <h5 className="italic  text-xs md:text:sm text-[#DC2625]">
-                    Planted{" "}
-                    <span className="underline">
-                      {" "}
-                      <a href="https://ayotomcs.me"> On Medium</a>{" "}
-                    </span>
-                  </h5>
+              <div className="pt-3">
+                <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
+                Alone in Green Street
+                </h1>{" "}
+                <div>
+                  <NormalText
+                    content="  Alone in the rain along Green Street’s avenue.
+
+Trees dancing with the wind’s harmony.
+
+Music loud, Heather’s melody.
+
+The trees, they cease,
+
+droplets mid-air find their peace,
+
+Echoes of steps, where they once fell.
+
+Louder footsteps, hearts skip a beat.
+
+Eyes lift up, a sight to behold.
+
+Whispers a spell, memories fade,
+
+Story untold.x"
+                    color="black"
+                  />{" "}
+                  <div className="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="#DC2625"
+                      width="16"
+                      height="16"
+                      className="icon small"
+                      aria-hidden="true"
+                    >
+                      <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
+                    </svg>
+                    <h5 className="italic text-xs font-extralight text-[#DC2625] hover:not-italic">
+                      Planted{" "}
+                      <span className="underline">
+                        {" "}
+                        <a
+                          href="https://medium.com/@ayotomcs/echoes-of-steps-where-droplets-once-fell-c47e5f8ac097"
+                          className="italic text-xs font-extralight hover:not-italic"
+                        >
+                          {" "}
+                          On Medium
+                        </a>{" "}
+                      </span>
+                    </h5>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className=" hidden md:block w-fit">
-            <svg
-              width="10"
-              height="100%"
-              viewBox="0 0 10 50"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-            >
-              <line
-                x1="5"
-                y1="0"
-                x2="5"
-                y2="50"
-                stroke="black"
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-          <div className="md:hidden ">
-            <svg
-              width="100%"
-              height="20"
-              viewBox="0 0 100 10"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-            >
-              <line
-                className="svg-line"
-                x1="0"
-                y1="5.5"
-                x2="100"
-                y2="5.5"
-                stroke="black"
-                strokeWidth="0.6"
-              />
-            </svg>
-          </div>
-          <div className="flex-col">
-            <div className=" flex lg:hidden  ">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
+            <div className=" hidden md:block w-fit">
+              <svg
+                width="10"
+                height="100%"
+                viewBox="0 0 10 50"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
               >
-                <AsciiScatter
-                  ascii={`@@@@@@@@@@@@@@@@+=*********************==@@@@@@@@@@@@@@@@
+                <line
+                  x1="5"
+                  y1="0"
+                  x2="5"
+                  y2="50"
+                  stroke="black"
+                  strokeWidth="1"
+                />
+              </svg>
+            </div>
+            <div className="md:hidden ">
+              <svg
+                width="100%"
+                height="20"
+                viewBox="0 0 100 10"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none"
+              >
+                <line
+                  className="svg-line"
+                  x1="0"
+                  y1="5.5"
+                  x2="100"
+                  y2="5.5"
+                  stroke="black"
+                  strokeWidth="0.6"
+                />
+              </svg>
+            </div>
+            <div className="flex-col">
+              <div className=" flex lg:hidden  ">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <AsciiScatter
+                    ascii={`@@@@@@@@@@@@@@@@+=*********************==@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@-.:=*****************=:.:%@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@%:....-*************-.....*@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@%.......:-+*****+=:.......+@@@@@@@@@@@@@@@
@@ -265,19 +284,19 @@ export default function Section99() {
 .......-++++++++++++-...............-++++++++++++-.......
 ......-+++++++++++++-...............-+++++++++++++-......
 .....:++++++++++++++-...............-++++++++++++++-.....`}
-                />
+                  />
+                </div>
               </div>
-            </div>
-            <div className=" hidden lg:block ">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <AsciiScatter
-                  ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:.......+%@@%=.......-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+              <div className=" hidden lg:block ">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <AsciiScatter
+                    ascii={`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:.......+%@@%=.......-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:.....-*%#**##+-.....=@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-...:++::++++.:*+:...+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=.:=+:...++++...-*=..*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -316,44 +335,57 @@ export default function Section99() {
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#*********@@@%+++.....:-:.....-+++%@@#*********%@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#**++++==+#%#****+.....:-......-+****%%*==+++++**@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++++++++#%#++++++.:----------:-+++++*#%*++++===*@@@@@@@@@@@@@@@@@@@@@@@@@@@`}
-                />
+                  />
+                </div>
               </div>
-            </div>
-            <div className="pt-3">
-              <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
-                What He Meant
-              </h1>{" "}
-              <div>
-                <NormalText
-                  content="     No screams, my ears thinking.. No screams, my hands thinking..There's a tone so
-                        organized, how ryhtimic..The long beard man vowed to labour who knows once told me..Beware, 
-                        we have loads to lift and hard work to"
-                  color="black"
-                />{" "}
+              <div className="pt-3">
+                <h1 className="text-xl pb-2 text-center lg:text-left pt-1 text-[#DC2625] md:text-2xl lg:text-3xl">
+                  I did not see
+                </h1>{" "}
                 <div>
-                  {/* <Author author="Ayotomcs" color="#DC2625" />{" "} */}
-                  <div class="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="#DC2625"
-                      width="16"
-                      height="16"
-                      class="icon small"
-                      aria-hidden="true"
-                    >
-                      <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
-                    </svg>
-                    <h5 className="italic  text-xs md:text:sm text-[#DC2625]">
-                      Planted <span className="underline">On Medium </span>
-                    </h5>
+                  <NormalText
+                    content="I  was asleep but my mind was awake..
+
+wandering,
+
+like my eyes looking at every stranger for a smile I’ve only seen in you..‘his reminiscences of how staring at her left him spellbound’..Her eyes bright as light and..."
+                    color="black"
+                  />{" "}
+                  <div>
+                    {/* <Author author="Ayotomcs" color="#DC2625" />{" "} */}
+                    <div className="mt-2.5 flex items-center gap-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#DC2625"
+                        width="16"
+                        height="16"
+                        className="icon small"
+                        aria-hidden="true"
+                      >
+                        <path d="M5.99805 3C9.48787 3 12.3812 5.55379 12.9112 8.8945C14.0863 7.72389 15.7076 7 17.498 7H21.998V9.5C21.998 13.0899 19.0879 16 15.498 16H12.998V21H10.998V13H8.99805C5.13205 13 1.99805 9.86599 1.99805 6V3H5.99805ZM19.998 9H17.498C15.0128 9 12.998 11.0147 12.998 13.5V14H15.498C17.9833 14 19.998 11.9853 19.998 9.5V9ZM5.99805 5H3.99805V6C3.99805 8.76142 6.23662 11 8.99805 11H10.998V10C10.998 7.23858 8.75947 5 5.99805 5Z" />
+                      </svg>
+                      <h5 className="italic text-xs font-extralight text-[#DC2625] hover:not-italic">
+                        Planted{" "}
+                        <span className="underline">
+                          {" "}
+                          <a
+                          target="_blank"
+                            href="https://medium.com/@ayotomcs/i-did-not-see-98eb59bd7e74"
+                            className="italic text-xs font-extralight hover:not-italic"
+                          >
+                            {" "}
+                            On Medium
+                          </a>{" "}
+                        </span>
+                      </h5>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
   );
