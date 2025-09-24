@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import validator from "validator";
 import * as cheerio from "cheerio";
 import { Resend } from "resend";
+import { scheduleDelayedEmail, scheduleRecurringEmails } from "../../../lib/scheduleEmail.js";
 
 let resend;
 try {
@@ -266,12 +267,13 @@ export async function GET(req) {
     });
   }
 
-  let db, subscribers;
+  let db, subscribers, scheduledEmails;
   if (mongoClient) {
     try {
       await mongoClient.connect();
       db = mongoClient.db("newsletter");
       subscribers = db.collection("subscribers");
+      scheduledEmails = db.collection("scheduled_emails");
     } catch (error) {
       console.error("MongoDB Connection Error:", error.message);
       return new Response(
@@ -297,6 +299,7 @@ export async function GET(req) {
       }
       
       const frequency = searchParams.get("frequency") || "daily";
+      const subscriptionTime = new Date();
 
       if (subscribers) {
         await subscribers.updateOne(
@@ -306,7 +309,11 @@ export async function GET(req) {
               email,
               category,
               frequency,
-              subscribedAt: new Date(),
+              subscribedAt: subscriptionTime,
+              preferredTime: {
+                hour: subscriptionTime.getHours(),
+                minute: subscriptionTime.getMinutes()
+              }
             },
           },
           { upsert: true }
@@ -314,7 +321,17 @@ export async function GET(req) {
       } else {
         console.warn("Database not available - subscriber not saved to database");
       }
-      
+
+      // Schedule 10-minute delayed first newsletter
+      if (scheduledEmails) {
+        const delayedEmailData = await scheduleDelayedEmail(email, category, frequency, subscriptionTime);
+        await scheduledEmails.insertOne(delayedEmailData);
+
+        // Schedule recurring emails based on subscription time
+        const recurringEmailData = await scheduleRecurringEmails(email, category, frequency, subscriptionTime);
+        await scheduledEmails.insertOne(recurringEmailData);
+      }
+
       // Store subscriber data (Resend doesn't require external sync)
       const subscriberInfo = await storeSubscriber(email, category, frequency);
 

@@ -264,7 +264,7 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const frequency = searchParams.get("frequency") || "daily";
   const testEmail = searchParams.get("test"); // For testing specific email
-  
+
   let db, subscribers;
   try {
     await mongoClient.connect();
@@ -288,6 +288,37 @@ export async function GET(req) {
       const testSubscriber = await subscribers.findOne({ email: testEmail });
       subscriberList = testSubscriber ? [testSubscriber] : [];
       console.log(`Test mode: Processing ${testEmail}`);
+    } else if (frequency === 'scheduled') {
+      // For scheduled delivery, find subscribers whose delivery time has come
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+
+      // Find subscribers who should receive emails at this time
+      const dailySubscribers = await subscribers.find({
+        frequency: 'daily',
+        'preferredTime.hour': currentHour,
+        'preferredTime.minute': { $gte: currentMinute - 30, $lte: currentMinute + 30 } // 30-minute window
+      }).toArray();
+
+      // For weekly subscribers, also check the day of the week
+      const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+      const weeklySubscribers = await subscribers.find({
+        frequency: 'weekly',
+        'preferredTime.hour': currentHour,
+        'preferredTime.minute': { $gte: currentMinute - 30, $lte: currentMinute + 30 }
+      }).toArray();
+
+      // Filter weekly subscribers to only those whose subscription day matches today
+      const filteredWeeklySubscribers = weeklySubscribers.filter(sub => {
+        const subscriptionDate = new Date(sub.subscribedAt);
+        const subscriptionDay = subscriptionDate.getDay();
+        return subscriptionDay === currentDay;
+      });
+
+      subscriberList = [...dailySubscribers, ...filteredWeeklySubscribers];
+      console.log(`Found ${subscriberList.length} subscribers for scheduled delivery (${dailySubscribers.length} daily, ${filteredWeeklySubscribers.length} weekly)`);
     } else {
       subscriberList = await subscribers.find({ frequency }).toArray();
       console.log(`Found ${subscriberList.length} subscribers for ${frequency} frequency`);
@@ -295,8 +326,8 @@ export async function GET(req) {
 
     if (subscriberList.length === 0) {
       return new Response(
-        JSON.stringify({ 
-          message: testEmail ? `No subscriber found for ${testEmail}` : `No ${frequency} subscribers found` 
+        JSON.stringify({
+          message: testEmail ? `No subscriber found for ${testEmail}` : `No ${frequency} subscribers found for this time`
         }),
         {
           status: 200,

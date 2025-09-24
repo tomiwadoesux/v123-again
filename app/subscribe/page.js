@@ -6,6 +6,7 @@ import ParticlesComponent from "components/particle";
 export default function Subscribe() {
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("general");
+  const [frequency, setFrequency] = useState("daily");
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
 
@@ -30,7 +31,7 @@ export default function Subscribe() {
       const res = await fetch(
         `/api/news?action=subscribe&email=${encodeURIComponent(
           email
-        )}&category=${category}&frequency=daily`
+        )}&category=${category}&frequency=${frequency}`
       );
       const data = await res.json();
       setResponse(data.message || 'Subscribed successfully!');
@@ -130,6 +131,22 @@ export default function Subscribe() {
                   {cat.charAt(0).toUpperCase() + cat.slice(1)}
                 </option>
               ))}
+            </select>
+          </div>
+
+          {/* Frequency Select */}
+          <div>
+            <label htmlFor="frequency" className="block text-sm font-medium text-gray-700 mb-1">
+              Delivery Frequency
+            </label>
+            <select
+              id="frequency"
+              value={frequency}
+              onChange={(e) => setFrequency(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
             </select>
           </div>
 
