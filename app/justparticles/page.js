@@ -1,23 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 
 export const NikeReceiptEmail = () => {
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [emailFromUrl, setEmailFromUrl] = useState("");
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const email = searchParams.get('email');
-    if (email) {
-      setEmailFromUrl(email);
-    }
-  }, [searchParams]);
 
   const handleUnsubscribe = async () => {
-    if (!emailFromUrl) {
-      setMessage('No email found in URL. Please use the unsubscribe link from your email.');
+    if (!email) {
+      alert('Please enter an email address');
       return;
     }
 
@@ -25,16 +17,21 @@ export const NikeReceiptEmail = () => {
     setMessage("");
     try {
       const res = await fetch(
-        `/api/news?action=unsubscribe&email=${encodeURIComponent(emailFromUrl)}`
+        `/api/news?action=unsubscribe&email=${encodeURIComponent(email)}`
       );
       const data = await res.json();
-      if (res.ok) {
-        setMessage(`Successfully unsubscribed ${emailFromUrl} from the newsletter!`);
+if (res.ok) {
+        setMessage('Successfully unsubscribed!');
+        setEmail('');
+        alert('Successfully unsubscribed!');
       } else {
         setMessage(`Failed to unsubscribe: ${data.error || 'Unknown error'}`);
+        alert(`Failed to unsubscribe: ${data.error || 'Unknown error'}`);
       }
     } catch (error) {
-      setMessage('Failed to unsubscribe: ' + error.message);
+      const errorMsg = 'Failed to unsubscribe: ' + error.message;
+      setMessage(errorMsg);
+      alert(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -44,30 +41,33 @@ export const NikeReceiptEmail = () => {
       <div className="mx-auto mt-2.5 w-full max-w-[600px] border border-gray-200">
         {/* Tracking Section */}
         <section className="bg-gray-100 px-10 py-5.5">
-          <div className="flex items-center justify-between py-3">
-            <div>
-              <p className="m-0 font-medium leading-8">Not Interested?</p>
-              {emailFromUrl && (
-                <p className="m-0 text-sm text-gray-600">Email: {emailFromUrl}</p>
-              )}
-            </div>
-            <div>
+          <div className="py-3">
+            <p className="m-0 font-medium leading-8 text-center mb-4">Not Interested? Unsubscribe Below:</p>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 flex-1 min-w-0"
+                disabled={loading}
+              />
               <button
                 onClick={handleUnsubscribe}
-                disabled={loading || !emailFromUrl}
-                className="px-4 py-2.5 text-center text-base font-medium text-[#DC2625] underline underline-offset-2 bg-transparent border-none cursor-pointer hover:text-[#DC2625]/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                disabled={loading || !email}
+                className="px-4 py-2 bg-[#DC2625] text-white rounded-md hover:bg-[#DC2625]/90 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium whitespace-nowrap"
               >
                 {loading ? 'Processing...' : 'Unsubscribe'}
               </button>
             </div>
+            {message && (
+              <div className="mt-3 p-2 bg-white rounded-md text-sm text-center">
+                <p className={message.includes('Successfully') ? 'text-green-600' : 'text-red-600'}>
+                  {message}
+                </p>
+              </div>
+            )}
           </div>
-          {message && (
-            <div className="mt-3 p-3 bg-white rounded-md text-sm">
-              <p className={message.includes('Successfully') ? 'text-green-600' : 'text-red-600'}>
-                {message}
-              </p>
-            </div>
-          )}
         </section>
 
         <hr className="m-0 border-gray-200" />
@@ -311,7 +311,7 @@ export const NikeReceiptEmail = () => {
             Please contact{" "}
             <a
               href="mailto:hello@ayotomcs.me"
-              className="text-gray-400 underline hover:text-gray-600 transition-colors"
+              className="text-[#EB8F41] underline hover:text-gray-600 transition-colors"
             >
               hello@ayotomcs.me
             </a>{" "}

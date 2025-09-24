@@ -4,9 +4,25 @@ import validator from "validator";
 import * as cheerio from "cheerio";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend;
+try {
+  if (process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+} catch (error) {
+  console.warn("Resend initialization failed:", error.message);
+}
+
 const HUGGINGFACE_API_URL = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
 const sendTransactionalEmail = async (mailOptions) => {
+  if (!resend) {
+    console.warn("Resend client not initialized - email sending skipped");
+    return {
+      message: "Email sending skipped - Resend not configured",
+      emailId: null
+    };
+  }
+
   try {
     const { data, error } = await resend.emails.send({
       from: `${process.env.RESEND_FROM_NAME || "V123 Newsletter"} <${process.env.RESEND_FROM_EMAIL}>`,
@@ -205,15 +221,16 @@ async function getRandomGiphy() {
 }
 
 
-// MongoDB connection
 let mongoClient;
 try {
-  mongoClient = new MongoClient(process.env.MONGODB_URI, {
-    connectTimeoutMS: 10000,
-    serverSelectionTimeoutMS: 10000,
-  });
+  if (process.env.MONGODB_URI) {
+    mongoClient = new MongoClient(process.env.MONGODB_URI, {
+      connectTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 10000,
+    });
+  }
 } catch (error) {
-  console.error("MongoDB Client Error:", error.message);
+  console.warn("MongoDB Client initialization failed:", error.message);
 }
 
 export async function GET(req) {
@@ -250,19 +267,23 @@ export async function GET(req) {
   }
 
   let db, subscribers;
-  try {
-    await mongoClient.connect();
-    db = mongoClient.db("newsletter");
-    subscribers = db.collection("subscribers");
-  } catch (error) {
-    console.error("MongoDB Connection Error:", error.message);
-    return new Response(
-      JSON.stringify({ error: "Database connection failed" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+  if (mongoClient) {
+    try {
+      await mongoClient.connect();
+      db = mongoClient.db("newsletter");
+      subscribers = db.collection("subscribers");
+    } catch (error) {
+      console.error("MongoDB Connection Error:", error.message);
+      return new Response(
+        JSON.stringify({ error: "Database connection failed" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+  } else {
+    console.warn("MongoDB client not initialized - database operations will be skipped");
   }
 
   try {
@@ -276,20 +297,23 @@ export async function GET(req) {
       }
       
       const frequency = searchParams.get("frequency") || "daily";
-      
-      // Save subscriber to database
-      await subscribers.updateOne(
-        { email },
-        {
-          $set: {
-            email,
-            category,
-            frequency,
-            subscribedAt: new Date(),
+
+      if (subscribers) {
+        await subscribers.updateOne(
+          { email },
+          {
+            $set: {
+              email,
+              category,
+              frequency,
+              subscribedAt: new Date(),
+            },
           },
-        },
-        { upsert: true }
-      );
+          { upsert: true }
+        );
+      } else {
+        console.warn("Database not available - subscriber not saved to database");
+      }
       
       // Store subscriber data (Resend doesn't require external sync)
       const subscriberInfo = await storeSubscriber(email, category, frequency);
@@ -474,8 +498,12 @@ export async function GET(req) {
           headers: { "Content-Type": "application/json" },
         });
       }
-      await subscribers.deleteOne({ email });
-      console.log(`Unsubscribed ${email} from ${category} news`);
+      if (subscribers) {
+        await subscribers.deleteOne({ email });
+        console.log(`Unsubscribed ${email} from ${category} news`);
+      } else {
+        console.warn("Database not available - unsubscribe operation skipped");
+      }
       
       // Send unsubscribe confirmation using transactional API
       try {
@@ -732,10 +760,12 @@ export async function GET(req) {
       }
     );
   } finally {
-    try {
-      await mongoClient.close();
-    } catch (error) {
-      console.error("MongoDB Close Error:", error.message);
+    if (mongoClient) {
+      try {
+        await mongoClient.close();
+      } catch (error) {
+        console.error("MongoDB Close Error:", error.message);
+      }
     }
   }
 }
