@@ -1,33 +1,78 @@
-import axios from "axios";
+import { Resend } from "resend";
+
+let resend;
+try {
+  if (process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+} catch (error) {
+  console.warn("Resend initialization failed:", error.message);
+}
 
 export async function POST(req) {
   try {
     const { to, subject, html } = await req.json();
 
-    const response = await axios.post(
-      "https://connect.mailerlite.com/api/emails",
-      {
-        recipients: [{ email: to }],
-        subject: subject,
-        html_body: html,
-        from: { 
-          email: process.env.MAILERLITE_FROM_EMAIL,
-          name: process.env.MAILERLITE_FROM_NAME || "V123 Newsletter"
+    console.log(`[TEST EMAIL] Attempting to send test email to: ${to}`);
+    console.log(`[TEST EMAIL] Subject: ${subject}`);
+    console.log(`[TEST EMAIL] Resend client initialized: ${!!resend}`);
+
+    if (!resend) {
+      console.error("[TEST EMAIL ERROR] Resend client not initialized - check RESEND_API_KEY");
+      return new Response(
+        JSON.stringify({
+          error: "Email service not configured",
+          details: "Resend API key missing"
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
         }
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": `Bearer ${process.env.MAILERLITE_API_KEY}`
+      );
+    }
+
+    if (!process.env.RESEND_FROM_EMAIL) {
+      console.error("[TEST EMAIL ERROR] RESEND_FROM_EMAIL not set");
+      return new Response(
+        JSON.stringify({
+          error: "Email configuration incomplete",
+          details: "From email address not configured"
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
         }
-      }
-    );
+      );
+    }
+
+    const { data, error } = await resend.emails.send({
+      from: `${process.env.RESEND_FROM_NAME || "V123 Test"} <${process.env.RESEND_FROM_EMAIL}>`,
+      to: [to],
+      subject: subject,
+      html: html,
+    });
+
+    if (error) {
+      console.error("[TEST EMAIL ERROR] Resend API error:", error);
+      return new Response(
+        JSON.stringify({
+          error: "Failed to send test email",
+          details: JSON.stringify(error)
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    console.log(`[TEST EMAIL SUCCESS] Test email sent to ${to} with ID: ${data?.id}`);
 
     return new Response(
-      JSON.stringify({ 
-        message: "Test email sent successfully!",
-        id: response.data.id 
+      JSON.stringify({
+        message: "Test email sent successfully via Resend!",
+        id: data?.id,
+        service: "Resend"
       }),
       {
         status: 200,
@@ -35,15 +80,15 @@ export async function POST(req) {
       }
     );
   } catch (error) {
-    console.error("Test Email Error:", error.message);
-    if (error.response) {
-      console.error("Error Response:", error.response.data);
-    }
+    console.error("[TEST EMAIL ERROR] Unexpected error:", {
+      message: error.message,
+      stack: error.stack
+    });
 
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: "Failed to send test email",
-        details: error.message 
+        details: error.message
       }),
       {
         status: 500,

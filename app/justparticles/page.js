@@ -40,7 +40,7 @@ if (res.ok) {
     <div className="bg-white font-sans">
       <div className="mx-auto mt-2.5 w-full max-w-[600px] border border-gray-200">
         {/* Tracking Section */}
-        <section className="bg-gray-100 px-10 py-5.5">
+        {/* <section className="bg-gray-100 px-10 py-5.5">
           <div className="py-3">
             <p className="m-0 font-medium leading-8 text-center mb-4">Not Interested? Unsubscribe Below:</p>
             <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
@@ -68,11 +68,11 @@ if (res.ok) {
               </div>
             )}
           </div>
-        </section>
+        </section> */}
 
         <hr className="m-0 border-gray-200" />
 
-        {/* Message Section */}
+        {/* `Message Section */}
         <section className="px-18.5 py-1 text-center">
           <h1 className="text-4xl font-bold tracking-wider">
             Welcome to V123 Newsletter!

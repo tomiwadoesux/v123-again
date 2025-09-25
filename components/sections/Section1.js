@@ -166,19 +166,22 @@ export default function Section1() {
               </div>
             </div>
             <div>
-              <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
-                The project is simple, a service that sends daily or weekly mail
-                of{" "}
-                <span ref={newsRef}>
-                  {splitText("AI summarized News Articles")}
-                </span>
-                {" and a"}
-                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose
-                your preferred category, and it delivers. It's just about making
-                news experience easy to understand.{" "}
-                <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
+              <h4 className="text-xs pt-0 pb-2 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                This project is pretty simple: it grabs fresh{" "}
+                <span ref={newsRef}>{splitText("website inspiration")}</span>{" "}
+                every day and sends you a few{" "}
+                <span ref={gifRef}>{splitText("random picks")}</span> in the
+                evening. Different people get different sites, so it always
+                feels a bit personal. Just a fun way to make discovering design
+                easier. <span ref={memeRef}>{splitText("Enjoy ;)")}</span>
               </h4>
-              <Button className="" text="Subscribe Here" color="#EB8E41" />
+
+              <Button
+                className=""
+                text="Subscribe Here"
+                background="#EB8E41"
+                color="#000"
+              />
             </div>
           </div>
           <div className="hidden md:block">
@@ -200,9 +203,9 @@ export default function Section1() {
             </svg>
           </div>
 
-          <div className="w-[100%] lg:w-[55%] aspect-square flex flex-col gap-2 overflow-hidden">
+          <div className="w-[100%] border border-black lg:w-[55%] aspect-square flex flex-col gap-2 overflow-hidden">
             <LazyImageTrail
-              imageSrc="./images/screen.png"
+              imageSrc="./images/toshow.png"
               className="w-full h-full object-cover object-center"
             />
           </div>

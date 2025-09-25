@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ParticlesComponent from "components/particle";
 
-export default function Subscribe() {
+export default function AwwwardsSubscribe() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
@@ -22,7 +22,7 @@ export default function Subscribe() {
       const data = await res.json();
       setResponse(data.message || 'Subscribed successfully!');
       if (res.ok) {
-        alert('🎨 Successfully subscribed to Daily Design Inspiration!');
+        alert('🎨 Successfully subscribed to daily design inspiration!');
         setEmail('');
       } else {
         alert(`Failed to subscribe: ${data.error || 'Unknown error'}`);
@@ -49,7 +49,7 @@ export default function Subscribe() {
       const data = await res.json();
       setResponse(data.message || 'Unsubscribed successfully!');
       if (res.ok) {
-        alert('Successfully unsubscribed from Daily Design Inspiration!');
+        alert('Successfully unsubscribed from design inspiration!');
         setEmail('');
       } else {
         alert(`Failed to unsubscribe: ${data.error || 'Unknown error'}`);
@@ -57,32 +57,6 @@ export default function Subscribe() {
     } catch (error) {
       setResponse('Error: ' + error.message);
       alert('Failed to unsubscribe: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleTestAwwwards = async () => {
-    if (!email) {
-      alert('Please enter an email address to send test email');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/awwwards-delivery?test=${encodeURIComponent(email)}`
-      );
-      const data = await res.json();
-      setResponse(data.message || 'Test email sent!');
-      if (res.ok) {
-        alert(`🎨 Test Awwwards email sent to ${email}! Check your inbox to see how the daily design inspiration looks.`);
-      } else {
-        alert(`Failed to send test email: ${data.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      setResponse('Error: ' + error.message);
-      alert('Failed to send test email: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -98,7 +72,7 @@ export default function Subscribe() {
 
       {/* Subscription form centered */}
       <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
-        <div className="max-w-md w-full   rounded-lg p-6  space-y-4">
+        <div className="max-w-md w-full rounded-lg p-6 space-y-4">
           {/* Back to Website button */}
           <div className="text-center mb-2">
             <Link
@@ -109,7 +83,9 @@ export default function Subscribe() {
             </Link>
           </div>
 
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🎨 Daily Design Inspiration</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+            🎨 Daily Design Inspiration
+          </h2>
 
           <div className="text-center mb-6 text-gray-600">
             <p className="mb-2">Get 3 amazing Awwwards sites delivered daily</p>
@@ -127,7 +103,7 @@ export default function Subscribe() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -148,9 +124,9 @@ export default function Subscribe() {
             <button
               onClick={handleSubscribe}
               disabled={loading}
-              className="flex-1 bg-[#EB8F41] text-white py-2 px-4 rounded-md hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex-1 bg-gradient-to-r from-purple-500 to-blue-600 text-white py-2 px-4 rounded-md hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              {loading ? 'Processing...' : 'Subscribe'}
+              {loading ? 'Processing...' : '🎨 Subscribe'}
             </button>
 
             <button
@@ -162,32 +138,20 @@ export default function Subscribe() {
             </button>
           </div>
 
-
-          {/* <div className="border-t pt-4 mt-6">
-            <div className="text-center mb-3">
-              <p className="text-sm text-gray-600">🧪 Test Feature</p>
-            </div>
-            <button
-              onClick={handleTestAwwwards}
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-white py-2 px-4 rounded-md hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
-            >
-              {loading ? 'Sending Test...' : '🎨 Test Awwwards Email'}
-            </button>
-            <p className="text-xs text-gray-500 text-center mt-2">
-              Send a sample Awwwards design email to see how it looks
-            </p>
-          </div> */}
-
           {/* Response Message */}
           {response && (
             <div className="mt-3 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
               {response}
             </div>
           )}
+
+          {/* Additional info */}
+          <div className="text-center text-xs text-gray-500 mt-4">
+            <p>Free forever • No spam • Unsubscribe anytime</p>
+            <p className="mt-1">Sites sourced from Awwwards.com</p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-

@@ -16,33 +16,58 @@ try {
 
 const HUGGINGFACE_API_URL = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
 const sendTransactionalEmail = async (mailOptions) => {
+  // Enhanced logging for debugging
+  console.log(`[EMAIL] Attempting to send email to: ${mailOptions.to}`);
+  console.log(`[EMAIL] Subject: ${mailOptions.subject}`);
+  console.log(`[EMAIL] Resend client initialized: ${!!resend}`);
+  console.log(`[EMAIL] From name: ${process.env.RESEND_FROM_NAME}`);
+  console.log(`[EMAIL] From email: ${process.env.RESEND_FROM_EMAIL}`);
+
   if (!resend) {
-    console.warn("Resend client not initialized - email sending skipped");
+    const errorMsg = "Resend client not initialized - check RESEND_API_KEY environment variable";
+    console.error(`[EMAIL ERROR] ${errorMsg}`);
     return {
       message: "Email sending skipped - Resend not configured",
-      emailId: null
+      emailId: null,
+      error: errorMsg
     };
   }
 
+  if (!process.env.RESEND_FROM_EMAIL) {
+    const errorMsg = "RESEND_FROM_EMAIL environment variable not set";
+    console.error(`[EMAIL ERROR] ${errorMsg}`);
+    throw new Error(errorMsg);
+  }
+
   try {
-    const { data, error } = await resend.emails.send({
+    const emailPayload = {
       from: `${process.env.RESEND_FROM_NAME || "V123 Newsletter"} <${process.env.RESEND_FROM_EMAIL}>`,
       to: [mailOptions.to],
       subject: mailOptions.subject,
       html: mailOptions.html,
-    });
+    };
+
+    console.log(`[EMAIL] Sending with payload from: ${emailPayload.from}`);
+
+    const { data, error } = await resend.emails.send(emailPayload);
 
     if (error) {
-      throw new Error(`Resend API error: ${error.message}`);
+      console.error(`[EMAIL ERROR] Resend API returned error:`, error);
+      throw new Error(`Resend API error: ${JSON.stringify(error)}`);
     }
 
-    console.log(`Transactional email sent successfully to ${mailOptions.to}`);
+    console.log(`[EMAIL SUCCESS] Email sent to ${mailOptions.to} with ID: ${data?.id}`);
     return {
       message: "Email sent via Resend",
-      emailId: data?.id
+      emailId: data?.id,
+      success: true
     };
   } catch (error) {
-    console.error("Resend Email Error:", error.message);
+    console.error(`[EMAIL ERROR] Failed to send email to ${mailOptions.to}:`, {
+      message: error.message,
+      stack: error.stack,
+      response: error.response?.data
+    });
     throw new Error(`Failed to send transactional email: ${error.message}`);
   }
 };

@@ -215,20 +215,22 @@ export default function Section3() {
                 </div>
               </div>
 
-              <h4 className="text-xs pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
-                The project is simple, a service that sends daily or weekly mail
-                of{" "}
-                <span ref={newsRef}>
-                  {splitText("AI summarized News Articles")}
-                </span>
-                {" and a"}
-                <span ref={gifRef}> {splitText("gif reaction")}</span>You choose
-                your preferred category, and it delivers. It's just about making
-                news experience easy to understand.{" "}
-                <span ref={memeRef}> {splitText("Enjoy ;)")}</span>
+              <h4 className="text-xs pb-2 pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                This project is pretty simple: it grabs fresh{" "}
+                <span ref={newsRef}>{splitText("website inspiration")}</span>{" "}
+                every day and sends you a few{" "}
+                <span ref={gifRef}>{splitText("random picks")}</span> in the
+                evening. Different people get different sites, so it always
+                feels a bit personal. Just a fun way to make discovering design
+                easier. <span ref={memeRef}>{splitText("Enjoy ;)")}</span>
               </h4>
 
-              <Button text="Subscribe Here" color="red" />
+              <Button
+                className=""
+                text="Subscribe Here"
+                background="#DC2625"
+                color="#F4F2EC"
+              />
             </div>
             <div className="w-full sm:block hidden bg-black h-[50%]">
               <video
@@ -309,12 +311,12 @@ Josephine he wore around his neck."
                   color="black"
                   className=""
                 />
-
-            <Author
-              from="The Art of Seduction"
-              author="Robert Greene"
-              color="#DC2625"
-            />              </div>
+                <Author
+                  from="The Art of Seduction"
+                  author="Robert Greene"
+                  color="#DC2625"
+                />{" "}
+              </div>
               <div className="  md:hidden  w-fit">
                 <svg
                   width="10"
@@ -342,11 +344,11 @@ Josephine he wore around his neck."
               in which she was struggling to keep afloat..The puzzle she was trying to complete..Her world within was only hers. "
                   color="black"
                 />
-            <Author
-              from="Her World Within"
-              author="Robert Greene"
-              color="#DC2625"
-            />
+                <Author
+                  from="Her World Within"
+                  author="Robert Greene"
+                  color="#DC2625"
+                />
               </div>
             </div>
           </div>
@@ -518,7 +520,11 @@ Josephine he wore around his neck."
                     color="black"
                     className=""
                   />
-                  <Author from="The Bible" author="SOS 4:10-12" color="#DC2625" />
+                  <Author
+                    from="The Bible"
+                    author="SOS 4:10-12"
+                    color="#DC2625"
+                  />
                 </div>
               </div>
               <div className="hidden lg:block h-20"></div>
