@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ParticlesComponent from "components/particle";
 import { useNotification } from "@/context/NotificationContext";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function Subscribe() {
   const [email, setEmail] = useState("");
@@ -270,6 +271,7 @@ export default function Subscribe() {
           © 2025 V123. Art is never finished.
         </p>
       </div>
+      <Analytics />
     </div>
   );
 }
