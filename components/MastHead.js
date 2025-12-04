@@ -63,9 +63,9 @@ export default function MastHead() {
           </div>
           <div className="  sm:block hidden  flex-1">
             <h4 className=" text-[#EB8E41] underline text-right underline-offset-2 text-xs md:text-xs lg:text-base italic ">
-              <a href="/love" className="hover:opacity-70 transition-opacity">
+              <Link href="/love" className="hover:opacity-70 transition-opacity">
                 Next Page{" "}
-              </a>
+              </Link>
             </h4>
           </div>
         </div>
@@ -122,9 +122,9 @@ export default function MastHead() {
 
           <div className=" ">
             <h4 className=" text-[#EB8E41] underline text-right underline00 text-xs italic ">
-              <a href="/love" className="hover:opacity-70 transition-opacity">
+              <Link href="/love" className="hover:opacity-70 transition-opacity">
                 Next Page{" "}
-              </a>
+              </Link>
             </h4>
           </div>
         </div>

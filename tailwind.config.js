@@ -7,7 +7,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        fino: ['Fino', 'serif'],
+        merriweather: ['Merriweather', 'serif'],
+        roboto: ['Roboto', 'sans-serif'],
+      },
+      colors: {
+        accent: '#EB8E41',
+      }
+    }
   },
   plugins: []
 };

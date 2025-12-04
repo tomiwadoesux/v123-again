@@ -1,4 +1,4 @@
-import Ayotomcs from "./ayotomcs";
+import Ayotomcs from "./ayotomcsOld";
 import Link from "next/link";
 
 export function Footer2() {

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Button({
   text,
   borderColor,
@@ -14,7 +16,7 @@ export function Button({
   return (
     <Tag>
       <span className="pb-3 inline-block">
-        <a
+        <Link
           href={link}
           style={{
             color, // text color
@@ -24,7 +26,7 @@ export function Button({
           className=" px-2 py-1 underline underline-offset-2 text-sm border"
         >
           {text}
-        </a>
+        </Link>
       </span>
     </Tag>
   );

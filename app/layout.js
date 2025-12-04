@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { NotificationProvider } from "@/context/NotificationContext";
 
 export const metadata = {
   title: "V123",
@@ -51,7 +52,9 @@ export default function RootLayout({ children }) {
         <link rel="preload" href="/fonts/Fino/fino-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body >
-        {children}
+        <NotificationProvider>
+          {children}
+        </NotificationProvider>
         <Analytics />
       </body>
     </html>

@@ -214,15 +214,15 @@ export default function Section3() {
                   </video>
                 </div>
               </div>
-
-              <h4 className="text-xs pb-2 pt-0 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
-                This project is pretty simple: it grabs fresh{" "}
-                <span ref={newsRef}>{splitText("website inspiration")}</span>{" "}
-                every day and sends you a few{" "}
-                <span ref={gifRef}>{splitText("random picks")}</span> in the
-                evening. Different people get different sites, so it always
-                feels a bit personal. Just a fun way to make discovering design
-                easier. <span ref={memeRef}>{splitText("Enjoy ;)")}</span>
+              <h4 className="text-xs pt-0 pb-2 md:pt-4 md:text-sm lg:text-base text-justify dropcap">
+                This project is pretty simple: it uses{" "}
+                <span ref={newsRef}>{splitText("Hugging Face AI")}</span> to
+                summarize the latest{" "}
+                <span ref={gifRef}>{splitText("news articles")}</span> and
+                delivers them to your inbox daily or weekly. Get the most
+                important stories without the noise, all powered by AI to keep
+                you informed effortlessly.{" "}
+                <span ref={memeRef}>{splitText("Stay updated ;)")}</span>
               </h4>
 
               <Button

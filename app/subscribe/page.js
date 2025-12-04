@@ -2,190 +2,273 @@
 import { useState } from "react";
 import Link from "next/link";
 import ParticlesComponent from "components/particle";
+import { useNotification } from "@/context/NotificationContext";
 
 export default function Subscribe() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState("");
+  const [category, setCategory] = useState("top");
+  const [frequency, setFrequency] = useState("daily");
+  
+  const { showNotification } = useNotification();
 
-  const handleSubscribe = async () => {
+  const categories = [
+    "top",
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
+  ];
+
+  const handleSubscribe = () => {
     if (!email) {
-      alert('Please enter an email address');
+      showNotification('Please enter an email address', 'error');
       return;
     }
 
     setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/awwwards-subscribe?action=subscribe&email=${encodeURIComponent(email)}`
-      );
-      const data = await res.json();
-      setResponse(data.message || 'Subscribed successfully!');
-      if (res.ok) {
-        alert('🎨 Successfully subscribed to Daily Design Inspiration!');
-        setEmail('');
-      } else {
-        alert(`Failed to subscribe: ${data.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      setResponse('Error: ' + error.message);
-      alert('Failed to subscribe: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
+    
+    // Non-blocking fetch - allows user to navigate away
+    const endpoint = `/api/news?action=subscribe&email=${encodeURIComponent(email)}&category=${category}&frequency=${frequency}`;
+    
+    fetch(endpoint)
+      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then(({ status, body }) => {
+        if (status >= 200 && status < 300) {
+          showNotification(`Welcome to the club. Subscribed to ${category} News.`);
+          // Only clear email if still mounted - React handles this gracefully usually, 
+          // but to be safe we could just let it be or check generic mounted state if strictly needed.
+          // For now, we just call the context function which is safe.
+        } else {
+          showNotification(`Failed to subscribe: ${body.error || 'Unknown error'}`, 'error');
+        }
+      })
+      .catch(error => {
+        showNotification('Failed to subscribe: ' + error.message, 'error');
+      })
+      .finally(() => {
+        // If component is unmounted, this might warn, but it's acceptable in this context 
+        // as the primary goal is the global notification which WILL work.
+        setLoading(false); 
+      });
   };
 
-  const handleUnsubscribe = async () => {
+  const handleUnsubscribe = () => {
     if (!email) {
-      alert('Please enter an email address');
+      showNotification('Please enter an email address', 'error');
       return;
     }
 
     setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/awwwards-subscribe?action=unsubscribe&email=${encodeURIComponent(email)}`
-      );
-      const data = await res.json();
-      setResponse(data.message || 'Unsubscribed successfully!');
-      if (res.ok) {
-        alert('Successfully unsubscribed from Daily Design Inspiration!');
-        setEmail('');
-      } else {
-        alert(`Failed to unsubscribe: ${data.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      setResponse('Error: ' + error.message);
-      alert('Failed to unsubscribe: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
+    
+    const endpoint = `/api/news?action=unsubscribe&email=${encodeURIComponent(email)}`;
+    
+    fetch(endpoint)
+      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then(({ status, body }) => {
+        if (status >= 200 && status < 300) {
+          showNotification('Successfully unsubscribed.');
+        } else {
+          showNotification(`Failed to unsubscribe: ${body.error || 'Unknown error'}`, 'error');
+        }
+      })
+      .catch(error => {
+        showNotification('Failed to unsubscribe: ' + error.message, 'error');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
-  const handleTestAwwwards = async () => {
+  const handleSendNews = () => {
     if (!email) {
-      alert('Please enter an email address to send test email');
+      showNotification('Please enter an email address', 'error');
       return;
     }
 
     setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/awwwards-delivery?test=${encodeURIComponent(email)}`
-      );
-      const data = await res.json();
-      setResponse(data.message || 'Test email sent!');
-      if (res.ok) {
-        alert(`🎨 Test Awwwards email sent to ${email}! Check your inbox to see how the daily design inspiration looks.`);
-      } else {
-        alert(`Failed to send test email: ${data.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      setResponse('Error: ' + error.message);
-      alert('Failed to send test email: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
+    showNotification('Sending news... feel free to browse while you wait.', 'success');
+
+    const endpoint = `/api/news?action=send&email=${encodeURIComponent(email)}&category=${category}`;
+    
+    fetch(endpoint)
+      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then(({ status, body }) => {
+        if (status >= 200 && status < 300) {
+          showNotification(`Dispatched News email to ${email}.`);
+        } else {
+          showNotification(`Failed to dispatch: ${body.error || 'Unknown error'}`, 'error');
+        }
+      })
+      .catch(error => {
+        showNotification('Failed to send email: ' + error.message, 'error');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="relative min-h-screen w-full font-roboto bg-[#f4f4f4] text-[#171717] flex flex-col">
 
       {/* Particles background layer */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
         <ParticlesComponent id="particles" />
       </div>
 
-      {/* Subscription form centered */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center p-6">
-        <div className="max-w-md w-full   rounded-lg p-6  space-y-4">
-          {/* Back to Website button */}
-          <div className="text-center mb-2">
-            <Link
-              href="/"
-              className="text-gray-600 hover:text-gray-800 underline text-sm transition-colors duration-200"
-            >
-              ← Back to Website
+      {/* Navigation */}
+           <div className=" h-auto lg:-mb-0 md:-mb-6 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
+        <div className="flex flex-col md:flex-row w-full gap-9">
+         
+          <div className="flex-1 justify-center flex relative">
+           <Link href="/" className="hover:opacity-70 transition-opacity">
+              <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] font-light z-10">
+                TITLE: "V123"
+              </h1>
             </Link>
           </div>
-
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">🎨 Daily Design Inspiration</h2>
-
-          <div className="text-center mb-6 text-gray-600">
-            <p className="mb-2">Get 3 amazing Awwwards sites delivered daily</p>
-            <p className="text-sm">📧 Delivered at 4:30 PM ET every day</p>
-          </div>
-
-          {/* Email Input */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              required
-            />
-          </div>
-
-          {/* Feature highlights */}
-          <div className="bg-gray-50 p-4 rounded-md mb-4">
-            <h3 className="text-sm font-semibold text-gray-800 mb-2">What you'll get:</h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>🏆 3 award-winning sites from Awwwards</li>
-              <li>🎯 Unique selection every day</li>
-              <li>💡 Design tips and inspiration</li>
-              <li>⚡ Beautiful, easy-to-read format</li>
-            </ul>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex space-x-3">
-            <button
-              onClick={handleSubscribe}
-              disabled={loading}
-              className="flex-1 bg-[#EB8F41] text-white py-2 px-4 rounded-md hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              {loading ? 'Processing...' : 'Subscribe'}
-            </button>
-
-            <button
-              onClick={handleUnsubscribe}
-              disabled={loading}
-              className="flex-1 bg-[#DC2625] text-white py-2 px-4 rounded-md hover:bg-[#DC2625]/90 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {loading ? 'Processing...' : 'Unsubscribe'}
-            </button>
-          </div>
-
-
-          {/* <div className="border-t pt-4 mt-6">
-            <div className="text-center mb-3">
-              <p className="text-sm text-gray-600">🧪 Test Feature</p>
-            </div>
-            <button
-              onClick={handleTestAwwwards}
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-white py-2 px-4 rounded-md hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
-            >
-              {loading ? 'Sending Test...' : '🎨 Test Awwwards Email'}
-            </button>
-            <p className="text-xs text-gray-500 text-center mt-2">
-              Send a sample Awwwards design email to see how it looks
-            </p>
-          </div> */}
-
-          {/* Response Message */}
-          {response && (
-            <div className="mt-3 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
-              {response}
-            </div>
-          )}
+       
         </div>
+        <div className="relative -top-12 md:-top-17">
+          <svg
+            width="100%"
+            height="20"
+            viewBox="0 0 100 10"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            <line
+              className="svg-line"
+              x1="0"
+              y1="5.5"
+              x2="100"
+              y2="5.5"
+              stroke="black"
+              strokeWidth="3"
+            />
+          </svg>
+          <h6 className=" title-text text-xs md:text-base  lg:text-lg text-center font tracking-[0.1rem] md:tracking-[0.15rem]">
+            “Art is never finished, only abandoned”
+          </h6>
+          <div className="relative -top-3 md:-top-0">
+            <svg
+              width="100%"
+              height="20"
+              viewBox="0 0 100 10"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+            >
+              <line
+                className="svg-line"
+                x1="0"
+                y1="7"
+                x2="100"
+                y2="7"
+                stroke="black"
+                strokeWidth="0.4"
+              />
+            </svg>
+          </div>
+        </div>
+      
+      </div>
+      {/* Main Content */}
+      <div className="relative z-10 flex-grow flex items-center justify-center p-4">
+        <div className="w-full max-w-lg bg-white border border-black p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1 className="font-fino text-4xl md:text-5xl mb-4 tracking-wide">
+              SUBSCRIBE
+            </h1>
+            <p className="font-merriweather italic text-gray-600 text-sm md:text-base">
+              Join the inner circle. Curated content, delivered daily.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="space-y-6">
+            
+            {/* News Configuration */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block font-bold text-xs uppercase tracking-wider mb-2">Topic</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full bg-transparent border border-black px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent text-sm font-roboto appearance-none rounded-none"
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block font-bold text-xs uppercase tracking-wider mb-2">Frequency</label>
+                <select
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                  className="w-full bg-transparent border border-black px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent text-sm font-roboto appearance-none rounded-none"
+                >
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block font-bold text-xs uppercase tracking-wider mb-2">Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="jane@example.com"
+                className="w-full bg-transparent border border-black px-4 py-3 focus:outline-none focus:ring-1 focus:ring-accent placeholder-gray-400 font-roboto rounded-none"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-4 space-y-3">
+              <div className="flex gap-3">
+                <button
+                  onClick={handleSubscribe}
+                  disabled={loading}
+                  className="flex-1 bg-black text-white border border-black py-3 text-sm font-bold uppercase tracking-widest hover:bg-accent hover:border-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Processing...' : 'Subscribe'}
+                </button>
+                <button
+                  onClick={handleUnsubscribe}
+                  disabled={loading}
+                  className="flex-1 bg-transparent text-black border border-black py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Unsubscribe
+                </button>
+              </div>
+              
+              <button
+                onClick={handleSendNews}
+                disabled={loading}
+                className="w-full text-xs text-gray-500 hover:text-accent underline decoration-dotted underline-offset-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Test: Send me a sample now
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      {/* Footer Minimal */}
+      <div className="relative z-10 p-6 text-center">
+        <p className="text-xs font-roboto text-gray-400 uppercase tracking-widest">
+          © 2025 V123. Art is never finished.
+        </p>
       </div>
     </div>
   );

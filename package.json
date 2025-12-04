@@ -12,6 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@huggingface/inference": "^4.13.4",
     "@mailerlite/mailerlite-nodejs": "^1.4.0",
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
@@ -35,6 +36,7 @@
     "react-dom": "^19.1.1",
     "react-intersection-observer": "^9.16.0",
     "resend": "^6.1.0",
+    "rss-parser": "^3.13.0",
     "snoowrap": "^1.23.0",
     "three": "^0.175.0",
     "tsparticles": "^3.0.0",
