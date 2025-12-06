@@ -6,16 +6,8 @@
   "devCommand": "npm run dev",
   "crons": [
     {
-      "path": "/api/scheduled-emails?action=process-pending",
-      "schedule": "*/10 * * * *"
-    },
-    {
-      "path": "/api/news/schedule?frequency=scheduled",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/daily-report",
-      "schedule": "0 17 * * *"
+      "path": "/api/news/schedule?frequency=daily",
+      "schedule": "0 14 * * *"
     }
   ]
 }
