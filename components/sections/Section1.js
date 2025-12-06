@@ -170,7 +170,7 @@ export default function Section1() {
                 This project is pretty simple: it uses{" "}
                 <span ref={newsRef}>{splitText("Hugging Face AI")}</span>{" "}
                 to summarize the latest{" "}
-                <span ref={gifRef}>{splitText("news articles")}</span> and delivers
+                <span ref={gifRef}>{splitText("news articles")}</span> that it gets from The Guardian RSS and delivers
                 them to your inbox daily or weekly. Get the most important stories
                 without the noise, all powered by AI to keep you informed effortlessly.{" "}
                 <span ref={memeRef}>{splitText("Stay updated ;)")}</span>

@@ -149,9 +149,10 @@ async function summarizeText(text) {
     
   } catch (error) {
     console.error("Hugging Face Error:", error.message);
-    // Fallback to full content with humor instead of slicing at 150 chars
-    const fallbackContent = text.length > 500 ? text.slice(0, 500) + "..." : text;
-    return `Well, this is awkward... My AI is taking a coffee break! ☕ Here's what we know: ${fallbackContent}`;
+    
+    // Enhanced fallback message that explicitly states AI failure
+    const fallbackSnippet = text.length > 500 ? text.slice(0, 500) + "..." : text;
+    return `⚠️ **AI Summary Unavailable:** We couldn't generate our usual witty summary for this one (our AI bots are having a nap). \n\nHere is a snippet from the article instead:\n\n"${fallbackSnippet}"`;
   }
 }
 
@@ -294,11 +295,10 @@ export async function GET(req) {
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
 
-      // Find subscribers who should receive emails at this time
+      // Find subscribers who should receive emails at this time (ignoring minutes, just matching the hour)
       const dailySubscribers = await subscribers.find({
         frequency: 'daily',
-        'preferredTime.hour': currentHour,
-        'preferredTime.minute': { $gte: currentMinute - 30, $lte: currentMinute + 30 } // 30-minute window
+        'preferredTime.hour': currentHour
       }).toArray();
 
       // For weekly subscribers, also check the day of the week
@@ -306,8 +306,7 @@ export async function GET(req) {
 
       const weeklySubscribers = await subscribers.find({
         frequency: 'weekly',
-        'preferredTime.hour': currentHour,
-        'preferredTime.minute': { $gte: currentMinute - 30, $lte: currentMinute + 30 }
+        'preferredTime.hour': currentHour
       }).toArray();
 
       // Filter weekly subscribers to only those whose subscription day matches today

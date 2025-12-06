@@ -40,9 +40,6 @@ export default function Subscribe() {
       .then(({ status, body }) => {
         if (status >= 200 && status < 300) {
           showNotification(`Welcome to the club. Subscribed to ${category} News.`);
-          // Only clear email if still mounted - React handles this gracefully usually, 
-          // but to be safe we could just let it be or check generic mounted state if strictly needed.
-          // For now, we just call the context function which is safe.
         } else {
           showNotification(`Failed to subscribe: ${body.error || 'Unknown error'}`, 'error');
         }
@@ -51,8 +48,6 @@ export default function Subscribe() {
         showNotification('Failed to subscribe: ' + error.message, 'error');
       })
       .finally(() => {
-        // If component is unmounted, this might warn, but it's acceptable in this context 
-        // as the primary goal is the global notification which WILL work.
         setLoading(false); 
       });
   };
@@ -84,7 +79,7 @@ export default function Subscribe() {
       });
   };
 
-  const handleSendNews = () => {
+  const handleSendSample = () => {
     if (!email) {
       showNotification('Please enter an email address', 'error');
       return;
@@ -253,7 +248,7 @@ export default function Subscribe() {
               </div>
               
               <button
-                onClick={handleSendNews}
+                onClick={handleSendSample}
                 disabled={loading}
                 className="w-full text-xs text-gray-500 hover:text-accent underline decoration-dotted underline-offset-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
