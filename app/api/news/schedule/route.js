@@ -370,7 +370,7 @@ export async function GET(req) {
 
         const data = newsResponse.data.articles || [];
         let articles = Array.isArray(data)
-          ? data.slice(0, 3).map((article) => ({
+          ? data.slice(0, 1).map((article) => ({
               title: article.title || "No title",
               description: article.description || article.content || "No description",
               link: article.url || "#",
