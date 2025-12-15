@@ -60,7 +60,7 @@ const storeSubscriber = async (email, category, frequency) => {
 async function scrapeArticleContent(url) {
   try {
     const response = await axios.get(url, {
-      timeout: 4000, 
+      timeout: 3000, // Reduced to 3s
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
@@ -179,11 +179,56 @@ export async function GET(req) {
       await subscribers.updateOne({ email }, { $set: { email, category, frequency: "daily", subscribedAt: new Date() }}, { upsert: true });
     }
     
-    // Send Welcome Email (Simplified)
+    // Send Welcome Email (With Minimal Design)
     await sendTransactionalEmail({
       to: email,
-      subject: "Welcome to V123!",
-      html: `<h1>Welcome!</h1><p>You have subscribed to ${category} news.</p>`
+      subject: `Welcome to V123 ${category.charAt(0).toUpperCase() + category.slice(1)} Newsletter`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { margin: 0; padding: 0; background-color: #f4f4f4; color: #171717; font-family: sans-serif; }
+            .wrapper { width: 100%; background-color: #f4f4f4; padding-bottom: 40px; }
+            .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+            .header { text-align: center; padding: 40px 20px 30px; border-bottom: 2px solid #171717; }
+            .logo { font-size: 52px; font-weight: 400; color: #171717; margin: 0; letter-spacing: -1px; }
+            .content { padding: 40px 30px; text-align: center; }
+            .welcome-title { font-size: 24px; font-weight: 700; color: #171717; margin-bottom: 20px; }
+            .text { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 20px; }
+            .accent { color: #EB8E41; font-weight: 700; }
+            .footer { background-color: #171717; color: #ffffff; padding: 40px 20px; text-align: center; font-size: 12px; }
+            .footer a { color: #fff; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="container">
+              <div class="header">
+                <h1 class="logo">V123</h1>
+              </div>
+              <div class="content">
+                <h2 class="welcome-title">Welcome to the Club</h2>
+                <p class="text">
+                  You've successfully subscribed to the <span class="accent">${category}</span> newsletter.
+                </p>
+                <p class="text">
+                  We're thrilled to have you. Expect daily insights, curated stories, and a touch of inspiration delivered straight to your inbox.
+                </p>
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                   <p style="font-style: italic; color: #666;">"Art is never finished, only abandoned."</p>
+                </div>
+              </div>
+              <div class="footer">
+                &copy; ${new Date().getFullYear()} V123 Newsletter.<br><br>
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://v123.ayotomcs.me'}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
     });
 
     return Response.json({ message: "Subscribed" });
@@ -211,8 +256,10 @@ export async function GET(req) {
     const parser = new Parser();
     const feed = await parser.parseURL(guardianRssFeeds[category] || guardianRssFeeds.top);
     
-    // Limit to 2 articles for speed
-    const rawArticles = feed.items.slice(0, 2);
+    // LIMIT TO 1 ARTICLE if sending via "Send Sample" (Vercel Timeout Protection)
+    // If just fetching JSON (action=fetch), we can do 2.
+    const articleLimit = (action === 'send' || email) ? 1 : 2;
+    const rawArticles = feed.items.slice(0, articleLimit);
     
     const summarizedArticles = await Promise.all(rawArticles.map(async (item) => {
       const summary = await summarizeText(item.title, item.contentSnippet || item.description, item.link, item['content:encoded']);
