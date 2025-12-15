@@ -2,6 +2,7 @@ import axios from "axios";
 import { MongoClient } from "mongodb";
 import * as cheerio from "cheerio";
 import { Resend } from "resend";
+import { HfInference } from "@huggingface/inference";
 
 // Initialize Resend client
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -107,6 +108,9 @@ const sendWelcomeEmail = async (email, category, frequency) => {
   });
 };
 
+// Initialize Hugging Face Client
+const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
+
 // Hugging Face summarization with better error handling
 async function summarizeText(text) {
   try {
@@ -114,45 +118,55 @@ async function summarizeText(text) {
       return text + " (No additional summary available)";
     }
 
-    const response = await axios.post(
-      "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
-      {
-        inputs: text.length > 2048 ? text.slice(0, 2048) : text, // Use more content for AI
-        parameters: { 
-          max_length: 1000, 
-          min_length: 30,
-          do_sample: false 
-        },
-      },
-      {
-        headers: { 
-          Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        timeout: 10000
+    // Try AI summarization with timeout
+    const summaryPromise = hf.summarization({
+      model: 'sshleifer/distilbart-cnn-12-6', // More reliable model
+      inputs: text.length > 1024 ? text.slice(0, 1024) : text,
+      parameters: { 
+        max_length: 150, 
+        min_length: 30
       }
+    });
+
+    // Race between summarization and timeout
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Summarization timeout')), 8000)
     );
 
-    let summary = response.data[0]?.summary_text || text;
-    
-    // Add humor touch
-    const humorPrefixes = [
-      "Plot twist alert! ",
-      "Breaking: ",
-      "In today's 'well, that happened' news: ",
-      "Here's the tea: ☕ ",
-      "Buckle up buttercup! "
-    ];
-    
-    const randomPrefix = humorPrefixes[Math.floor(Math.random() * humorPrefixes.length)];
-    return `${randomPrefix}${summary} 😄`;
+    const result = await Promise.race([summaryPromise, timeoutPromise]);
+    const summary = result.summary_text || (result[0] && result[0].summary_text);
+
+    if (summary && summary.length > 20) {
+      // Add humor touch
+      const humorPrefixes = [
+        "Plot twist alert! ",
+        "Breaking: ",
+        "In today's 'well, that happened' news: ",
+        "Here's the tea: ☕ ",
+        "Buckle up buttercup! "
+      ];
+      
+      const randomPrefix = humorPrefixes[Math.floor(Math.random() * humorPrefixes.length)];
+      return `${randomPrefix}${summary} 😄`;
+    }
+
+    throw new Error('No valid summary returned');
     
   } catch (error) {
     console.error("Hugging Face Error:", error.message);
     
-    // Enhanced fallback message that explicitly states AI failure
+    // Enhanced fallback: extract first few sentences
     const fallbackSnippet = text.length > 500 ? text.slice(0, 500) + "..." : text;
-    return `⚠️ **AI Summary Unavailable:** We couldn't generate our usual witty summary for this one (our AI bots are having a nap). \n\nHere is a snippet from the article instead:\n\n"${fallbackSnippet}"`;
+    
+    // Add humor even to fallback
+    const humorPrefixes = [
+      "Our AI took a coffee break, but here's the scoop: ",
+      "AI's napping, so here's the raw intel: ",
+      "No AI magic today, but check this out: "
+    ];
+    const randomPrefix = humorPrefixes[Math.floor(Math.random() * humorPrefixes.length)];
+    
+    return `${randomPrefix}${fallbackSnippet}`;
   }
 }
 
@@ -446,59 +460,99 @@ export async function GET(req) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>V123 ${category.charAt(0).toUpperCase() + category.slice(1)} News</title>
             <style>
-              body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
-              .container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-              .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }
-              .header h1 { margin: 0; font-size: 28px; }
-              .header p { margin: 10px 0 0 0; opacity: 0.9; }
-              .content { padding: 30px; }
-              .article { background: #f8f9fa; margin: 25px 0; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; }
-              .article h3 { color: #2c3e50; margin-top: 0; font-size: 18px; }
-              .article p { color: #555; margin: 15px 0; }
-              .read-more { display: inline-block; background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 12px 24px; text-decoration: none; border-radius: 25px; font-weight: 500; transition: all 0.3s ease; }
-              .gif-section { text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; color: white; }
-              .gif-section h3 { margin: 0 0 20px 0; }
-              .gif-section img { max-width: 100%; max-height: 250px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-              .footer { text-align: center; margin-top: 30px; padding: 30px; background: #f8f9fa; color: #777; border-radius: 0 0 12px 12px; }
-              .footer a { color: #e74c3c; text-decoration: none; }
-              .date { font-size: 12px; color: #999; margin-bottom: 10px; }
+              @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap');
+              
+              body { margin: 0; padding: 0; background-color: #f4f4f4; color: #171717; font-family: 'Roboto', sans-serif; -webkit-font-smoothing: antialiased; }
+              .wrapper { width: 100%; table-layout: fixed; background-color: #f4f4f4; padding-bottom: 40px; }
+              .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+              
+              /* Header */
+              .header { text-align: center; padding: 40px 20px 30px; border-bottom: 2px solid #171717; }
+              .logo { font-family: 'Times New Roman', serif; font-size: 52px; font-weight: 400; color: #171717; margin: 0; letter-spacing: -1px; line-height: 1; }
+              .date { font-family: 'Roboto', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #666; margin-top: 15px; }
+              .issue-info { font-family: 'Roboto', sans-serif; font-size: 10px; color: #999; margin-top: 5px; }
+              
+              /* Content */
+              .content { padding: 40px 30px; }
+              .intro { font-family: 'Merriweather', serif; font-size: 18px; line-height: 1.6; color: #171717; margin-bottom: 40px; font-style: italic; text-align: center; }
+              
+              /* Article */
+              .article { margin-bottom: 50px; }
+              .category-tag { display: inline-block; font-family: 'Roboto', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #EB8E41; margin-bottom: 10px; border-bottom: 1px solid #EB8E41; padding-bottom: 2px; }
+              .article-title { font-family: 'Merriweather', serif; font-size: 24px; font-weight: 700; line-height: 1.3; color: #171717; margin: 0 0 15px 0; }
+              .article-summary { font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.7; color: #444; font-weight: 300; }
+              .read-more-btn { display: inline-block; margin-top: 15px; font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #171717; text-decoration: none; border: 1px solid #171717; padding: 10px 20px; transition: all 0.2s; }
+              .read-more-btn:hover { background-color: #171717; color: #ffffff; }
+              
+              /* GIF Section */
+              .gif-section { background-color: #f9f9f9; padding: 30px; margin: 40px 0; text-align: center; border: 1px dashed #ddd; }
+              .gif-title { font-family: 'Merriweather', serif; font-size: 16px; font-style: italic; margin-bottom: 20px; color: #555; }
+              .gif-img { max-width: 100%; height: auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+              
+              /* Footer */
+              .footer { background-color: #171717; color: #ffffff; padding: 40px 20px; text-align: center; }
+              .footer-text { font-family: 'Roboto', sans-serif; font-size: 12px; color: #999; line-height: 1.6; margin-bottom: 20px; }
+              .footer-links a { color: #fff; text-decoration: none; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin: 0 10px; border-bottom: 1px solid transparent; }
+              .footer-links a:hover { border-bottom: 1px solid #fff; }
+              .quote { font-family: 'Merriweather', serif; font-style: italic; font-size: 14px; color: #666; margin-top: 30px; }
+              
+              /* Mobile */
+              @media only screen and (max-width: 480px) {
+                .logo { font-size: 42px; }
+                .content { padding: 30px 20px; }
+                .article-title { font-size: 20px; }
+              }
             </style>
           </head>
           <body>
-            <div class="container">
-              <div class="header">
-                <h1>📰 V123 ${category.charAt(0).toUpperCase() + category.slice(1)} News</h1>
-                <p>Your ${frequency} dose of news with personality! • ${new Date().toLocaleDateString()}</p>
-              </div>
-              
-              <div class="content">
-                ${finalArticles.map((article, index) => `
-                  <div class="article">
-                    <div class="date">Article ${index + 1} • ${new Date(article.pubDate).toLocaleDateString()}</div>
-                    <h3>${article.title}</h3>
-                    <p>${article.summary}</p>
-                    <a href="${article.link}" class="read-more" target="_blank">Read Full Story →</a>
-                  </div>
-                `).join('')}
+            <center class="wrapper">
+              <div class="container">
+                <!-- Header -->
+                <div class="header">
+                  <h1 class="logo">V123</h1>
+                  <div class="date">${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</div>
+                  <div class="issue-info">Daily Edition • ${category.toUpperCase()}</div>
+                </div>
                 
-                <div class="gif-section">
-                  <h3>🎭 Your Daily Dose of Joy!</h3>
-                  <img src="${gifUrl}" alt="Fun GIF to brighten your day" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                  <p style="display: none;">🎬 GIF couldn't load, but imagine something really funny here! 😄</p>
+                <!-- Content -->
+                <div class="content">
+                  <div class="intro">
+                    Your daily dose of what matters, curated just for you.
+                  </div>
+                  
+                  ${finalArticles.map((article, index) => `
+                    <div class="article">
+                      <span class="category-tag">Story 0${index + 1}</span>
+                      <h2 class="article-title">${article.title}</h2>
+                      <div class="article-summary">${article.summary}</div>
+                      <a href="${article.link}" class="read-more-btn" target="_blank">Read Full Story</a>
+                    </div>
+                  `).join('')}
+                  
+                  <div class="gif-section">
+                    <div class="gif-title">Moment of Zen</div>
+                    <img src="${gifUrl}" alt="Daily GIF" class="gif-img" />
+                  </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="footer">
+                  <div class="footer-links">
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || '#'}">Website</a>
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || '#'}/subscribe">Preferences</a>
+                  </div>
+                  
+                  <div class="quote">
+                    "Art is never finished, only abandoned."
+                  </div>
+                  
+                  <p class="footer-text" style="margin-top: 30px;">
+                    You received this email because you subscribed to V123.<br>
+                    <a href="/api/news?action=unsubscribe&email=${encodeURIComponent(email)}" style="color:#666; text-decoration:underline;">Unsubscribe</a>
+                  </p>
                 </div>
               </div>
-              
-              <div class="footer">
-                <p>That's all for today, news ninja! 🥷✨</p>
-                <p style="font-size: 12px; margin-top: 20px;">
-                  <a href="/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a> | 
-                  <a href="#" style="color: #007bff;">Manage Preferences</a>
-                </p>
-                <p style="font-size: 11px; color: #999; margin-top: 15px;">
-                  V123 Newsletter • Making news fun since 2024 🚀
-                </p>
-              </div>
-            </div>
+            </center>
           </body>
           </html>
         `;
