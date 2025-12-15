@@ -8,7 +8,7 @@
 const axios = require('axios');
 require('dotenv').config({ path: '.env.local' });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://v123.ayotomcs.me';
 
 async function testCronEndpoint() {
   console.log('🧪 Testing Vercel Cron Email System\n');
