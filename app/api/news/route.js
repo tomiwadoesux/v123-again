@@ -218,98 +218,107 @@ export async function GET(req) {
 
   // Handle Subscribe
   if (action === "subscribe") {
-    if (!email || !validator.isEmail(email))
-      return Response.json({ error: "Invalid email" }, { status: 400 });
+    try {
+      if (!email || !validator.isEmail(email))
+        return Response.json({ error: "Invalid email" }, { status: 400 });
 
-    // DB Ops
-    if (subscribers) {
-      await subscribers.updateOne(
-        { email },
-        {
-          $set: {
-            email,
-            category,
-            frequency: "daily",
-            timezone,
-            subscribedAt: new Date(),
+      // DB Ops
+      if (subscribers) {
+        await subscribers.updateOne(
+          { email },
+          {
+            $set: {
+              email,
+              category,
+              frequency: "daily",
+              timezone,
+              subscribedAt: new Date(),
+            },
           },
-        },
-        { upsert: true }
-      );
+          { upsert: true }
+        );
 
-      // Notify Admin
+        // Notify Admin
+        try {
+          await sendTransactionalEmail({
+            to: "ayotomiwawaledurojaye@gmail.com", // Admin Email
+            subject: `🔔 New Subscriber: ${email}`,
+            html: `
+              <div style="font-family: sans-serif; padding: 20px;">
+                <h2>New Subscription</h2>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Category:</strong> ${category}</p>
+                <p><strong>Timezone:</strong> ${timezone}</p>
+                <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+              </div>
+            `,
+          });
+        } catch (e) {
+          console.error("Failed to notify admin:", e);
+        }
+      }
+
+      // Send Welcome Email (With Minimal Design)
       try {
         await sendTransactionalEmail({
-          to: "ayotomiwawaledurojaye@gmail.com", // Admin Email
-          subject: `🔔 New Subscriber: ${email}`,
+          to: email,
+          subject: `Welcome to V123 ${category.charAt(0).toUpperCase() + category.slice(1)} Newsletter`,
           html: `
-            <div style="font-family: sans-serif; padding: 20px;">
-              <h2>New Subscription</h2>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Category:</strong> ${category}</p>
-              <p><strong>Timezone:</strong> ${timezone}</p>
-              <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
-            </div>
-          `,
-        });
-      } catch (e) {
-        console.error("Failed to notify admin:", e);
-      }
-    }
-
-    // Send Welcome Email (With Minimal Design)
-    await sendTransactionalEmail({
-      to: email,
-      subject: `Welcome to V123 ${category.charAt(0).toUpperCase() + category.slice(1)} Newsletter`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <style>
-            body { margin: 0; padding: 0; background-color: #f4f4f4; color: #171717; font-family: sans-serif; }
-            .wrapper { width: 100%; background-color: #f4f4f4; padding-bottom: 40px; }
-            .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-            .header { text-align: center; padding: 40px 20px 30px; border-bottom: 2px solid #171717; }
-            .logo { font-size: 52px; font-weight: 400; color: #171717; margin: 0; letter-spacing: -1px; }
-            .content { padding: 40px 30px; text-align: center; }
-            .welcome-title { font-size: 24px; font-weight: 700; color: #171717; margin-bottom: 20px; }
-            .text { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 20px; }
-            .accent { color: #EB8E41; font-weight: 700; }
-            .footer { background-color: #171717; color: #ffffff; padding: 40px 20px; text-align: center; font-size: 12px; }
-            .footer a { color: #fff; }
-          </style>
-        </head>
-        <body>
-          <div class="wrapper">
-            <div class="container">
-              <div class="header">
-                <h1 class="logo">V123</h1>
-              </div>
-              <div class="content">
-                <h2 class="welcome-title">Welcome to the Club</h2>
-                <p class="text">
-                  You've successfully subscribed to the <span class="accent">${category}</span> newsletter.
-                </p>
-                <p class="text">
-                  We're thrilled to have you. Expect daily insights, curated stories, and a touch of inspiration delivered straight to your inbox.
-                </p>
-                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                   <p style="font-style: italic; color: #666;">"Art is never finished, only abandoned."</p>
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <style>
+                body { margin: 0; padding: 0; background-color: #f4f4f4; color: #171717; font-family: sans-serif; }
+                .wrapper { width: 100%; background-color: #f4f4f4; padding-bottom: 40px; }
+                .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+                .header { text-align: center; padding: 40px 20px 30px; border-bottom: 2px solid #171717; }
+                .logo { font-size: 52px; font-weight: 400; color: #171717; margin: 0; letter-spacing: -1px; }
+                .content { padding: 40px 30px; text-align: center; }
+                .welcome-title { font-size: 24px; font-weight: 700; color: #171717; margin-bottom: 20px; }
+                .text { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 20px; }
+                .accent { color: #EB8E41; font-weight: 700; }
+                .footer { background-color: #171717; color: #ffffff; padding: 40px 20px; text-align: center; font-size: 12px; }
+                .footer a { color: #fff; }
+              </style>
+            </head>
+            <body>
+              <div class="wrapper">
+                <div class="container">
+                  <div class="header">
+                    <h1 class="logo">V123</h1>
+                  </div>
+                  <div class="content">
+                    <h2 class="welcome-title">Welcome to the Club</h2>
+                    <p class="text">
+                      You've successfully subscribed to the <span class="accent">${category}</span> newsletter.
+                    </p>
+                    <p class="text">
+                      We're thrilled to have you. Expect daily insights, curated stories, and a touch of inspiration delivered straight to your inbox.
+                    </p>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                       <p style="font-style: italic; color: #666;">"Art is never finished, only abandoned."</p>
+                    </div>
+                  </div>
+                  <div class="footer">
+                    &copy; ${new Date().getFullYear()} V123 Newsletter.<br><br>
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://v123.ayotomcs.me"}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
+                  </div>
                 </div>
               </div>
-              <div class="footer">
-                &copy; ${new Date().getFullYear()} V123 Newsletter.<br><br>
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://v123.ayotomcs.me"}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
-              </div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-    });
+            </body>
+            </html>
+          `,
+        });
+      } catch (welcomeError) {
+        console.warn("Welcome email failed (non-fatal):", welcomeError.message);
+      }
 
-    return Response.json({ message: "Subscribed" });
+      return Response.json({ message: "Subscribed" });
+    } catch (error) {
+      console.error("Subscribe Error:", error);
+      return Response.json({ error: error.message }, { status: 500 });
+    }
   }
 
   // Handle Unsubscribe
@@ -430,6 +439,11 @@ export async function GET(req) {
     return Response.json({ message: "Nothing to do" });
   } catch (error) {
     console.error("Route Error:", error);
+    const fs = require("fs");
+    fs.appendFileSync(
+      "error.log",
+      `[${new Date().toISOString()}] ${error.stack || error.message}\n`
+    );
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
