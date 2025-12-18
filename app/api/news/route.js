@@ -3,8 +3,11 @@ import { MongoClient } from "mongodb";
 import validator from "validator";
 import * as cheerio from "cheerio";
 import { Resend } from "resend";
-import { scheduleDelayedEmail, scheduleRecurringEmails } from "../../../lib/scheduleEmail.js";
-import Parser from 'rss-parser';
+import {
+  scheduleDelayedEmail,
+  scheduleRecurringEmails,
+} from "../../../lib/scheduleEmail.js";
+import Parser from "rss-parser";
 import { HfInference } from "@huggingface/inference";
 
 let resend;
@@ -21,9 +24,10 @@ const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
 
 const sendTransactionalEmail = async (mailOptions) => {
   console.log(`[EMAIL] Attempting to send email to: ${mailOptions.to}`);
-  
+
   if (!resend) {
-    const errorMsg = "Resend client not initialized - check RESEND_API_KEY environment variable";
+    const errorMsg =
+      "Resend client not initialized - check RESEND_API_KEY environment variable";
     console.error(`[EMAIL ERROR] ${errorMsg}`);
     return { message: "Email sending skipped", error: errorMsg };
   }
@@ -43,17 +47,32 @@ const sendTransactionalEmail = async (mailOptions) => {
       throw new Error(`Resend API error: ${JSON.stringify(error)}`);
     }
 
-    console.log(`[EMAIL SUCCESS] Email sent to ${mailOptions.to} with ID: ${data?.id}`);
-    return { message: "Email sent via Resend", emailId: data?.id, success: true };
+    console.log(
+      `[EMAIL SUCCESS] Email sent to ${mailOptions.to} with ID: ${data?.id}`
+    );
+    return {
+      message: "Email sent via Resend",
+      emailId: data?.id,
+      success: true,
+    };
   } catch (error) {
-    console.error(`[EMAIL ERROR] Failed to send email to ${mailOptions.to}:`, error.message);
+    console.error(
+      `[EMAIL ERROR] Failed to send email to ${mailOptions.to}:`,
+      error.message
+    );
     throw new Error(`Failed to send transactional email: ${error.message}`);
   }
 };
 
 const storeSubscriber = async (email, category, frequency) => {
   console.log(`Storing subscriber: ${email} (${category}, ${frequency})`);
-  return { email, category, frequency, subscribedAt: new Date(), status: "active" };
+  return {
+    email,
+    category,
+    frequency,
+    subscribedAt: new Date(),
+    status: "active",
+  };
 };
 
 // Optimized scraping with timeout for Vercel Free Plan
@@ -62,14 +81,20 @@ async function scrapeArticleContent(url) {
     const response = await axios.get(url, {
       timeout: 3000, // Reduced to 3s
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      },
     });
 
     const $ = cheerio.load(response.data);
-    $('script, style, nav, header, footer, .advertisement, form, button').remove();
-    let content = $('p').map((_, el) => $(el).text().trim()).get().join(' ');
-    content = content.replace(/\s+/g, ' ').trim();
+    $(
+      "script, style, nav, header, footer, .advertisement, form, button"
+    ).remove();
+    let content = $("p")
+      .map((_, el) => $(el).text().trim())
+      .get()
+      .join(" ");
+    content = content.replace(/\s+/g, " ").trim();
 
     return content.length > 200 ? content : null;
   } catch (error) {
@@ -91,37 +116,54 @@ async function aiSummarizeContent(title, content, originalDescription) {
     const textToSummarize = `Summarize: ${title}\n${content}`.slice(0, 3000);
 
     const summaryResult = await hf.summarization({
-      model: 'sshleifer/distilbart-cnn-12-6', // Faster model
+      model: "sshleifer/distilbart-cnn-12-6", // Faster model
       inputs: textToSummarize,
-      parameters: { max_length: 150, min_length: 30 }
+      parameters: { max_length: 150, min_length: 30 },
     });
 
-    const summary = summaryResult.summary_text || (summaryResult[0] && summaryResult[0].summary_text);
+    const summary =
+      summaryResult.summary_text ||
+      (summaryResult[0] && summaryResult[0].summary_text);
     return summary || generateFallbackSummary(content, originalDescription);
   } catch (error) {
-    console.error('AI summarization failed:', error.message);
+    console.error("AI summarization failed:", error.message);
     return generateFallbackSummary(content, originalDescription);
   }
 }
 
 function generateFallbackSummary(content, originalDescription) {
-  if (originalDescription && originalDescription.length > 200) return originalDescription;
+  if (originalDescription && originalDescription.length > 200)
+    return originalDescription;
   const sentences = content ? content.match(/[^.!?]+[.!?]+/g) || [] : [];
-  return sentences.slice(0, 3).join(' ') || originalDescription || "Summary not available.";
+  return (
+    sentences.slice(0, 3).join(" ") ||
+    originalDescription ||
+    "Summary not available."
+  );
 }
 
-async function summarizeText(title, originalDescription, url, fullContentRss = null) {
-  let contentToSummarize = fullContentRss && fullContentRss.length > 150 ? fullContentRss : null;
-  
+async function summarizeText(
+  title,
+  originalDescription,
+  url,
+  fullContentRss = null
+) {
+  let contentToSummarize =
+    fullContentRss && fullContentRss.length > 150 ? fullContentRss : null;
+
   if (!contentToSummarize) {
     contentToSummarize = await scrapeArticleContent(url);
   }
-  
+
   if (!contentToSummarize) {
     contentToSummarize = originalDescription;
   }
 
-  return await aiSummarizeContent(title, contentToSummarize, originalDescription);
+  return await aiSummarizeContent(
+    title,
+    contentToSummarize,
+    originalDescription
+  );
 }
 
 async function getRandomGiphy() {
@@ -132,7 +174,10 @@ async function getRandomGiphy() {
       params: { api_key: process.env.GIPHY_API_KEY, tag, rating: "pg" },
       timeout: 3000,
     });
-    return res.data.data?.images?.original?.url || "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif";
+    return (
+      res.data.data?.images?.original?.url ||
+      "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif"
+    );
   } catch (e) {
     console.error("Giphy Error:", e.message);
     return "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif";
@@ -155,6 +200,7 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category") || "top";
   const email = searchParams.get("email");
+  const timezone = searchParams.get("timezone") || "UTC";
   const action = searchParams.get("action") || "fetch";
 
   // MongoDB Connection
@@ -172,13 +218,45 @@ export async function GET(req) {
 
   // Handle Subscribe
   if (action === "subscribe") {
-    if (!email || !validator.isEmail(email)) return Response.json({ error: "Invalid email" }, { status: 400 });
-    
+    if (!email || !validator.isEmail(email))
+      return Response.json({ error: "Invalid email" }, { status: 400 });
+
     // DB Ops
     if (subscribers) {
-      await subscribers.updateOne({ email }, { $set: { email, category, frequency: "daily", subscribedAt: new Date() }}, { upsert: true });
+      await subscribers.updateOne(
+        { email },
+        {
+          $set: {
+            email,
+            category,
+            frequency: "daily",
+            timezone,
+            subscribedAt: new Date(),
+          },
+        },
+        { upsert: true }
+      );
+
+      // Notify Admin
+      try {
+        await sendTransactionalEmail({
+          to: "ayotomiwawaledurojaye@gmail.com", // Admin Email
+          subject: `🔔 New Subscriber: ${email}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px;">
+              <h2>New Subscription</h2>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Category:</strong> ${category}</p>
+              <p><strong>Timezone:</strong> ${timezone}</p>
+              <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+            </div>
+          `,
+        });
+      } catch (e) {
+        console.error("Failed to notify admin:", e);
+      }
     }
-    
+
     // Send Welcome Email (With Minimal Design)
     await sendTransactionalEmail({
       to: email,
@@ -222,18 +300,18 @@ export async function GET(req) {
               </div>
               <div class="footer">
                 &copy; ${new Date().getFullYear()} V123 Newsletter.<br><br>
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://v123.ayotomcs.me'}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://v123.ayotomcs.me"}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
               </div>
             </div>
           </div>
         </body>
         </html>
-      `
+      `,
     });
 
     return Response.json({ message: "Subscribed" });
   }
-  
+
   // Handle Unsubscribe
   if (action === "unsubscribe") {
     if (subscribers && email) await subscribers.deleteOne({ email });
@@ -242,33 +320,42 @@ export async function GET(req) {
 
   // Handle Fetch/Send News
   const guardianRssFeeds = {
-    top: 'https://www.theguardian.com/world/rss',
-    general: 'https://www.theguardian.com/world/rss',
-    business: 'https://www.theguardian.com/business/rss',
-    technology: 'https://www.theguardian.com/technology/rss',
-    entertainment: 'https://www.theguardian.com/culture/rss',
-    science: 'https://www.theguardian.com/science/rss',
-    sports: 'https://www.theguardian.com/sport/rss',
-    health: 'https://www.theguardian.com/society/rss',
+    top: "https://www.theguardian.com/world/rss",
+    general: "https://www.theguardian.com/world/rss",
+    business: "https://www.theguardian.com/business/rss",
+    technology: "https://www.theguardian.com/technology/rss",
+    entertainment: "https://www.theguardian.com/culture/rss",
+    science: "https://www.theguardian.com/science/rss",
+    sports: "https://www.theguardian.com/sport/rss",
+    health: "https://www.theguardian.com/society/rss",
   };
 
   try {
     const parser = new Parser();
-    const feed = await parser.parseURL(guardianRssFeeds[category] || guardianRssFeeds.top);
-    
+    const feed = await parser.parseURL(
+      guardianRssFeeds[category] || guardianRssFeeds.top
+    );
+
     // LIMIT TO 1 ARTICLE if sending via "Send Sample" (Vercel Timeout Protection)
     // If just fetching JSON (action=fetch), we can do 2.
-    const articleLimit = (action === 'send' || email) ? 1 : 2;
+    const articleLimit = action === "send" || email ? 1 : 2;
     const rawArticles = feed.items.slice(0, articleLimit);
-    
-    const summarizedArticles = await Promise.all(rawArticles.map(async (item) => {
-      const summary = await summarizeText(item.title, item.contentSnippet || item.description, item.link, item['content:encoded']);
-      return {
-        title: item.title,
-        url: item.link,
-        summary
-      };
-    }));
+
+    const summarizedArticles = await Promise.all(
+      rawArticles.map(async (item) => {
+        const summary = await summarizeText(
+          item.title,
+          item.contentSnippet || item.description,
+          item.link,
+          item["content:encoded"]
+        );
+        return {
+          title: item.title,
+          url: item.link,
+          summary,
+        };
+      })
+    );
 
     const giphyUrl = await getRandomGiphy();
 
@@ -311,33 +398,36 @@ export async function GET(req) {
                   </div>
                   <div class="content">
                     <p style="text-align:center; font-style:italic; margin-bottom:40px;">Your daily dose of what matters.</p>
-                    ${summarizedArticles.map((a, i) => `
+                    ${summarizedArticles
+                      .map(
+                        (a, i) => `
                       <div class="article">
                         <span class="category-tag">Story 0${i + 1}</span>
                         <h2 class="article-title">${a.title}</h2>
                         <div class="article-summary">${a.summary}</div>
                         <a href="${a.url}" class="read-more">Read Full Story</a>
                       </div>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                     <div style="text-align:center; margin-top:40px;">
                       <img src="${giphyUrl}" style="max-width:100%; border:4px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,0.05);" />
                     </div>
                   </div>
                   <div class="footer">
                     "Art is never finished, only abandoned."<br><br>
-                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://v123.ayotomcs.me'}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || "https://v123.ayotomcs.me"}/api/news?action=unsubscribe&email=${encodeURIComponent(email)}">Unsubscribe</a>
                   </div>
                 </div>
               </div>
             </body>
             </html>
-        `
+        `,
       });
       return Response.json({ message: "Email Sent", success: true });
     }
 
     return Response.json({ message: "Nothing to do" });
-
   } catch (error) {
     console.error("Route Error:", error);
     return Response.json({ error: error.message }, { status: 500 });

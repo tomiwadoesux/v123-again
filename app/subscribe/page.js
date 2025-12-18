@@ -10,7 +10,7 @@ export default function Subscribe() {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("top");
   const [frequency, setFrequency] = useState("daily");
-  
+
   const { showNotification } = useNotification();
 
   const categories = [
@@ -26,53 +26,66 @@ export default function Subscribe() {
 
   const handleSubscribe = () => {
     if (!email) {
-      showNotification('Please enter an email address', 'error');
+      showNotification("Please enter an email address", "error");
       return;
     }
 
     setLoading(true);
-    
+
     // Non-blocking fetch - allows user to navigate away
-    const endpoint = `/api/news?action=subscribe&email=${encodeURIComponent(email)}&category=${category}&frequency=${frequency}`;
-    
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const endpoint = `/api/news?action=subscribe&email=${encodeURIComponent(email)}&category=${category}&frequency=${frequency}&timezone=${encodeURIComponent(timezone)}`;
+
     fetch(endpoint)
-      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then((res) =>
+        res.json().then((data) => ({ status: res.status, body: data }))
+      )
       .then(({ status, body }) => {
         if (status >= 200 && status < 300) {
-          showNotification(`Welcome to the club. Subscribed to ${category} News.`);
+          showNotification(
+            `Welcome to the club. Subscribed to ${category} News.`
+          );
         } else {
-          showNotification(`Failed to subscribe: ${body.error || 'Unknown error'}`, 'error');
+          showNotification(
+            `Failed to subscribe: ${body.error || "Unknown error"}`,
+            "error"
+          );
         }
       })
-      .catch(error => {
-        showNotification('Failed to subscribe: ' + error.message, 'error');
+      .catch((error) => {
+        showNotification("Failed to subscribe: " + error.message, "error");
       })
       .finally(() => {
-        setLoading(false); 
+        setLoading(false);
       });
   };
 
   const handleUnsubscribe = () => {
     if (!email) {
-      showNotification('Please enter an email address', 'error');
+      showNotification("Please enter an email address", "error");
       return;
     }
 
     setLoading(true);
-    
+
     const endpoint = `/api/news?action=unsubscribe&email=${encodeURIComponent(email)}`;
-    
+
     fetch(endpoint)
-      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then((res) =>
+        res.json().then((data) => ({ status: res.status, body: data }))
+      )
       .then(({ status, body }) => {
         if (status >= 200 && status < 300) {
-          showNotification('Successfully unsubscribed.');
+          showNotification("Successfully unsubscribed.");
         } else {
-          showNotification(`Failed to unsubscribe: ${body.error || 'Unknown error'}`, 'error');
+          showNotification(
+            `Failed to unsubscribe: ${body.error || "Unknown error"}`,
+            "error"
+          );
         }
       })
-      .catch(error => {
-        showNotification('Failed to unsubscribe: ' + error.message, 'error');
+      .catch((error) => {
+        showNotification("Failed to unsubscribe: " + error.message, "error");
       })
       .finally(() => {
         setLoading(false);
@@ -81,26 +94,34 @@ export default function Subscribe() {
 
   const handleSendSample = () => {
     if (!email) {
-      showNotification('Please enter an email address', 'error');
+      showNotification("Please enter an email address", "error");
       return;
     }
 
     setLoading(true);
-    showNotification('Sending news... feel free to browse while you wait.', 'success');
+    showNotification(
+      "Sending news... feel free to browse while you wait.",
+      "success"
+    );
 
     const endpoint = `/api/news?action=send&email=${encodeURIComponent(email)}&category=${category}`;
-    
+
     fetch(endpoint)
-      .then(res => res.json().then(data => ({ status: res.status, body: data })))
+      .then((res) =>
+        res.json().then((data) => ({ status: res.status, body: data }))
+      )
       .then(({ status, body }) => {
         if (status >= 200 && status < 300) {
           showNotification(`Dispatched News email to ${email}.`);
         } else {
-          showNotification(`Failed to dispatch: ${body.error || 'Unknown error'}`, 'error');
+          showNotification(
+            `Failed to dispatch: ${body.error || "Unknown error"}`,
+            "error"
+          );
         }
       })
-      .catch(error => {
-        showNotification('Failed to send email: ' + error.message, 'error');
+      .catch((error) => {
+        showNotification("Failed to send email: " + error.message, "error");
       })
       .finally(() => {
         setLoading(false);
@@ -109,24 +130,21 @@ export default function Subscribe() {
 
   return (
     <div className="relative min-h-screen w-full font-roboto bg-[#f4f4f4] text-[#171717] flex flex-col">
-
       {/* Particles background layer */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
         <ParticlesComponent id="particles" />
       </div>
 
       {/* Navigation */}
-           <div className=" h-auto lg:-mb-0 md:-mb-6 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
+      <div className=" h-auto lg:-mb-0 md:-mb-6 px-[2.5rem] md:px-[3rem] lg:px-[4.15rem] pt-[1.3rem] ">
         <div className="flex flex-col md:flex-row w-full gap-9">
-         
           <div className="flex-1 justify-center flex relative">
-           <Link href="/" className="hover:opacity-70 transition-opacity">
+            <Link href="/" className="hover:opacity-70 transition-opacity">
               <h1 className="title-text relative -top-7 lg:-top-7 md:-top-9 whitespace-nowrap text-center text-4xl md:text-[3.3rem] lg:text-[4.3rem] font-light z-10">
                 TITLE: "V123"
               </h1>
             </Link>
           </div>
-       
         </div>
         <div className="relative -top-12 md:-top-17">
           <svg
@@ -169,12 +187,10 @@ export default function Subscribe() {
             </svg>
           </div>
         </div>
-      
       </div>
       {/* Main Content */}
       <div className="relative z-10 flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-lg bg-white border border-black p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="font-fino text-4xl md:text-5xl mb-4 tracking-wide">
@@ -187,11 +203,12 @@ export default function Subscribe() {
 
           {/* Form */}
           <div className="space-y-6">
-            
             {/* News Configuration */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block font-bold text-xs uppercase tracking-wider mb-2">Topic</label>
+                <label className="block font-bold text-xs uppercase tracking-wider mb-2">
+                  Topic
+                </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -205,7 +222,9 @@ export default function Subscribe() {
                 </select>
               </div>
               <div>
-                <label className="block font-bold text-xs uppercase tracking-wider mb-2">Frequency</label>
+                <label className="block font-bold text-xs uppercase tracking-wider mb-2">
+                  Frequency
+                </label>
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
@@ -218,7 +237,9 @@ export default function Subscribe() {
             </div>
 
             <div>
-              <label className="block font-bold text-xs uppercase tracking-wider mb-2">Email Address</label>
+              <label className="block font-bold text-xs uppercase tracking-wider mb-2">
+                Email Address
+              </label>
               <input
                 type="email"
                 value={email}
@@ -236,7 +257,7 @@ export default function Subscribe() {
                   disabled={loading}
                   className="flex-1 bg-black text-white border border-black py-3 text-sm font-bold uppercase tracking-widest hover:bg-accent hover:border-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Processing...' : 'Subscribe'}
+                  {loading ? "Processing..." : "Subscribe"}
                 </button>
                 <button
                   onClick={handleUnsubscribe}
@@ -246,7 +267,7 @@ export default function Subscribe() {
                   Unsubscribe
                 </button>
               </div>
-              
+
               <button
                 onClick={handleSendSample}
                 disabled={loading}
@@ -256,10 +277,9 @@ export default function Subscribe() {
               </button>
             </div>
           </div>
-
         </div>
       </div>
-      
+
       {/* Footer Minimal */}
       <div className="relative z-10 p-6 text-center">
         <p className="text-xs font-roboto text-gray-400 uppercase tracking-widest">
@@ -270,4 +290,3 @@ export default function Subscribe() {
     </div>
   );
 }
-

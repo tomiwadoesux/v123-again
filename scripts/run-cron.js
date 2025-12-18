@@ -30,7 +30,10 @@ async function getRandomGiphy() {
       params: { api_key: GIPHY_API_KEY, tag, rating: "pg" },
       timeout: 5000,
     });
-    return res.data.data?.images?.original?.url || "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif";
+    return (
+      res.data.data?.images?.original?.url ||
+      "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif"
+    );
   } catch (e) {
     console.error("Giphy Error:", e.message);
     return "https://media.giphy.com/media/l0HlO3BJ8LxrZ4Khq/giphy.gif";
@@ -45,7 +48,11 @@ async function scrapeArticle(url) {
     });
     const $ = cheerio.load(data);
     $("script, style, nav, footer, header").remove();
-    const content = $("p").map((_, el) => $(el).text()).get().join(" ").slice(0, 3000);
+    const content = $("p")
+      .map((_, el) => $(el).text())
+      .get()
+      .join(" ")
+      .slice(0, 3000);
     return content || "";
   } catch (e) {
     console.log(`Scrape failed for ${url}: ${e.message}`);
@@ -71,7 +78,7 @@ async function summarize(text) {
 async function sendNewsletter(subscriber, articles, gifUrl) {
   const { email, category, frequency } = subscriber;
   const subject = `📰 V123 ${category.charAt(0).toUpperCase() + category.slice(1)} • Daily Digest`;
-  
+
   // Use the Minimal Aesthetic Design
   const html = `
     <!DOCTYPE html>
@@ -104,14 +111,18 @@ async function sendNewsletter(subscriber, articles, gifUrl) {
           </div>
           <div class="content">
             <p style="text-align:center; font-style:italic; margin-bottom:40px;">Your daily dose of what matters.</p>
-            ${articles.map((a, i) => `
+            ${articles
+              .map(
+                (a, i) => `
               <div class="article">
                 <span class="category-tag">Story 0${i + 1}</span>
                 <h2 class="article-title">${a.title}</h2>
                 <div class="article-summary">${a.summary}</div>
                 <a href="${a.link}" class="read-more">Read Full Story</a>
               </div>
-            `).join('')}
+            `
+              )
+              .join("")}
             <div style="text-align:center; margin-top:40px;">
               <img src="${gifUrl}" style="max-width:100%; border:4px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,0.05);" />
             </div>
@@ -135,10 +146,50 @@ async function sendNewsletter(subscriber, articles, gifUrl) {
   console.log(`✅ Sent to ${email}`);
 }
 
+async function sendAdminReport(sentLog) {
+  if (sentLog.length === 0) return;
+
+  const subject = `📊 V123 Delivery Report: ${sentLog.length} Emails Sent`;
+  const html = `
+    <h1>Daily Delivery Report</h1>
+    <p>The following subscribers received their 11 AM newsletter:</p>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Category</th>
+          <th>Timezone</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sentLog
+          .map(
+            (s) => `
+          <tr>
+            <td>${s.email}</td>
+            <td>${s.category}</td>
+            <td>${s.timezone}</td>
+          </tr>
+        `
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
+
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL || "V123 <mailing@ayotomcs.me>",
+    to: "ayotomiwawaledurojaye@gmail.com",
+    subject,
+    html,
+  });
+  console.log(`✅ Admin Report Sent with ${sentLog.length} entries.`);
+}
+
 async function run() {
   console.log("🚀 Starting Cron Script...");
   const client = new MongoClient(MONGODB_URI);
-  
+
   try {
     await client.connect();
     const db = client.db("newsletter");
@@ -151,7 +202,7 @@ async function run() {
 
     const now = new Date();
     const currentHour = now.getHours(); // Server time (UTC usually in Actions)
-    
+
     // NOTE: In GitHub Actions, we might want to adjust for Timezone.
     // For simplicity, we process everyone who matches "preferredTime.hour" relative to CST roughly?
     // Actually, we'll just process everyone for "Daily" check or specific logc.
@@ -159,37 +210,72 @@ async function run() {
 
     console.log(`Checking ${subscribers.length} subscribers...`);
 
+    const sentLog = [];
+
     for (const sub of subscribers) {
-        // Simple Logic: If it's the right "Cron Hour", send. 
-        // Or since we run hourly, check sub preference.
-        // Assuming sub.preferredTime.hour is 0-23
-        
-        // Match hour (handling UTC vs CST conversion if needed, but for now exact match)
-        // const subHour = sub.preferredTime?.hour || 9; 
-        // if (subHour !== currentHour) continue; // Skip if not time
+      const timezone = sub.timezone || "UTC";
+      let localHour;
 
-        // Fetch News
-        const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${sub.category === 'top' ? 'general' : sub.category}&pageSize=2&apiKey=${NEWSAPI_KEY}`;
-        const newsRes = await axios.get(newsUrl).catch(e => null);
-        if (!newsRes || !newsRes.data.articles) continue;
+      try {
+        // Get hour in user's timezone (0-23)
+        const dateStr = new Date().toLocaleString("en-US", {
+          timeZone: timezone,
+          hour: "numeric",
+          hour12: false,
+        });
+        localHour = parseInt(dateStr, 10);
 
-        const rawArticles = newsRes.data.articles;
-        const processedArticles = [];
+        // Handle "24" edge case if some locales return it (rare, mostly 0-23)
+        if (localHour === 24) localHour = 0;
+      } catch (e) {
+        console.warn(
+          `Timezone error for ${sub.email} (${timezone}):`,
+          e.message
+        );
+        // Fallback to UTC/Server time if timezone is invalid
+        localHour = new Date().getHours();
+      }
 
-        for (const article of rawArticles) {
-          const content = await scrapeArticle(article.url);
-          const summary = await summarize(content || article.description || article.title);
-          processedArticles.push({
-            title: article.title,
-            summary,
-            link: article.url
-          });
-        }
+      console.log(
+        `Checking ${sub.email}: Local Hour is ${localHour} (Target: 11)`
+      );
 
-        const gifUrl = await getRandomGiphy();
-        await sendNewsletter(sub, processedArticles, gifUrl);
+      // Send only at 11 AM
+      if (localHour !== 11) continue;
+
+      // Fetch News
+      const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${sub.category === "top" ? "general" : sub.category}&pageSize=2&apiKey=${NEWSAPI_KEY}`;
+      const newsRes = await axios.get(newsUrl).catch((e) => null);
+      if (!newsRes || !newsRes.data.articles) {
+        console.log(`No news found for ${sub.category}`);
+        continue;
+      }
+
+      const rawArticles = newsRes.data.articles;
+      const processedArticles = [];
+
+      for (const article of rawArticles) {
+        const content = await scrapeArticle(article.url);
+        const summary = await summarize(
+          content || article.description || article.title
+        );
+        processedArticles.push({
+          title: article.title,
+          summary,
+          link: article.url,
+        });
+      }
+
+      const gifUrl = await getRandomGiphy();
+      await sendNewsletter(sub, processedArticles, gifUrl);
+      sentLog.push({ email: sub.email, category: sub.category, timezone });
     }
 
+    if (sentLog.length > 0) {
+      await sendAdminReport(sentLog);
+    } else {
+      console.log("No emails scheduled for this hour.");
+    }
   } catch (error) {
     console.error("❌ Cron Failed:", error);
     process.exit(1);
